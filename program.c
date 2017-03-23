@@ -19,6 +19,6 @@ int main(){
     printf("top_10_contributors ids: \n");
 
     for(int i=0; i<10; i++){
-        printf("%lu = %s\n",contributors[i],contributor_name)
+        printf("%lu = %s\n",contributors[i],contributor_name);
     }
 }
