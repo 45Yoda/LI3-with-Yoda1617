@@ -13,6 +13,7 @@ void parseContributor(int number, xmlDocPtr doc, xmlNodePtr cur){
     xmlChar *ip;
     xmlNodePtr aux;
     int ipMode = 0;
+    int artigos = 0;
 
     aux = cur->parent;
 
