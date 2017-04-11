@@ -9,7 +9,6 @@ void parseContributor(int number, xmlDocPtr doc, xmlNodePtr cur){
 
     xmlChar *id;
     xmlChar *username;
-    xmlChar *pageTitle;
     xmlChar *ip;
     xmlNodePtr aux;
     int ipMode = 0;
@@ -29,19 +28,15 @@ void parseContributor(int number, xmlDocPtr doc, xmlNodePtr cur){
             id = xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
     }
 
-    for(aux; (xmlStrcmp(aux->name,(const xmlChar *)"title")); aux=aux->prev);
-
-    pageTitle = xmlNodeListGetString(doc,aux->xmlChildrenNode,1);
-
     if(!ipMode){
-        printf("O contribuidor numero %d, username %s e o id %s, atualizou o artigo %s .\n",number,username,id,pageTitle);
+        //printf("O contribuidor numero %d, username %s e o id %s, atualizou o artigo %s .\n",number,username,id,pageTitle);
         xmlFree(id);
         xmlFree(username);
-        xmlFree(pageTitle);
+        //xmlFree(title);
     }else{
-        printf("O ip %s, contribui para o artigo %s\n",ip,pageTitle);
+        //printf("O ip %s, contribui para o artigo %s\n",ip,pageTitle);
         xmlFree(ip);
-        xmlFree(pageTitle);
+        //xmlFree(title);
     }
 
     return;
@@ -61,9 +56,12 @@ void parseRevision(int number, xmlDocPtr doc, xmlNodePtr cur){
 void parseDoc(char *docname){
 
     int number = 0;
-
+    long idArt;
     clock_t tpf;
 
+    xmlChar *id;
+    xmlChar *title;
+    char* idA;
     xmlDocPtr doc;
     xmlNodePtr cur;
     xmlNodePtr aux;
@@ -96,12 +94,25 @@ void parseDoc(char *docname){
         aux=cur;
         if(!xmlStrcmp(cur->name,(const xmlChar *) "page")){
             for(cur=cur->xmlChildrenNode; cur; cur= cur->next){
+
+                if((!xmlStrcmp(cur->name,(const xmlChar *) "title"))){
+                    title = xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
+
+                }
+
+                if((!xmlStrcmp(cur->name,(const xmlChar *) "id"))){
+                    idA=(char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
+                    idArt= atol(idA);
+                }
+
                 if((!xmlStrcmp(cur->name,(const xmlChar *) "revision"))){
                     parseRevision(number,doc,cur);
                 }
             }
         }
         cur=aux->next;
+        printf("%s = %ld\n",title,idArt);
+
     }
 
     xmlFreeDoc(doc);
@@ -109,7 +120,7 @@ void parseDoc(char *docname){
 }
 
 int main(int argc, char **argv){
-
+    int i;
     char *docname;
 
     if(argc <= 1){
@@ -117,8 +128,10 @@ int main(int argc, char **argv){
         return 0;
     }
 
-    docname=argv[1];
+for(i=1;argc>1;argc--,i++){
+    docname=argv[i];
     parseDoc(docname);
+}
 
     return 1;
 }

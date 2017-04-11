@@ -1,4 +1,4 @@
-#include "avl.h"
+#include "./headers/avl.h"
 
 #include <stdlib.h>
 
@@ -46,8 +46,10 @@ Avl atualizaAvl(Avl a, long value, Estrutura estrutura){
 
 //Insere um valor numa Avl tendo como ponto de referência um Valor.
 Avl insertAvl(Avl a, Valor val, Estrutura estrutura){
+    if (!avlSearch(a,val)) {
     a->tree = nodeInsert(a->tree,val,estrutura);
     a->size++;
+    }
     return a;
 }
 
@@ -238,7 +240,14 @@ static NODO nodeInsert(NODO node,Valor ident,Estrutura est){
     }
 
     //Right Left Case
-    if(balance < -1);
+    if(balance < -1 && (ident >node->right->id) < 0){
+        node->right = rotateRight(node->right);
+        return rotateLeft(node);
+    }
+
+    else node = newNode(node,ident,est);
+
+    return node;
 }
 
 static NODO cloneTree (NODO node, NODO new){
