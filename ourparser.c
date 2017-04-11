@@ -4,12 +4,13 @@
 #include <stdlib.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
+#include "./headers/artigo.h"
+#include "./headers/avl.h"
 
-void parseContributor(int number, xmlDocPtr doc, xmlNodePtr cur){
+void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,Avl a){
 
-    xmlChar *id;
-    xmlChar *username;
-    xmlChar *ip;
+    long id;
+    Char *username;
     xmlNodePtr aux;
     int ipMode = 0;
     int artigos = 0;
@@ -17,45 +18,31 @@ void parseContributor(int number, xmlDocPtr doc, xmlNodePtr cur){
     aux = cur->parent;
 
     for(cur= cur->xmlChildrenNode; cur;cur = cur->next){
-        if(!xmlStrcmp(cur->name,(const xmlChar *)"ip")){
-            ipMode = 1;
-            ip = xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
-        }
+
         if(!xmlStrcmp(cur->name,(const xmlChar *)"username"))
-            username = xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
+            username = (char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
 
         if(!xmlStrcmp(cur->name,(const xmlChar *) "id"))
-            id = xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
+            id = atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
     }
 
-    if(!ipMode){
-        //printf("O contribuidor numero %d, username %s e o id %s, atualizou o artigo %s .\n",number,username,id,pageTitle);
-        xmlFree(id);
-        xmlFree(username);
-        //xmlFree(title);
-    }else{
-        //printf("O ip %s, contribui para o artigo %s\n",ip,pageTitle);
-        xmlFree(ip);
-        //xmlFree(title);
-    }
-
+    parseText(doc,aux,idArt,title,username,id,a);
     return;
 }
 
-void parseRevision(int number, xmlDocPtr doc, xmlNodePtr cur){
+void parseRevision(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,Avl a){
 
     for(cur=cur->xmlChildrenNode;cur;cur=cur->next){
         if((!xmlStrcmp(cur->name,(const xmlChar *) "contributor")))
-            parseContributor(number,doc,cur);
+            parseContributor(doc,cur,idArt,title,a);
         }
 
     return;
 }
 
 
-void parseDoc(char *docname){
+void parseDoc(char *docname,int argc, Avl a){
 
-    int number = 0;
     long idArt;
     clock_t tpf;
 
@@ -65,6 +52,8 @@ void parseDoc(char *docname){
     xmlDocPtr doc;
     xmlNodePtr cur;
     xmlNodePtr aux;
+
+    Artigo stArt = init_Artigo(argc);
 
     tpf =clock();
 
@@ -90,7 +79,7 @@ void parseDoc(char *docname){
     cur = cur->xmlChildrenNode;
     cur = cur->next;
 
-    for(cur;cur;cur=cur->next,number++){
+    for(cur;cur;cur=cur->next){
         aux=cur;
         if(!xmlStrcmp(cur->name,(const xmlChar *) "page")){
             for(cur=cur->xmlChildrenNode; cur; cur= cur->next){
@@ -103,10 +92,12 @@ void parseDoc(char *docname){
                 if((!xmlStrcmp(cur->name,(const xmlChar *) "id"))){
                     idA=(char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
                     idArt= atol(idA);
-                }
+                    if (!avlSearch(a,idArt)) {
+                        a=insertAvl(a,idArt,stArt);  
+                }   
 
                 if((!xmlStrcmp(cur->name,(const xmlChar *) "revision"))){
-                    parseRevision(number,doc,cur);
+                    parseRevision(doc,cur,idArt,title,a);
                 }
             }
         }
@@ -119,7 +110,7 @@ void parseDoc(char *docname){
     return;
 }
 
-int main(int argc, char **argv){
+int main(Avl a, int argc, char **argv){
     int i;
     char *docname;
 
@@ -130,7 +121,7 @@ int main(int argc, char **argv){
 
 for(i=1;argc>1;argc--,i++){
     docname=argv[i];
-    parseDoc(docname);
+    parseDoc(docname,argc,a);
 }
 
     return 1;
