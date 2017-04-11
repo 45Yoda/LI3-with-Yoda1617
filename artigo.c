@@ -14,9 +14,8 @@
 */
 
 struct artigo {
-	long id;
 	char* titulo; //atualizar a cada revisao
-	int n; //nr revisoes
+	int n; //nr de vezes que artigo aparece
 	char* timestamp[100]; //guarda todos os timestamps por ordem de revisao
 	char* autores[100]; //autores de todas as revisoes
 	long autId[100]; // id dos autores 
@@ -24,8 +23,16 @@ struct artigo {
 	long palavras; //atualizar a cada revisao
 };
 
-long getId(Artigo a) {
-	return a->id;
+
+Artigo init_Artigo (int size) {
+	Artigo novo = (Artigo) malloc(sizeof(struct artigo));
+	novo->titulo=NULL;
+	novo->n=0;
+	novo->timestamp=(char**) malloc(size *sizeof(char*));
+	novo->autores=(char**) malloc(size *sizeof(char*));
+	novo->autId=(long) malloc(size *sizeof(long));
+	novo->bytes=0;
+	novo->palavras=0;	
 }
 
 char* getTitulo (Artigo a) {
@@ -47,8 +54,6 @@ void getAutores(Artigo a,char* aut[]) {
 	for(i=0;i<b;i++)
 		strcpy(aut[i],a->autores[i]);
 }
-
-
 
 void getAutId(Artigo a,long c[]){
 	int b=getN(a),i;
