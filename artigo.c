@@ -1,6 +1,9 @@
 #include "artigo.h"
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+#define MAXSIZE 64
 /*1- todos os artigos (contar i's)
 2-artigos unicos (contar nodos)
 3-nr revisoes (timestamps diferentes)
@@ -16,9 +19,9 @@
 struct artigo {
 	char* titulo; //atualizar a cada revisao
 	int n; //nr de vezes que artigo aparece
-	char* timestamp[100]; //guarda todos os timestamps por ordem de revisao
-	char* autores[100]; //autores de todas as revisoes
-	long autId[100]; // id dos autores 
+	char** timestamp; //guarda todos os timestamps por ordem de revisao
+	char** autores; //autores de todas as revisoes
+	long* autId; // id dos autores
 	long bytes; //atualizar a cada revisao
 	long palavras; //atualizar a cada revisao
 };
@@ -28,11 +31,15 @@ Artigo init_Artigo (int size) {
 	Artigo novo = (Artigo) malloc(sizeof(struct artigo));
 	novo->titulo=NULL;
 	novo->n=0;
-	novo->timestamp=(char**) malloc(size *sizeof(char*));
-	novo->autores=(char**) malloc(size *sizeof(char*));
-	novo->autId=(long) malloc(size *sizeof(long));
+	novo->timestamp=malloc(size *sizeof(char*));
+	novo->autores=malloc(size *sizeof(char*));
+	novo->autId=malloc(size *sizeof(long));
+	for(int i=0; i<size;i++){
+		novo->timestamp[i]=malloc(MAXSIZE);
+		novo->autores[i]=malloc(MAXSIZE);
+	}
 	novo->bytes=0;
-	novo->palavras=0;	
+	novo->palavras=0;
 }
 
 char* getTitulo (Artigo a) {
