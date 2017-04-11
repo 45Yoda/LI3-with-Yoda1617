@@ -3,4 +3,6 @@
 
 typedef struct artigo *Artigo;
 
+Artigo init_Artigo (int size);
+
 #endif

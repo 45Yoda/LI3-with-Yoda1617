@@ -11,7 +11,7 @@
 5-autor com determinado id
 6-artigos mais bytes
 7-artigo com um id
-8-mais palavras( conta ultima revisao)
+8-mais words( conta ultima revisao)
 9-artigos com prefixo (conta titulo ultima revisão)
 10-timestamp certa revisao de um artigo
 */
@@ -23,7 +23,7 @@ struct artigo {
 	char** autores; //autores de todas as revisoes
 	long* autId; // id dos autores
 	long bytes; //atualizar a cada revisao
-	long palavras; //atualizar a cada revisao
+	long words; //atualizar a cada revisao
 };
 
 
@@ -39,7 +39,7 @@ Artigo init_Artigo (int size) {
 		novo->autores[i]=malloc(MAXSIZE);
 	}
 	novo->bytes=0;
-	novo->palavras=0;
+	novo->words=0;
 }
 
 char* getTitulo (Artigo a) {
@@ -72,6 +72,6 @@ long getBytes(Artigo a){
 	return a->bytes;
 }
 
-long getPalavras(Artigo a){
-	return a->palavras;
+long getWords(Artigo a){
+	return a->words;
 }
