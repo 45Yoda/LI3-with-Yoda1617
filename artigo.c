@@ -42,44 +42,70 @@ Artigo init_Artigo (int size) {
 	novo->words=0;
 }
 
-char* getTitulo (Artigo a) {
-	return a->titulo;
+void getTitulo (Artigo a,char* t) {
+	t=strdup(a->titulo);
 }
 
-Artigo setTitulo(Artigo a, char* title){
+void setTitulo(Artigo a, char* title){
 	a->titulo = title;
-	return a;
 }
 
-static int getN(Artigo a) {
+int getN(Artigo a){
 	return a->n;
 }
 
-char* getTimeStamp(Artigo a, char* t[]){
-	int b=getN(a),i;
-	for(i=0;i<b;i++)
-		strcpy(t[i],a->timestamp[i]);
-	return t;
+void incrN(Artigo a){
+	 a->n++;
 }
 
-void
+//se deu segmentation fault é pq és burro
+void getTimeStamp(Artigo a, char* t[]){
+	int b=getN(a),i;
+	for(i=0;i<b;i++)
+		t[i]=strdup(a->timestamp[i]);
+}
+
+void setTimeStamp(Artigo a, char* timestamp,int pos){
+	a->timestamp[pos] = timestamp;
+	for(int i=0;i<pos;i++)
+	printf("%s\n", a->timestamp[i]);
+}
 
 void getAutores(Artigo a,char* aut[]) {
 	int b=getN(a),i;
 	for(i=0;i<b;i++)
-		strcpy(aut[i],a->autores[i]);
+		aut[i]=strdup(a->autores[i]);
+}
+
+void setAutores(Artigo a, char* autor, int pos){
+	a->autores[pos]=autor;
+	printf("%s\n",a->autores[pos]);
 }
 
 void getAutId(Artigo a,long c[]){
 	int b=getN(a),i;
+	c=(long*)malloc(b*sizeof(long));
 	for(i=0;i<b;i++)
 		c[i]=a->autId[i];
+}
+
+void setAutId(Artigo a, long id, int pos){
+	a->autId[pos]=id;
+	printf("%ld\n",a->autId[pos]);
 }
 
 long getBytes(Artigo a){
 	return a->bytes;
 }
 
+void setBytes(Artigo a, long bytes){
+	a->bytes=bytes;
+}
+
 long getWords(Artigo a){
 	return a->words;
+}
+
+void setWords(Artigo a, long words){
+	a->words=words;
 }

@@ -8,17 +8,26 @@
 
 void parseFinal(long idArt,char* title,char* timestamp,char* username,long id,long wcount,long bcount,Avl a){
     void* art;
+    int c;
     art= (Artigo) getAvlEstrutura(a,idArt);
     //TODO fazer funçoes dentro do artigo.c que façam isto;
     setTitulo(art,title);
-    //printf("%s\n",getTitulo(art));
+    printf("%s\n",getTitulo(art));
     int i = getN(art);
-    a->tree->info->timestamp[i]=timestamp;
-    a->tree->info->autores[i]=username;
-    a->tree->info->autId[i]=id;
-    a->tree->info->bytes=bcount;
-    a->tree->info->words=wcount;
-    a->tree->info->n++;
+    setTimeStamp(art,timestamp,i);
+    //getTimeStamp(art,puta);
+    //printf("%s\n",puta[i]);
+    setAutores(art,username,i);
+    //getAutores(art,puta);
+    //printf("%s\n",puta[i]);
+    setAutId(art,id,i);
+    //getAutId(art,whore[i]);
+
+    //a->tree->info->bytes=bcount;
+    //a->tree->info->words=wcount;
+    incrN(art); //funcemina
+
+    printf("----------------------------------------------\n" );
 
 }
 
