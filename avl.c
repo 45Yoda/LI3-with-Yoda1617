@@ -219,7 +219,7 @@ static NODO nodeInsert(NODO node,Valor ident,Estrutura est){
         else if(ident> node->id)
             node->right = nodeInsert(node->right,ident,est);
         else node->info = est;
-    }
+
 
     //Atualiza o peso
     node->height = max(heightAvl(node->left), heightAvl(node->right))+1;
@@ -245,7 +245,7 @@ static NODO nodeInsert(NODO node,Valor ident,Estrutura est){
         return rotateLeft(node);
     }
 
-    else node = newNode(node,ident,est);
+    }else node = newNode(node,ident,est);
 
     return node;
 }

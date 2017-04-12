@@ -46,15 +46,23 @@ char* getTitulo (Artigo a) {
 	return a->titulo;
 }
 
-int getN(Artigo a) {
+Artigo setTitulo(Artigo a, char* title){
+	a->titulo = title;
+	return a;
+}
+
+static int getN(Artigo a) {
 	return a->n;
 }
 
-void getTimeStamp(Artigo a, char* t[]){
+char* getTimeStamp(Artigo a, char* t[]){
 	int b=getN(a),i;
 	for(i=0;i<b;i++)
 		strcpy(t[i],a->timestamp[i]);
+	return t;
 }
+
+void
 
 void getAutores(Artigo a,char* aut[]) {
 	int b=getN(a),i;

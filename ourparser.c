@@ -4,21 +4,22 @@
 #include <stdlib.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
-#include "./headers/artigo.h"
-#include "./headers/avl.h"
+#include "./headers/ourparser.h"
 
 void parseFinal(long idArt,char* title,char* timestamp,char* username,long id,long wcount,long bcount,Avl a){
     void* art;
     art= (Artigo) getAvlEstrutura(a,idArt);
     //TODO fazer funçoes dentro do artigo.c que façam isto;
-    art->titulo = title;
-    int i = a->tree->info->n;
+    setTitulo(art,title);
+    //printf("%s\n",getTitulo(art));
+    int i = getN(art);
     a->tree->info->timestamp[i]=timestamp;
     a->tree->info->autores[i]=username;
     a->tree->info->autId[i]=id;
     a->tree->info->bytes=bcount;
     a->tree->info->words=wcount;
     a->tree->info->n++;
+
 }
 
 void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timestamp,char* username, long id,Avl a){
@@ -131,7 +132,7 @@ void parseDoc(char *docname,int argc, Avl a){
         }
 
         cur=aux->next;
-        printf("%s = %ld\n",title,idArt);
+        //printf("%s = %ld\n",title,idArt);
 
     }
 
@@ -139,19 +140,24 @@ void parseDoc(char *docname,int argc, Avl a){
     return;
 }
 
-int main(Avl a, int argc, char **argv){
+int main(int argc, char **argv){
     int i;
     char *docname;
+    clock_t tpf;
 
     if(argc <= 1){
         perror("Uso incorrecto\n");
         return 0;
     }
+    Avl a = initAvl();
 
-for(i=1;argc>1;argc--,i++){
-    docname=argv[i];
-    parseDoc(docname,argc,a);
+    tpf =clock();
+    for(i=1;argc>1;argc--,i++){
+        docname=argv[i];
+        parseDoc(docname,argc,a);
 }
+    tpf =clock() -tpf;
+    printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
 
     return 1;
 }
