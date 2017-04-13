@@ -12,7 +12,7 @@ void parseFinal(long idArt,char* title,char* timestamp,char* username,long id,lo
     art= (Artigo) getAvlEstrutura(a,idArt);
     //TODO fazer funçoes dentro do artigo.c que façam isto;
     setTitulo(art,title);
-    printf("%s\n",getTitulo(art));
+    //printf("%s\n",getTitulo(art));
     int i = getN(art);
     setTimeStamp(art,timestamp,i);
     //getTimeStamp(art,puta);
@@ -25,9 +25,11 @@ void parseFinal(long idArt,char* title,char* timestamp,char* username,long id,lo
 
     //a->tree->info->bytes=bcount;
     //a->tree->info->words=wcount;
+
     incrN(art); //funcemina
 
-    printf("----------------------------------------------\n" );
+
+    //printf("----------------------------------------------\n" );
 
 }
 
@@ -90,7 +92,6 @@ void parseDoc(char *docname,int argc, Avl a){
     xmlNodePtr cur;
     xmlNodePtr aux;
 
-    Artigo stArt = init_Artigo(argc);
 
     tpf =clock();
 
@@ -116,7 +117,7 @@ void parseDoc(char *docname,int argc, Avl a){
     cur = cur->xmlChildrenNode;
     cur = cur->next;
 
-    for(cur;cur;cur=cur->next){
+    for(cur;cur!=NULL;cur=cur->next){
         aux=cur;
         if(!xmlStrcmp(cur->name,(const xmlChar *) "page")){
             for(cur=cur->xmlChildrenNode; cur; cur= cur->next){
@@ -130,6 +131,7 @@ void parseDoc(char *docname,int argc, Avl a){
                     idA=(char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
                     idArt= atol(idA);
                     if (!avlSearch(a,idArt)) {
+                        Artigo stArt = init_Artigo(argc);
                         a=insertAvl(a,idArt,stArt);
                     }
                 }
@@ -144,7 +146,6 @@ void parseDoc(char *docname,int argc, Avl a){
         //printf("%s = %ld\n",title,idArt);
 
     }
-
     xmlFreeDoc(doc);
     return;
 }
@@ -164,9 +165,22 @@ int main(int argc, char **argv){
     for(i=1;argc>1;argc--,i++){
         docname=argv[i];
         parseDoc(docname,argc,a);
-}
+    }
+    //29128
+    int z=0;
+    Artigo art = getAvlEstrutura(a,29128);
+    char* t=getTitulo(art);
+    printf("%s\n",t);
+    int nn = getN(art);
+    printf("%d\n", nn);
+    char** time;
+    char** aut;
+    long* autid;
+    getTimeStamp (art,time); 
+    getAutores(art,aut);
+    getAutId(art,autid);
+    if (autid[0]==29662635) printf("leu\n");
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
-
     return 1;
 }
