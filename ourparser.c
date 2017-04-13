@@ -179,7 +179,7 @@ int main(int argc, char **argv){
     getTimeStamp (art,time); 
     getAutores(art,aut);
     getAutId(art,autid);
-    if (autid[0]==29662635) printf("leu\n");
+    //if (autid[0]==29662635) printf("leu\n");
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
     return 1;
