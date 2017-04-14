@@ -173,13 +173,18 @@ int main(int argc, char **argv){
     printf("%s\n",t);
     int nn = getN(art);
     printf("%d\n", nn);
-    char** time;
-    char** aut;
-    long* autid;
-    getTimeStamp (art,time); 
+    char**  tim=malloc(nn*sizeof(char*));
+    char** aut=malloc(nn*sizeof(char*));
+    long* autid=malloc(nn*sizeof(long*));
+    getTimeStamp (art,tim); 
     getAutores(art,aut);
     getAutId(art,autid);
-    //if (autid[0]==29662635) printf("leu\n");
+    for(z=0;z<nn;z++){
+        printf("%s\n",tim[z]);
+        printf("%s\n",aut[z]);
+        printf("%lu\n",autid[z]);
+        printf("------------------------\n");
+    }
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
     return 1;
