@@ -174,12 +174,12 @@ int main(int argc, char **argv){
     printf("%s\n",t);
     int nn = getN(art);
     printf("%d\n", nn);
-    char**  tim; //=malloc(nn*sizeof(char*));
-    char** aut; //=malloc(nn*sizeof(char*));
-    long* autid; //=malloc(nn*sizeof(long*));
-    getTimeStamp (art,&tim);
-    getAutores(art,&aut);
-    getAutId(art,&autid);
+    char**  tim=malloc(nn*sizeof(char*));
+    char** aut=malloc(nn*sizeof(char*));
+    long* autid=malloc(nn*sizeof(long*));
+    getTimeStamp (art,tim);
+    getAutores(art,aut);
+    getAutId(art,autid);
     for(z=0;z<nn;z++){
         printf("%s\n",tim[z]);
         printf("%s\n",aut[z]);
