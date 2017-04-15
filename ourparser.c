@@ -7,7 +7,7 @@
 #include "./headers/ourparser.h"
 #include "./headers/artigo.h"
 
-void parseFinal(long idArt,char* title,char* timestamp,char* username,long id,long wcount,long bcount,Avl a){
+void parseFinal(long idArt,char* title,char* timestamp,long idRev,char* username,long idAutor,long wcount,long bcount,Avl a){
     void* art;
     int c;
     art= (Artigo) getAvlEstrutura(a,idArt);
@@ -21,9 +21,9 @@ void parseFinal(long idArt,char* title,char* timestamp,char* username,long id,lo
     setAutores(art,username,i);
     //getAutores(art,puta);
     //printf("%s\n",puta[i]);
-    setAutId(art,id,i);
+    setAutId(art,idAutor,i);
     //getAutId(art,whore[i]);
-
+    setRevId(art,idRev,i);
     //a->tree->info->bytes=bcount;
     //a->tree->info->words=wcount;
 
@@ -34,20 +34,20 @@ void parseFinal(long idArt,char* title,char* timestamp,char* username,long id,lo
 
 }
 
-void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timestamp,char* username, long id,Avl a){
+void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timestamp,long idRev,char* username, long idAutor,Avl a){
     long wcount=0;
     long bcount=0;
     for(cur=cur->xmlChildrenNode;cur;cur=cur->next){
         if((!xmlStrcmp(cur->name,(const xmlChar *) "text")));
         //TODO fazer o word count e o byte count;
     }
-    parseFinal(idArt,title,timestamp,username,id,wcount,bcount,a);
+    parseFinal(idArt,title,timestamp,idRev,username,idAutor,wcount,bcount,a);
 }
 
 
-void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char* timestamp,Avl a){
+void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char* timestamp,long idRev, Avl a){
 
-    long id;
+    long idAutor;
     char *username;
     xmlNodePtr aux;
     int artigos = 0;
@@ -59,22 +59,26 @@ void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char*
         if(!xmlStrcmp(cur->name,(const xmlChar *)"username"))
             username = (char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
 
-        if(!xmlStrcmp(cur->name,(const xmlChar *) "id"))
-            id = atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
+        if(!xmlStrcmp(cur->name,(const xmlChar *) "idAutor"))
+            idAutor = atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
     }
 
-    parseText(doc,aux,idArt,title,timestamp,username,id,a);
+    parseText(doc,aux,idArt,title,timestamp,idRev,username,idAutor,a);
     return;
 }
 
 
 void parseRevision(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,Avl a){
     char* timestamp;
+    long idRev;
+
     for(cur=cur->xmlChildrenNode;cur;cur=cur->next){
+        if(!xmlStrcmp(cur->name,(const xmlChar *) "id"))
+            idRev= atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
         if((!xmlStrcmp(cur->name,(const xmlChar *) "timestamp")))
             timestamp=(char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
         if((!xmlStrcmp(cur->name,(const xmlChar *) "contributor")))
-            parseContributor(doc,cur,idArt,title,timestamp,a);
+            parseContributor(doc,cur,idArt,title,timestamp,idRev,a);
         }
 
     return;
@@ -88,7 +92,6 @@ void parseDoc(char *docname,int argc, Avl a){
 
     xmlChar *id;
     xmlChar *title;
-    char* idA;
     xmlDocPtr doc;
     xmlNodePtr cur;
     xmlNodePtr aux;
@@ -129,12 +132,10 @@ void parseDoc(char *docname,int argc, Avl a){
                 }
 
                 if((!xmlStrcmp(cur->name,(const xmlChar *) "id"))){
-                    idA=(char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
-                    idArt= atol(idA);
-                    if (!avlSearch(a,idArt)) {
-                        Artigo stArt = init_Artigo(argc);
-                        a=insertAvl(a,idArt,stArt);
-                    }
+                    idArt=atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
+                    Artigo stArt = init_Artigo(argc);
+                    a=insertAvl(a,idArt,stArt);
+
                 }
                 if((!xmlStrcmp(cur->name,(const xmlChar *) "revision"))){
                     parseRevision(doc,cur,idArt,title,a);
@@ -177,13 +178,16 @@ int main(int argc, char **argv){
     char**  tim=malloc(nn*sizeof(char*));
     char** aut=malloc(nn*sizeof(char*));
     long* autid=malloc(nn*sizeof(long*));
+    long* revid=malloc(nn*sizeof(long*));
     getTimeStamp (art,tim);
     getAutores(art,aut);
     getAutId(art,autid);
+    getRevId(art,revid);
     for(z=0;z<nn;z++){
         printf("%s\n",tim[z]);
         printf("%s\n",aut[z]);
         printf("%lu\n",autid[z]);
+        printf("%lu\n",revid[z]);
         printf("------------------------\n");
     }
     tpf =clock() -tpf;
