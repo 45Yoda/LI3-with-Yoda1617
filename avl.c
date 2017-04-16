@@ -46,10 +46,8 @@ Avl atualizaAvl(Avl a, long value, Estrutura estrutura){
 
 //Insere um valor numa Avl tendo como ponto de referência um Valor.
 Avl insertAvl(Avl a, Valor val, Estrutura estrutura){
-    if (!avlSearch(a,val)) {
     a->tree = nodeInsert(a->tree,val,estrutura);
     a->size++;
-    }
     return a;
 }
 
