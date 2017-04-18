@@ -9,7 +9,7 @@
 typedef struct avlCont *AvlCont;
 
 //Declaração do nodo de uma AVL.
-typedef struct nodeAvlCont *NODO;
+typedef struct nodeAvlCont *NODOCONT;
 
 typedef long Valor;
 typedef char* User;
@@ -29,7 +29,7 @@ AvlCont cloneAvl(AvlCont node, AvlCont new);
 AvlCont atualizaAvlCont(AvlCont a, Valor val, User user);
 
 //Devolve um Bool que se refere a ter ou não encontrado um valor
-Boolean avlSearchCont(Avl a, Valor v);
+Boolean avlSearchCont(AvlCont a, Valor v);
 
 //Retorna o número de elementos da Avl.
 int totalElems(AvlCont a);
@@ -38,24 +38,24 @@ int totalElems(AvlCont a);
 void freeAvlCont(AvlCont a, Funcao f);
 
 //Função que retorna o nodo da raiz de uma dada Avl;
-NODO getNodoCont(AvlCont a);
+NODOCONT getNodoCont(AvlCont a);
 
 //Função que dado um NODO retorna o nodo que está a sua esquerda
-NODO getNodoEsqCont(NODO n);
+NODOCONT getNodoEsqCont(NODOCONT n);
 
 //Função que dado um NODO retorna o nodo que está a sua direita
-NODO getNodoDirCont(NODO n);
+NODOCONT getNodoDirCont(NODOCONT n);
 
 //Função que dado um NODO retorna o seu id
-long getIdAut(NODO n);
+long getIdAut(NODOCONT n);
 
 //Função que dado um NODO retorna o seu username
-char* getUsername(NODO n);
+char* getUsername(NODOCONT n);
 
 //Função que dado um NODO retorna o seu numero de contribuições
-int getCont (NODO n);
+int getCont (NODOCONT n);
 
 //Função que liberta a memória ocupada por um determinado NODO
-void freeNode(NODO node);
+void freeNode(NODOCONT node);
 
 #endif

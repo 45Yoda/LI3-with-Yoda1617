@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-struct nodeCont{
+struct nodeAvlCont{
     long idAut;                      //inteiro com um valor
     char* username;                  //string com o username
     int cont;                          //numero de contribuições
@@ -12,22 +12,22 @@ struct nodeCont{
 };
 
 struct avlCont{
-    NODO tree;
+    NODOCONT tree;
     int size;
 };
 
 //Funções privadas
-static int heightAvl(NODO n);
+static int heightAvlCont(NODOCONT n);
 static int max(int a, int b);
-static int getBalance(NODO n);
-static Boolean nodeSearch(NODO node,Valor v);
-static NODO newNode(NODO node,Valor ident,char* user);
-static NODO rotateRight(NODO);
-static NODO rotateLeft(NODO);
-static NODO atualizaNode (NODO node, long value, char* user);
-static NODO nodeInsert(NODO node,Valor ident,char* user);
-static NODO cloneTree (NODO node, NODO new);
-static void freeTree(NODO node, Funcao f);
+static int getBalance(NODOCONT n);
+static Boolean nodeSearch(NODOCONT node,Valor v);
+static NODOCONT newNode(NODOCONT node,Valor ident,char* user);
+static NODOCONT rotateRight(NODOCONT);
+static NODOCONT rotateLeft(NODOCONT);
+static NODOCONT atualizaNode (NODOCONT node, long value, char* user);
+static NODOCONT nodeInsert(NODOCONT node,Valor ident,char* user);
+static NODOCONT cloneTree (NODOCONT node, NODOCONT new);
+static void freeTree(NODOCONT node, Funcao f);
 
 //Inicializa a estrutura da Avl
 AvlCont initAvlCont(){
@@ -39,10 +39,9 @@ AvlCont initAvlCont(){
 
 //Insere uma nova estrutura numa dada Avl tendo como referência um Valor
 AvlCont atualizaAvlCont(AvlCont a, long value, char* username){
-    a->tree = atualizaNode(a->tree,value,char* username);
+    a->tree = atualizaNode(a->tree,value,username);
     return a;
 }
-
 //Insere um valor numa Avl tendo como ponto de referência um Valor.
 AvlCont insertAvlCont(AvlCont a, Valor val, char* user){
     a->tree = nodeInsert(a->tree,val,user);
@@ -62,8 +61,8 @@ int totalElemsCont(AvlCont a){
 }
 
 //Faz um clone de uma dada Avl.
-AvlCont cloneAvlCont(AvlCont node, Avl new){
-    new = (Avl) malloc(sizeof(struct avl));
+AvlCont cloneAvlCont(AvlCont node, AvlCont new){
+    new = (AvlCont) malloc(sizeof(struct avlCont));
     new->tree = cloneTree(node->tree,new->tree);
     new->size = node->size;
     return new;
@@ -71,10 +70,10 @@ AvlCont cloneAvlCont(AvlCont node, Avl new){
 
 
 //Função que retorna o nodo da raiz de uma dada Avl;
-NODO getNodoCont(AvlCont a){
-    NODO new;
+NODOCONT getNodoCont(AvlCont a){
+    NODOCONT new;
     if(a->tree){
-        new = (NODO) malloc(sizeof(struct nodeAvl));
+        new = (NODOCONT) malloc(sizeof(struct nodeAvlCont));
         new->idAut = a->tree->idAut;
         new->username = a->tree->username;
         new->cont=a->tree->cont;
@@ -88,10 +87,10 @@ NODO getNodoCont(AvlCont a){
 }
 
 //Função que dado um NODO retorna o nodo que está a sua esquerda
-NODO getNodoEsqCont(NODO n){
-    NODO new;
+NODOCONT getNodoEsqCont(NODOCONT n){
+    NODOCONT new;
     if(n->left){
-        new = (NODO) malloc(sizeof(struct nodeAvl));
+        new = (NODOCONT) malloc(sizeof(struct nodeAvlCont));
         new->idAut = n->left->idAut;
         new->username = n->left->username;
         new->cont=n->left->cont;
@@ -104,10 +103,10 @@ NODO getNodoEsqCont(NODO n){
 }
 
 //Função que dado um NODO retorna o nodo que está a sua direita
-NODO getNodoDirCont(NODO n){
-    NODO new;
+NODOCONT getNodoDirCont(NODOCONT n){
+    NODOCONT new;
     if(n->right){
-        new = (NODO) malloc(sizeof(struct nodeAvl));
+        new = (NODOCONT) malloc(sizeof(struct nodeAvlCont));
         new->idAut = n->right->idAut;
         new->username = n->right->username;
         new->cont=n->right->cont;
@@ -119,16 +118,16 @@ NODO getNodoDirCont(NODO n){
 }
 
 //Função que dado um NODO retorna o seu id
-long getIdAut(NODO n){
+long getIdAut(NODOCONT n){
     return n->idAut;
 }
 
 //Função que dado um NODO retorna o seu info
-char* getUsername(NODO n){
+char* getUsername(NODOCONT n){
     return n->username;
 }
 
-int getCont (NODO n) {
+int getCont (NODOCONT n) {
     return n->cont;
 }
 
@@ -140,13 +139,13 @@ void freeAvlCont(AvlCont node, Funcao f){
 
 
 //Função que liberta a memória ocupada por um determinado NODO
-void freeNode(NODO node){
+void freeNode(NODOCONT node){
     if(node!=NULL)
         free(node);
 }
 
 //Função que devolve a altura da Avl.
-static int heightAvl(NODO n){
+static int heightAvl(NODOCONT n){
     if(n==NULL)
         return 0;
     return n->height;
@@ -159,14 +158,14 @@ static int max(int a,int b){
 }
 
 //Função que retorna o índice de balanceamento da Avl
-static int getBalance(NODO n){
+static int getBalance(NODOCONT n){
   if(n==NULL) return 0;
   return heightAvl(n->left) - heightAvl(n->right);
 }
 
 //Função auxiliar que faz a rotação da Avl à direita.
-static NODO rotateRight(NODO n){
-    NODO aux;
+static NODOCONT rotateRight(NODOCONT n){
+    NODOCONT aux;
     aux=n->left;
     n->left=aux->right;
     aux->right=n;
@@ -176,8 +175,8 @@ static NODO rotateRight(NODO n){
 }
 
 //Função auxiliar que faz a rotação da Avl à esquerda.
-static NODO rotateLeft(NODO n){
-    NODO aux;
+static NODOCONT rotateLeft(NODOCONT n){
+    NODOCONT aux;
     aux=n->right;
     n->right=aux->left;
     aux->left=n;
@@ -190,8 +189,8 @@ static NODO rotateLeft(NODO n){
 
 
 //Função que cria um novo nodo
-static NODO newNode(NODO node,Valor ident,username){
-    node = (NODO) malloc(sizeof(struct nodeAvlCont));
+static NODOCONT newNode(NODOCONT node,Valor ident,User username){
+    node = (NODOCONT) malloc(sizeof(struct nodeAvlCont));
     node->idAut = ident;
     node->username;
     node->cont=1;
@@ -201,7 +200,7 @@ static NODO newNode(NODO node,Valor ident,username){
     return node;
 }
 
-static Boolean nodeSearch(NODO node,Valor v){
+static Boolean nodeSearch(NODOCONT node,Valor v){
     if(node==NULL) return false;
     else{
         if(v == node->idAut) return true;
@@ -210,7 +209,7 @@ static Boolean nodeSearch(NODO node,Valor v){
     }
 }
 
-static NODO nodeInsert(NODO node,Valor ident,char* user){
+static NODOCONT nodeInsert(NODOCONT node,Valor ident,char* user){
     int balance;
 
     if(node !=NULL){
@@ -250,13 +249,13 @@ static NODO nodeInsert(NODO node,Valor ident,char* user){
     return node;
 }
 
-static NODO cloneTree (NODO node, NODO new){
+static NODOCONT cloneTree (NODOCONT node, NODOCONT new){
 
     if(node){
         new = malloc(sizeof(struct nodeAvlCont));
-        new->id = node->id;
+        new->idAut = node->idAut;
         new->height= node->height;
-        new->info = NULL;
+        new->username = NULL;
         new->left = cloneTree(node->left,new->left);
         new->right= cloneTree(node->right,new->right);
     }
@@ -265,7 +264,7 @@ static NODO cloneTree (NODO node, NODO new){
     return new;
 }
 
-static NODO atualizaNode (NODO node, long value, char* username){
+static NODOCONT atualizaNode (NODOCONT node, long value, char* username){
     if(value == node->idAut){
         node->username=username;
         node->cont+=1;
@@ -278,12 +277,12 @@ static NODO atualizaNode (NODO node, long value, char* username){
 }
 
 
-static void freeTree(NODO node, Funcao f){
+static void freeTree(NODOCONT node, Funcao f){
     if(node != NULL){
         freeTree(node->left,f);
         freeTree(node->right,f);
-        if(node->info != NULL){
-            f(node->info);
+        if(node->username != NULL){
+            f(node->username);
         }
         free(node);
     }
