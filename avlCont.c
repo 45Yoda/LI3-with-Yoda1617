@@ -139,7 +139,7 @@ void freeAvlCont(AvlCont node, Funcao f){
 
 
 //Função que liberta a memória ocupada por um determinado NODO
-void freeNode(NODOCONT node){
+void freeNodeCont(NODOCONT node){
     if(node!=NULL)
         free(node);
 }

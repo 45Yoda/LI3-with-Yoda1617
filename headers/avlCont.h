@@ -56,6 +56,6 @@ char* getUsername(NODOCONT n);
 int getCont (NODOCONT n);
 
 //Função que liberta a memória ocupada por um determinado NODO
-void freeNode(NODOCONT node);
+void freeNodeCont(NODOCONT node);
 
 #endif
