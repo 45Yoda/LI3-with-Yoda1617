@@ -2,6 +2,8 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
+#include <unistd.h>
+
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include "./headers/ourparser.h"
@@ -38,10 +40,16 @@ void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timest
     long wcount=0;
     long bcount=0;
     for(cur=cur->xmlChildrenNode;cur;cur=cur->next){
-        if((!xmlStrcmp(cur->name,(const xmlChar *) "text")));
-        //TODO fazer o word count e o byte count;
+        if((!xmlStrcmp(cur->name,(const xmlChar *) "text"))){
+                wcount=execlp("wc","wc","-w",xmlNodeListGetString(doc,cur->xmlChildrenNode,1),NULL);
+                printf("%ld",wcount);
+            }
     }
     parseFinal(idArt,title,timestamp,idRev,username,idAutor,wcount,bcount,a);
+}
+
+long wcount(String str){
+    
 }
 
 
@@ -59,7 +67,7 @@ void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char*
         if(!xmlStrcmp(cur->name,(const xmlChar *)"username"))
             username = (char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
 
-        if(!xmlStrcmp(cur->name,(const xmlChar *) "idAutor"))
+        if(!xmlStrcmp(cur->name,(const xmlChar *) "id"))
             idAutor = atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
     }
 
@@ -175,7 +183,7 @@ int main(int argc, char **argv){
     printf("%s\n",t);
     int nn = getN(art);
     printf("%d\n", nn);
-    char**  tim=malloc(nn*sizeof(char*));
+    /*char**  tim=malloc(nn*sizeof(char*));
     char** aut=malloc(nn*sizeof(char*));
     long* autid=malloc(nn*sizeof(long*));
     long* revid=malloc(nn*sizeof(long*));
@@ -189,7 +197,7 @@ int main(int argc, char **argv){
         printf("%lu\n",autid[z]);
         printf("%lu\n",revid[z]);
         printf("------------------------\n");
-    }
+    }*/
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
     return 1;
