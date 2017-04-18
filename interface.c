@@ -17,7 +17,9 @@ Avl load(Avl a, int nsnaps, char* snaps_paths[]) {
 }
 
 //-----------------------------------------
-//esta puta funcemina!!!
+//esta funcemina!!!
+
+
 long contaArt(Avl a, NODO n) {
     long t=0;
     if (n!=NULL){
@@ -40,10 +42,21 @@ long all_articles( Avl a ){
 
 //-----------------------------------------------
 //esta tambem nao // come nos 19 artigos
-long unique_articles( Avl a){
+long unicosArt(Avl a, NODO n) {
+     long t=0;
+    if (n!=NULL){
+        t=1+unicosArt(a,getNodoEsq(n))+unicosArt(a,getNodoDir(n));
+    }
+    return t;   
+}
 
-	long arts = totalElems(a);
-	return arts;
+long unique_articles( Avl a){
+    long tot=0;
+    if (a!=NULL){
+        NODO n=getNodo(a);
+        tot=unicosArt(a,n);
+    }
+    return tot;
 }
 
 
@@ -75,7 +88,6 @@ long all_revisions(Avl a) {
     }
     return tot;
 }
-
 	
 //------------------------------
 //funcemina

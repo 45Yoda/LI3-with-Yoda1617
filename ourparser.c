@@ -18,13 +18,8 @@ void parseFinal(long idArt,char* title,char* timestamp,long idRev,char* username
     //printf("%s\n",getTitulo(art));
     int i = getN(art);
     setTimeStamp(art,timestamp,i);
-    //getTimeStamp(art,puta);
-    //printf("%s\n",puta[i]);
     setAutores(art,username,i);
-    //getAutores(art,puta);
-    //printf("%s\n",puta[i]);
     setAutId(art,idAutor,i);
-    //getAutId(art,whore[i]);
     setRevId(art,idRev,i);
     //a->tree->info->bytes=bcount;
     //a->tree->info->words=wcount;
@@ -182,7 +177,7 @@ long all_articles( Avl a ){
 long unicosArt(Avl a, NODO n) {
      long t=0;
     if (n!=NULL){
-        t=1+contaArt(a,getNodoEsq(n))+contaArt(a,getNodoDir(n));
+        t=1+unicosArt(a,getNodoEsq(n))+unicosArt(a,getNodoDir(n));
     }
     return t;   
 }
@@ -191,7 +186,7 @@ long unique_articles( Avl a){
     long tot=0;
     if (a!=NULL){
         NODO n=getNodo(a);
-        tot=contaArt(a,n);
+        tot=unicosArt(a,n);
     }
     return tot;
 }
@@ -242,17 +237,17 @@ int main(int argc, char **argv){
         docname=argv[i];
         parseDoc(i,docname,argc,a);
     }
+    /*
     long nome = all_articles(a);
     printf("Total: %ld\n",nome);
     nome = unique_articles(a);
     printf("artigos unicos: %ld\n",nome);
     nome = all_revisions(a);
     printf("revisoes: %ld\n",nome);
-
+*/
 
     ////29128
-    
-    int z=0;
+/*    int z=0;
     Artigo art = getAvlEstrutura(a,29128);
     char* t = getTitulo(art);
     printf("%s\n",t);
@@ -272,7 +267,7 @@ int main(int argc, char **argv){
         printf("%lu\n",autid[z]);
         printf("%lu\n",revid[z]);
         printf("------------------------\n");
-    }
+    }*/
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
     return 1;
