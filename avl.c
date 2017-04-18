@@ -211,8 +211,8 @@ static Boolean nodeSearch(NODO node,Valor v){
 
 static NODO nodeInsert(NODO node,Valor ident){
     int balance;
-    if(node !=NULL && ident!=node->id){
-        //if (ident!=node->id) {
+    if(node !=NULL){
+        if (ident!=node->id) {
             if(ident < node->id)
                 node->left = nodeInsert(node->left,ident);
             else if(ident> node->id)
@@ -242,6 +242,7 @@ static NODO nodeInsert(NODO node,Valor ident){
             node->right = rotateRight(node->right);
             return rotateLeft(node);
         }
+    }
     }else node = newNode(node,ident);
     
     return node;
