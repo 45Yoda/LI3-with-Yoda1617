@@ -1,7 +1,7 @@
 #include "./headers/avl.h"
-
+#include <stdio.h>
 #include <stdlib.h>
-
+#include "./headers/artigo.h"
 // Estrutura de um nodo da AVL
 struct nodeAvl{
     long id;                      //inteiro com um valor
@@ -21,11 +21,11 @@ static int heightAvl(NODO n);
 static int max(int a, int b);
 static int getBalance(NODO n);
 static Boolean nodeSearch(NODO node,Valor v);
-static NODO newNode(NODO node,Valor ident,void *estrutura);
+static NODO newNode(NODO node,Valor ident);
 static NODO rotateRight(NODO);
 static NODO rotateLeft(NODO);
 static NODO atualizaNode (NODO node, long value, Estrutura estrutura);
-static NODO nodeInsert(NODO node,Valor ident,Estrutura est);
+static NODO nodeInsert(NODO node,Valor ident);
 static NODO cloneTree (NODO node, NODO new);
 static Estrutura getNodeEstrutura(NODO node, Valor value);
 static void freeTree(NODO node, Funcao f);
@@ -45,8 +45,8 @@ Avl atualizaAvl(Avl a, long value, Estrutura estrutura){
 }
 
 //Insere um valor numa Avl tendo como ponto de referência um Valor.
-Avl insertAvl(Avl a, Valor val, Estrutura estrutura){
-    a->tree = nodeInsert(a->tree,val,estrutura);
+Avl insertAvl(Avl a, Valor val){
+    a->tree = nodeInsert(a->tree,val);
     a->size++;
     return a;
 }
@@ -189,10 +189,11 @@ static NODO rotateLeft(NODO n){
 
 
 //Função que cria um novo nodo
-static NODO newNode(NODO node,Valor ident,void *estrutura){
+static NODO newNode(NODO node,Valor ident){
+    Artigo stArt = init_Artigo(3);
     node = (NODO) malloc(sizeof(struct nodeAvl));
     node->id = ident;
-    node->info = estrutura;
+    node->info = stArt;
     node->height= 1;
     node->left = NULL;
     node->right = NULL;
@@ -208,43 +209,41 @@ static Boolean nodeSearch(NODO node,Valor v){
     }
 }
 
-static NODO nodeInsert(NODO node,Valor ident,Estrutura est){
+static NODO nodeInsert(NODO node,Valor ident){
     int balance;
+    if(node !=NULL && ident!=node->id){
+        //if (ident!=node->id) {
+            if(ident < node->id)
+                node->left = nodeInsert(node->left,ident);
+            else if(ident> node->id)
+                node->right = nodeInsert(node->right,ident);
 
-    if(node !=NULL){
-        if(ident < node->id)
-            node->left = nodeInsert(node->left,ident, est);
-        else if(ident> node->id)
-            node->right = nodeInsert(node->right,ident,est);
-        else node->info = est;
 
+        //Atualiza o peso
+        node->height = max(heightAvl(node->left), heightAvl(node->right))+1;
 
-    //Atualiza o peso
-    node->height = max(heightAvl(node->left), heightAvl(node->right))+1;
+        //Verifica balanceamento
+        balance = getBalance(node);
 
-    //Verifica balanceamento
-    balance = getBalance(node);
+        // Left Left Case
+        if(balance>1 && (ident < node->left->id)) return rotateRight(node);
 
-    // Left Left Case
-    if(balance>1 && (ident < node->left->id)) return rotateRight(node);
+        //Right Right Case
+        if(balance< -1 && (ident<node->right->id)) return rotateLeft(node);
 
-    //Right Right Case
-    if(balance< -1 && (ident<node->right->id)) return rotateLeft(node);
+        //Left Right Case
+        if(balance > 1 && (ident > node->left->id)){
+            node->left = rotateLeft(node->left);
+            return rotateRight(node);
+        }
 
-    //Left Right Case
-    if(balance > 1 && (ident > node->left->id)){
-        node->left = rotateLeft(node->left);
-        return rotateRight(node);
-    }
-
-    //Right Left Case
-    if(balance < -1 && (ident >node->right->id) < 0){
-        node->right = rotateRight(node->right);
-        return rotateLeft(node);
-    }
-
-    }else node = newNode(node,ident,est);
-
+        //Right Left Case
+        if(balance < -1 && (ident >node->right->id) < 0){
+            node->right = rotateRight(node->right);
+            return rotateLeft(node);
+        }
+    }else node = newNode(node,ident);
+    
     return node;
 }
 

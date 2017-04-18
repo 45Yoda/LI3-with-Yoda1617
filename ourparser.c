@@ -40,17 +40,14 @@ void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timest
     long wcount=0;
     long bcount=0;
     for(cur=cur->xmlChildrenNode;cur;cur=cur->next){
-        if((!xmlStrcmp(cur->name,(const xmlChar *) "text"))){
-                wcount=execlp("wc","wc","-w",xmlNodeListGetString(doc,cur->xmlChildrenNode,1),NULL);
-                printf("%ld",wcount);
-            }
+        if((!xmlStrcmp(cur->name,(const xmlChar *) "text")));
     }
     parseFinal(idArt,title,timestamp,idRev,username,idAutor,wcount,bcount,a);
 }
-
+/*
 long wcount(String str){
     
-}
+}*/
 
 
 void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char* timestamp,long idRev, Avl a){
@@ -70,7 +67,6 @@ void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char*
         if(!xmlStrcmp(cur->name,(const xmlChar *) "id"))
             idAutor = atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
     }
-
     parseText(doc,aux,idArt,title,timestamp,idRev,username,idAutor,a);
     return;
 }
@@ -141,17 +137,10 @@ void parseDoc(int i,char *docname,int argc, Avl a){
 
                 if((!xmlStrcmp(cur->name,(const xmlChar *) "id"))){
                     idArt=atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
-                    if (i==1) {
-                        Artigo stArt = init_Artigo(argc);
-                        a=insertAvl(a,idArt,stArt);
+
+                    a=insertAvl(a,idArt);
+                    
                     }
-                    else {
-                        if (!avlSearch(a,idArt)) {
-                            Artigo stArt = init_Artigo(argc);
-                            a=insertAvl(a,idArt,stArt);
-                         }
-                    }
-                }
                 if((!xmlStrcmp(cur->name,(const xmlChar *) "revision"))){
                     parseRevision(doc,cur,idArt,title,a);
                 }
@@ -166,6 +155,7 @@ void parseDoc(int i,char *docname,int argc, Avl a){
     xmlFreeDoc(doc);
     return;
 }
+
 
 long contaArt(Avl a, NODO n) {
     long t=0;
@@ -189,10 +179,21 @@ long all_articles( Avl a ){
 
 //-----------------------------------------------
 //esta tambem nao // come nos 19 artigos
-long unique_articles( Avl a){
+long unicosArt(Avl a, NODO n) {
+     long t=0;
+    if (n!=NULL){
+        t=1+contaArt(a,getNodoEsq(n))+contaArt(a,getNodoDir(n));
+    }
+    return t;   
+}
 
-    long arts = totalElems(a);
-    return arts;
+long unique_articles( Avl a){
+    long tot=0;
+    if (a!=NULL){
+        NODO n=getNodo(a);
+        tot=contaArt(a,n);
+    }
+    return tot;
 }
 
 
@@ -242,22 +243,22 @@ int main(int argc, char **argv){
         parseDoc(i,docname,argc,a);
     }
     long nome = all_articles(a);
-    printf("%ld\n",nome);
+    printf("Total: %ld\n",nome);
     nome = unique_articles(a);
-    printf("%ld\n",nome);
+    printf("artigos unicos: %ld\n",nome);
     nome = all_revisions(a);
-    printf("%ld\n",nome);
+    printf("revisoes: %ld\n",nome);
 
 
-    /*///29128
-    /*
+    ////29128
+    
     int z=0;
     Artigo art = getAvlEstrutura(a,29128);
     char* t = getTitulo(art);
     printf("%s\n",t);
     int nn = getN(art);
     printf("%d\n", nn);
-    /*char**  tim=malloc(nn*sizeof(char*));
+    char**  tim=malloc(nn*sizeof(char*));
     char** aut=malloc(nn*sizeof(char*));
     long* autid=malloc(nn*sizeof(long*));
     long* revid=malloc(nn*sizeof(long*));
@@ -271,7 +272,7 @@ int main(int argc, char **argv){
         printf("%lu\n",autid[z]);
         printf("%lu\n",revid[z]);
         printf("------------------------\n");
-    }*/
+    }
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
     return 1;
