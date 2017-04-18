@@ -8,17 +8,28 @@
 
 void parseFinal(long idArt,char* title,char* timestamp,char* username,long id,long wcount,long bcount,Avl a){
     void* art;
+    int c;
     art= (Artigo) getAvlEstrutura(a,idArt);
     //TODO fazer funçoes dentro do artigo.c que façam isto;
     setTitulo(art,title);
     //printf("%s\n",getTitulo(art));
     int i = getN(art);
-    a->tree->info->timestamp[i]=timestamp;
-    a->tree->info->autores[i]=username;
-    a->tree->info->autId[i]=id;
-    a->tree->info->bytes=bcount;
-    a->tree->info->words=wcount;
-    a->tree->info->n++;
+    setTimeStamp(art,timestamp,i);
+    //getTimeStamp(art,puta);
+    //printf("%s\n",puta[i]);
+    setAutores(art,username,i);
+    //getAutores(art,puta);
+    //printf("%s\n",puta[i]);
+    setAutId(art,id,i);
+    //getAutId(art,whore[i]);
+
+    //a->tree->info->bytes=bcount;
+    //a->tree->info->words=wcount;
+
+    incrN(art); //funcemina
+
+
+    //printf("----------------------------------------------\n" );
 
 }
 
@@ -81,7 +92,6 @@ void parseDoc(char *docname,int argc, Avl a){
     xmlNodePtr cur;
     xmlNodePtr aux;
 
-    Artigo stArt = init_Artigo(argc);
 
     tpf =clock();
 
@@ -107,7 +117,7 @@ void parseDoc(char *docname,int argc, Avl a){
     cur = cur->xmlChildrenNode;
     cur = cur->next;
 
-    for(cur;cur;cur=cur->next){
+    for(cur;cur!=NULL;cur=cur->next){
         aux=cur;
         if(!xmlStrcmp(cur->name,(const xmlChar *) "page")){
             for(cur=cur->xmlChildrenNode; cur; cur= cur->next){
@@ -121,6 +131,7 @@ void parseDoc(char *docname,int argc, Avl a){
                     idA=(char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
                     idArt= atol(idA);
                     if (!avlSearch(a,idArt)) {
+                        Artigo stArt = init_Artigo(argc);
                         a=insertAvl(a,idArt,stArt);
                     }
                 }
@@ -135,7 +146,6 @@ void parseDoc(char *docname,int argc, Avl a){
         //printf("%s = %ld\n",title,idArt);
 
     }
-
     xmlFreeDoc(doc);
     return;
 }
@@ -155,9 +165,27 @@ int main(int argc, char **argv){
     for(i=1;argc>1;argc--,i++){
         docname=argv[i];
         parseDoc(docname,argc,a);
-}
+    }
+    //29128
+    int z=0;
+    Artigo art = getAvlEstrutura(a,29128);
+    char* t=getTitulo(art);
+    printf("%s\n",t);
+    int nn = getN(art);
+    printf("%d\n", nn);
+    char**  tim=malloc(nn*sizeof(char*));
+    char** aut=malloc(nn*sizeof(char*));
+    long* autid=malloc(nn*sizeof(long*));
+    getTimeStamp (art,tim); 
+    getAutores(art,aut);
+    getAutId(art,autid);
+    for(z=0;z<nn;z++){
+        printf("%s\n",tim[z]);
+        printf("%s\n",aut[z]);
+        printf("%lu\n",autid[z]);
+        printf("------------------------\n");
+    }
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
-
     return 1;
 }
