@@ -18,8 +18,8 @@ void parseFinal(long idArt,char* title,char* timestamp,long idRev,char* username
     //printf("%s\n",getTitulo(art));
     int i = getN(art);
     setTimeStamp(art,timestamp,i);
-    setAutores(art,username,i);
-    setAutId(art,idAutor,i);
+    //setAutores(art,username,i);
+    //setAutId(art,idAutor,i);
     setRevId(art,idRev,i);
     //a->tree->info->bytes=bcount;
     //a->tree->info->words=wcount;
@@ -41,7 +41,7 @@ void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timest
 }
 /*
 long wcount(String str){
-    
+
 }*/
 
 
@@ -134,7 +134,7 @@ void parseDoc(int i,char *docname,int argc, Avl a){
                     idArt=atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
 
                     a=insertAvl(a,idArt);
-                    
+
                     }
                 if((!xmlStrcmp(cur->name,(const xmlChar *) "revision"))){
                     parseRevision(doc,cur,idArt,title,a);
@@ -175,11 +175,11 @@ long all_articles( Avl a ){
 //-----------------------------------------------
 //esta tambem nao // come nos 19 artigos
 long unicosArt(Avl a, NODO n) {
-     long t=0;
+    long t=0;
     if (n!=NULL){
         t=1+unicosArt(a,getNodoEsq(n))+unicosArt(a,getNodoDir(n));
     }
-    return t;   
+    return t;
 }
 
 long unique_articles( Avl a){
@@ -237,37 +237,37 @@ int main(int argc, char **argv){
         docname=argv[i];
         parseDoc(i,docname,argc,a);
     }
-    /*
+    printf("caralho\n");
     long nome = all_articles(a);
     printf("Total: %ld\n",nome);
     nome = unique_articles(a);
     printf("artigos unicos: %ld\n",nome);
     nome = all_revisions(a);
     printf("revisoes: %ld\n",nome);
-*/
+
 
     ////29128
-/*    int z=0;
+    int z=0;
     Artigo art = getAvlEstrutura(a,29128);
     char* t = getTitulo(art);
     printf("%s\n",t);
     int nn = getN(art);
     printf("%d\n", nn);
     char**  tim=malloc(nn*sizeof(char*));
-    char** aut=malloc(nn*sizeof(char*));
-    long* autid=malloc(nn*sizeof(long*));
+    //char** aut=malloc(nn*sizeof(char*));
+    //long* autid=malloc(nn*sizeof(long*));
     long* revid=malloc(nn*sizeof(long*));
     getTimeStamp (art,tim);
-    getAutores(art,aut);
-    getAutId(art,autid);
+//    getAutores(art,aut);
+//    getAutId(art,autid);
     getRevId(art,revid);
     for(z=0;z<nn;z++){
         printf("%s\n",tim[z]);
-        printf("%s\n",aut[z]);
-        printf("%lu\n",autid[z]);
+//        printf("%s\n",aut[z]);
+//        printf("%lu\n",autid[z]);
         printf("%lu\n",revid[z]);
         printf("------------------------\n");
-    }*/
+    }
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
     return 1;

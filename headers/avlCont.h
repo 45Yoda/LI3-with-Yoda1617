@@ -20,10 +20,10 @@ typedef void(*Funcao)(void*);
 AvlCont initAvlCont();
 
 //Insere um valor numa Avl tendo como ponto de referência um Valor.
-AvlCont insertAvl(AvlCont a,Valor val, User user);
+AvlCont insertAvlCont(AvlCont a,Valor val, User user);
 
 //Faz um clone de uma dada Avl.
-AvlCont cloneAvl(AvlCont node, AvlCont new);
+AvlCont cloneAvlCont(AvlCont node, AvlCont new);
 
 //Insere uma nova estrutura numa dada Avl tendo como referência um Valor
 AvlCont atualizaAvlCont(AvlCont a, Valor val, User user);
@@ -32,7 +32,7 @@ AvlCont atualizaAvlCont(AvlCont a, Valor val, User user);
 Boolean avlSearchCont(AvlCont a, Valor v);
 
 //Retorna o número de elementos da Avl.
-int totalElems(AvlCont a);
+int totalElemsCont(AvlCont a);
 
 //Função que liberta a memória ocupada por uma dada Avl.
 void freeAvlCont(AvlCont a, Funcao f);

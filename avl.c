@@ -244,7 +244,7 @@ static NODO nodeInsert(NODO node,Valor ident){
         }
     }
     }else node = newNode(node,ident);
-    
+
     return node;
 }
 
