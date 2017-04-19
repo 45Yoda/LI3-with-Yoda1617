@@ -3,7 +3,7 @@
 
 #include "global.h"
 
-typedef void* EstruturaB;
+typedef void* Estrutura;
 
 
 
@@ -17,7 +17,7 @@ typedef struct mat *Matriz;
 
 Matriz initMatriz();
 
-EstruturaB getMatrizEstrutura(Matriz m,int linha, int coluna);
+Estrutura getMatrizEstrutura(Matriz m,int linha, int coluna);
 
 
 

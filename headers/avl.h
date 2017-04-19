@@ -20,7 +20,7 @@ typedef void(*Funcao)(void*);
 Avl initAvl();
 
 //Insere um valor numa Avl tendo como ponto de referência um Valor.
-Avl insertAvl(Avl a,Valor val);
+Avl insertAvl(Avl a,Valor val,Estrutura estrutura);
 
 //Faz um clone de uma dada Avl.
 Avl cloneAvl(Avl node, Avl new);

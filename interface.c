@@ -7,7 +7,7 @@
 //uniq rev 40131
 
 Avl init() {
-	Avl a = intiAvl();
+	Avl a = initAvl();
 	return a;
 }
 
@@ -47,7 +47,7 @@ long unicosArt(Avl a, NODO n) {
     if (n!=NULL){
         t=1+unicosArt(a,getNodoEsq(n))+unicosArt(a,getNodoDir(n));
     }
-    return t;   
+    return t;
 }
 
 long unique_articles( Avl a){
@@ -88,7 +88,7 @@ long all_revisions(Avl a) {
     }
     return tot;
 }
-	
+
 //------------------------------
 //funcemina
 char* procContributor (long id, NODO n,Avl a) {
@@ -111,7 +111,7 @@ char* procContributor (long id, NODO n,Avl a) {
             char *esq,*dir;
             esq=procContributor(id,getNodoEsq(n),a);
             dir=procContributor(id,getNodoDir(n),a);
-            
+
             if (esq!=NULL) cont=esq;
             else cont=dir;
         }
@@ -130,7 +130,7 @@ char* contributor_name(long contributor_id, Avl a) {
 char* article_title(long id, Avl a) {
     void* artigo = getAvlEstrutura(a,id);
     return getTitulo(artigo);
-} 
+}
 
 
 //---------------------
@@ -148,7 +148,7 @@ char* article_timestamp(long article_id,long revision_id,Avl a) {
             timeSt = times[i];
             free(times);
             }
-    } 
+    }
     free(revid);
     return timeSt;
 }
