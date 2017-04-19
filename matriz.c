@@ -18,19 +18,21 @@ struct mat{
 
 Matriz initMatriz(){
     int i=0,j=0;
-    Matriz mat = malloc(sizeof(struct matrizVal));
+    Matriz m = malloc(sizeof(struct mat));
     for(i=0;i<LINESIZE;i++){
         for(j=0;j<ROWSIZE;j++){
             if(i==0){
                 Avl a = initAvl();
-                mat->matriz[i][j]->avl = a;
+                m->matriz[i][j] = malloc(sizeof(struct matrizVal));
+                (m->matriz[i][j])->avl = a;
             }else{
                 AvlCont b = initAvlCont();
-                mat->matriz[i][j]->avl = b;
+                m->matriz[i][j] = malloc(sizeof(struct matrizVal));
+                m->matriz[i][j]->avl = b;
             }
         }
     }
-    return mat;
+    return m;
 }
 
 EstruturaB getMatrizEstrutura(Matriz m,int linha, int coluna){
