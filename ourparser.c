@@ -13,15 +13,12 @@
 
 
 
-void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAutor, char* username, Matriz m, long wcount, long bcount) {
+void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAutor, char* username, Registo reg, long wcount, long bcount) {
     void* art;
     void* con;
     int c;
-    int first = firstDigit(idArt);
-    Avl a = (Avl) getMatrizEstrutura(m,0,first);
-    Avl b = (Avl) getMatrizEstrutura(m,1,first);
-    art = (Artigo) getAvlEstrutura(a,idArt);
-    con = (Contribuidor) getAvlEstrutura(b, idAutor);
+    art = getRegArtEstrutura(reg,idArt);
+    con = getRegContEstrutura(reg, idAutor);
 
     //TODO fazer funçoes dentro do artigo.c que façam isto;
     setTitulo(art,title);
@@ -45,13 +42,13 @@ void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAut
     //printf("----------------------------------------------\n" );
 }
 
-void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timestamp,long idRev,long idAutor,char* username,Matriz m){
+void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timestamp,long idRev,long idAutor,char* username,Registo reg){
     long wcount=0;
     long bcount=0;
     for(cur=cur->xmlChildrenNode;cur;cur=cur->next){
         if((!xmlStrcmp(cur->name,(const xmlChar *) "text")));
     }
-    parseFinal(idArt,title,timestamp,idRev,idAutor,username,m,wcount,bcount);
+    parseFinal(idArt,title,timestamp,idRev,idAutor,username,reg,wcount,bcount);
 }
 /*
 long wcount(String str){
@@ -60,7 +57,7 @@ long wcount(String str){
 */
 
 
-void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char* timestamp,long idRev, Matriz m){
+void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char* timestamp,long idRev, Registo reg){
     void* con;
     long idAutor;
     xmlChar* username;
@@ -77,34 +74,19 @@ void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char*
 
         if(!xmlStrcmp(cur->name,(const xmlChar. *) "id")) {
             idAutor = atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
-            int first = firstDigit(idAutor);
-            void* a = (Avl) getMatrizEstrutura(m,1,first);
+            Avl a = getRegContribuidores(reg,idAutor);
             if(!avlSearch(a,idAutor)){
                 Contribuidor stCont = initContribuidor();
                 a = insertAvl(a,idAutor,stCont);
             }
-            //con = (Contribuidor) getAvlEstrutura(a,idAutor);
         }
     }
-    //incrCont(con);
-    //setUsername(con,username);
-    parseText(doc,aux,idArt,title,timestamp,idRev,idAutor,username,m);
-    //printf("id: %lu\n",idAutor);
-    //printf("user:%s\n",username);
-    //    printf("cont:%d\n",getCont(con));
-    /*
-    user = malloc(xmlStrlen(username));
-    strcpy(user,(char *)username);
-    setUsername(con,user);
-    */
-    //incrCont(con);
-    //printf("%s\n",getUsername(con));
-    //printf("%ld\n",getCont(con));
+    parseText(doc,aux,idArt,title,timestamp,idRev,idAutor,username,reg);
     return;
 }
 
 
-void parseRevision(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,Matriz m){
+void parseRevision(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,Registo reg){
     char* timestamp;
     long idRev;
 
@@ -116,7 +98,7 @@ void parseRevision(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,Matriz m
             timestamp=(char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
         }
         if((!xmlStrcmp(cur->name,(const xmlChar *) "contributor"))) {
-            parseContributor(doc,cur,idArt,title,timestamp,idRev,m);
+            parseContributor(doc,cur,idArt,title,timestamp,idRev,reg);
         }
     }
 
@@ -124,7 +106,7 @@ void parseRevision(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,Matriz m
 }
 
 
-void parseDoc(int i,char *docname,int argc, Matriz m){
+void parseDoc(int i,char *docname,int argc, Registo reg){
 
     long idArt;
     clock_t tpf;
@@ -185,7 +167,7 @@ void parseDoc(int i,char *docname,int argc, Matriz m){
                     }
                 }
                 if((!xmlStrcmp(cur->name,(const xmlChar *) "revision"))){
-                    parseRevision(doc,cur,idArt,title,m);
+                    parseRevision(doc,cur,idArt,title,reg);
                 }
 
             }
@@ -199,76 +181,6 @@ void parseDoc(int i,char *docname,int argc, Matriz m){
     return;
 }
 
-
-long contaArt(Avl a, NODO n) {
-    long t=0;
-    if (n!=NULL){
-        void* artigo;
-        long id = getId(n);
-        artigo = getAvlEstrutura(a,id);
-        t=getN(artigo)+contaArt(a,getNodoEsq(n))+contaArt(a,getNodoDir(n));
-    }
-    return t;
-}
-
-long all_articles( Avl a ){
-    long tot=0;
-    if (a!=NULL){
-        NODO n=getNodo(a);
-        tot=contaArt(a,n);
-    }
-    return tot;
-}
-
-//-----------------------------------------------
-//esta tambem nao // come nos 19 artigos
-long unicosArt(Avl a, NODO n) {
-    long t=0;
-    if (n!=NULL){
-        t=1+unicosArt(a,getNodoEsq(n))+unicosArt(a,getNodoDir(n));
-    }
-    return t;
-}
-
-long unique_articles( Avl a){
-    long tot=0;
-    if (a!=NULL){
-        NODO n=getNodo(a);
-        tot=unicosArt(a,n);
-    }
-    return tot;
-}
-
-
-//-------------------
-//funciona
-long contaRev(Avl a, NODO n) {
-    long t=0;
-    int i,c=1;
-    if (n!=NULL){
-        void* artigo;
-        long id = getId(n);
-        artigo = getAvlEstrutura(a,id);
-        long *revid=malloc(getN(artigo)*sizeof(long*));
-        getRevId(artigo,revid);
-        for (i=0;i<getN(artigo)-1;i++) {
-            if (revid[i]!=revid[i+1]) c++;
-        }
-        t= c+contaRev(a,getNodoEsq(n))+contaRev(a,getNodoDir(n));
-        free(revid);
-    }
-    return t;
-}
-
-long all_revisions(Avl a) {
-    long tot=0;
-    if (a!=NULL){
-        NODO n=getNodo(a);
-        tot=contaRev(a,n);
-    }
-    return tot;
-}
-
 int main(int argc, char **argv){
     int i;
     char *docname;
@@ -279,11 +191,11 @@ int main(int argc, char **argv){
         return 0;
     }
 
-    Matriz m = initMatriz();
+    Registo reg = initReg();
     tpf =clock();
     for(i=1;argc>1;argc--,i++){
         docname=argv[i];
-        parseDoc(i,docname,argc,m);
+        parseDoc(i,docname,argc,reg);
         printf("faz %d\n",i);
     }
     printf("acaba parser\n");
@@ -298,6 +210,7 @@ int main(int argc, char **argv){
 
     */
     ////29128
+    /*
     int z=0;
     int first = firstDigit(29128);
     void* a = (Avl) getMatrizEstrutura(m,0,first);
@@ -321,7 +234,7 @@ int main(int argc, char **argv){
 //        printf("%lu\n",autid[z]);
         printf("%lu\n",revid[z]);
         printf("------------------------\n");
-    }
+    }*/
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
 

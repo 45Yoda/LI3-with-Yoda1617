@@ -7,7 +7,7 @@
 #include "registo.h"
 #include "contribuidor.h"
 
-void parseFinal(long idArt,char* title,char* timestamp,long idRev,long idAutor,char* username,Matriz m,long wcount,long bcount);
+void parseFinal(long idArt,char* title,char* timestamp,long idRev,long idAutor,char* username,Registo reg,long wcount,long bcount);
 
 
 

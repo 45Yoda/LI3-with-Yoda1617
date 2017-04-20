@@ -216,7 +216,6 @@ static Boolean nodeSearch(NODO node,Valor v){
 static NODO nodeInsert(NODO node,Valor ident,Estrutura estrutura){
     int balance;
     if(node !=NULL){
-        if (ident!=node->id) {
             if(ident < node->id)
                 node->left = nodeInsert(node->left,ident,estrutura);
             else if(ident> node->id)
@@ -255,7 +254,6 @@ printf("direito esquerdo\n" );
             printf("fez qualquer merda\n" );
             return rotateLeft(node);
         }
-    }
     }else node = newNode(node,ident,estrutura);
 
     return node;
