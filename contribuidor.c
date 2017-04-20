@@ -10,7 +10,7 @@ struct contribuidor{
 
 Contribuidor initContribuidor(){
     Contribuidor new = (Contribuidor) malloc(sizeof(struct contribuidor));
-    new->username = "1";
+    new->username = NULL;
     new->cont = 0;
     return new;
 }

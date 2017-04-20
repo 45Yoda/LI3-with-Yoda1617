@@ -14,9 +14,6 @@ struct reg{
 
 static int firstDigit(long value);
 
-
-
-
 Registo initReg(){
     int i=0;
     Registo r = malloc(sizeof(struct reg));
@@ -33,7 +30,6 @@ Avl getRegArtigos(Registo r, long id){
 	int i= firstDigit(id);
 	return r->artigos[i];
 }
-
 
 
 Avl getRegContribuidores(Registo r, long id) {

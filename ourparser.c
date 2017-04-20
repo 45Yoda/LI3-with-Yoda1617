@@ -16,7 +16,7 @@
 void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAutor, char* username, Registo reg, long wcount, long bcount) {
     void* art;
     void* con;
-    int c;
+    int c=0;
     art = getRegArtEstrutura(reg,idArt);
     con = getRegContEstrutura(reg, idAutor);
 
@@ -34,8 +34,10 @@ void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAut
     //printf("%d\n",getN(art));
     incrN(art); //funcemina
 
-    //setUsername(con,username);
-    //incrCont(con);
+    setUsername(con,username);
+    incrCont(con);
+
+
 
     //printf("%d\n", getN(art));
     //printf("acaba\n");
@@ -74,10 +76,10 @@ void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char*
 
         if(!xmlStrcmp(cur->name,(const xmlChar *) "id")) {
             idAutor = atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
-            Avl a = getRegContribuidores(reg,idAutor);
-            if(!avlSearch(a,idAutor)){
+            void* c = getRegContribuidores(reg,idAutor);
+            if(!avlSearch(c,idAutor)){
                 Contribuidor stCont = initContribuidor();
-                a = insertAvl(a,idAutor,stCont);
+                reg = insereRegContribuidor(reg,idAutor,stCont);
             }
         }
     }
@@ -156,12 +158,12 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
 
                     if(i==1){
                         Artigo stArt = init_Artigo(argc);
-                        a=insertAvl(a,idArt,stArt);
+                        reg=insereRegArtigo(reg,idArt,stArt);
                     }
                     else{
                         if(!avlSearch(a,idArt)){
                             Artigo stArt = init_Artigo(argc);
-                            a=insertAvl(a,idArt,stArt);
+                            reg=insereRegArtigo(reg,idArt,stArt);
                         }
                     }
                 }
