@@ -11,6 +11,12 @@ struct reg{
     Avl contribuidores[SIZE];
 };
 
+
+static int firstDigit(long value);
+
+
+
+
 Registo initReg(){
     int i=0;
     Registo r = malloc(sizeof(struct reg));
@@ -23,19 +29,20 @@ Registo initReg(){
     return r;
 }
 
-Avl getRegArtigos(Registo r, int i) {
+Avl getRegArtigos(Registo r, long id){
+	int i= firstDigit(id);
 	return r->artigos[i];
 }
 
 
 
-Avl getRegContributores(Registo r, int i) {
+Avl getRegContribuidores(Registo r, long id) {
+	int i=firstDigit(id);
 	return r->contribuidores[i];
 }
 
 /*Possivelmente conseguimos tornar isto generico fazendo um if com a
 ainda n sei bem como.
-Key é o id
 */
 Registo insereRegArtigo(Registo reg, long id,void* estrutura){
 	int i = firstDigit(id);
@@ -121,8 +128,8 @@ void freeReg(Registo reg, Funcao f){
 	free(reg);
 }
 
-int firstDigit(long value) {
-    if (value >= 1000000000)
+static int firstDigit(long value) {
+	if (value >= 1000000000)
         value = value / 1000000000;
     if (value >= 100000000)
         value = value / 100000000;

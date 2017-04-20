@@ -16,8 +16,5 @@ Registo initReg();
 //Avl getMatrizArtigos(Matriz m, int i);
 Estrutura getRegEstrutura(Registo r, int key);
 
-int firstDigit(long value);
-
-
 
 #endif
