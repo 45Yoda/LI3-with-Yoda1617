@@ -68,7 +68,7 @@ Registo atualizaRegContribuidores(Registo reg,long id,void* estrutura){
 	return reg;
 }
 
-Registo totalRegElemsArtigos(Registo reg){
+long totalRegElemsArtigos(Registo reg){
 	int i, total=0;
 	for (i=0;i<SIZE;i++){
 		total += totalElems(reg->artigos[i]);
@@ -77,7 +77,7 @@ Registo totalRegElemsArtigos(Registo reg){
 }
 
 
-Registo totalRegElemsCont(Registo reg){
+long totalRegElemsCont(Registo reg){
 	int i, total=0;
 	for (i=0;i<SIZE;i++){
 		total += totalElems(reg->contribuidores[i]);
