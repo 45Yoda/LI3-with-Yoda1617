@@ -2,21 +2,21 @@
 #define _matriz_h_
 
 #include "global.h"
+#include "avl.h"
 
 typedef void* Estrutura;
 
 
 //Declaração do tipo Matriz;
-typedef struct mat *Matriz;
+typedef struct reg *Registo;
 
-Matriz initMatriz();
+Registo initReg();
 
 //Estrutura getMatrizContributores(Matriz m, int i);
 //Avl getMatrizArtigos(Matriz m, int i);
-Estrutura getMatrizEstrutura(Matriz m,int linha, int coluna);
+Estrutura getRegEstrutura(Registo r, int key);
 
-
-
+int firstDigit(long value);
 
 
 

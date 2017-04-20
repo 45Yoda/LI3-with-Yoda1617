@@ -8,31 +8,10 @@
 #include <libxml/parser.h>
 #include "./headers/ourparser.h"
 #include "./headers/artigo.h"
-#include "./headers/matriz.h"
+#include "./headers/registo.h"
 #include "./headers/contribuidor.h"
 
-int firstDigit(long value) {
-    if (value >= 1000000000)
-        value = value / 1000000000;
-    if (value >= 100000000)
-        value = value / 100000000;
-    if (value >= 10000000)
-        value = value / 10000000;
-    if (value >= 1000000)
-        value = value / 1000000;
-    if (value >= 100000)
-        value = value / 100000;
-    if (value >= 10000)
-        value = value / 10000;
-    if (value >= 1000)
-        value = value / 1000;
-    if (value >= 100)
-        value = value / 100;
-    if (value >= 10)
-        value = value/10;
 
-    return value;
-}
 
 void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAutor, char* username, Matriz m, long wcount, long bcount) {
     void* art;
