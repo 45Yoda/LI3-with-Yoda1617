@@ -6,7 +6,7 @@
 #include "artigo.h"
 #include "matriz.h"
 
-void parseFinal(long idArt,char* title,char* timestamp,long idRev,Matriz m,long wcount,long bcount);
+void parseFinal(long idArt,char* title,char* timestamp,long idRev,long idAutor,char* username,Matriz m,long wcount,long bcount);
 
 
 

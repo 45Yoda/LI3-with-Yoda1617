@@ -11,8 +11,7 @@
 #include "./headers/matriz.h"
 #include "./headers/contribuidor.h"
 
-int firstDigit(long value)
-{
+int firstDigit(long value) {
     if (value >= 1000000000)
         value = value / 1000000000;
     if (value >= 100000000)
@@ -31,20 +30,25 @@ int firstDigit(long value)
         value = value / 100;
     if (value >= 10)
         value = value/10;
+
     return value;
 }
 
-void parseFinal(long idArt,char* title,char* timestamp,long idRev,Matriz m,long wcount,long bcount){
+void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAutor, char* username, Matriz m, long wcount, long bcount) {
     void* art;
+    void* con;
     int c;
     int first = firstDigit(idArt);
-    void* a = (Avl) getMatrizEstrutura(m,0,first);
-    art= (Artigo) getAvlEstrutura(a,idArt);
+    Avl a = (Avl) getMatrizEstrutura(m,0,first);
+    Avl b = (Avl) getMatrizEstrutura(m,1,first);
+    art = (Artigo) getAvlEstrutura(a,idArt);
+    con = (Contribuidor) getAvlEstrutura(b, idAutor);
 
     //TODO fazer funçoes dentro do artigo.c que façam isto;
     setTitulo(art,title);
     //printf("%s\n",getTitulo(art));
     int i = getN(art);
+
     setTimeStamp(art,timestamp,i);
     //setAutores(art,username,i);
     //setAutId(art,idAutor,i);
@@ -53,24 +57,28 @@ void parseFinal(long idArt,char* title,char* timestamp,long idRev,Matriz m,long 
     //a->tree->info->words=wcount;
     //printf("%d\n",getN(art));
     incrN(art); //funcemina
+
+    setUsername(con,username);
+    incrCont(con);
+
     //printf("%d\n", getN(art));
     //printf("acaba\n");
     //printf("----------------------------------------------\n" );
-
 }
 
-void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timestamp,long idRev,Matriz m){
+void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timestamp,long idRev,long idAutor,char* username,Matriz m){
     long wcount=0;
     long bcount=0;
     for(cur=cur->xmlChildrenNode;cur;cur=cur->next){
         if((!xmlStrcmp(cur->name,(const xmlChar *) "text")));
     }
-    parseFinal(idArt,title,timestamp,idRev,m,wcount,bcount);
+    parseFinal(idArt,title,timestamp,idRev,idAutor,username,m,wcount,bcount);
 }
 /*
 long wcount(String str){
 
-}*/
+}
+*/
 
 
 void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char* timestamp,long idRev, Matriz m){
@@ -82,26 +90,26 @@ void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char*
     int artigos = 0;
     aux = cur->parent;
 
-    for(cur= cur->xmlChildrenNode; cur;cur = cur->next){
+    for(cur = cur->xmlChildrenNode; cur; cur = cur->next){
 
         if(!xmlStrcmp(cur->name,(const xmlChar *)"username")) {
             username = xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
         }
 
-        if(!xmlStrcmp(cur->name,(const xmlChar *) "id")) {
+        if(!xmlStrcmp(cur->name,(const xmlChar. *) "id")) {
             idAutor = atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
             int first = firstDigit(idAutor);
             void* a = (Avl) getMatrizEstrutura(m,1,first);
             if(!avlSearch(a,idAutor)){
                 Contribuidor stCont = initContribuidor();
-                a=insertAvl(a,idAutor,stCont);
+                a = insertAvl(a,idAutor,stCont);
             }
-            con = (Contribuidor) getAvlEstrutura(a,idAutor);
+            //con = (Contribuidor) getAvlEstrutura(a,idAutor);
         }
     }
-    setUsername(con,username);
-    incrCont(con);
-    parseText(doc,aux,idArt,title,timestamp,idRev,m);
+    //incrCont(con);
+    //setUsername(con,username);
+    parseText(doc,aux,idArt,title,timestamp,idRev,idAutor,username,m);
     //printf("id: %lu\n",idAutor);
     //printf("user:%s\n",username);
     //    printf("cont:%d\n",getCont(con));
@@ -131,7 +139,7 @@ void parseRevision(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,Matriz m
         if((!xmlStrcmp(cur->name,(const xmlChar *) "contributor"))) {
             parseContributor(doc,cur,idArt,title,timestamp,idRev,m);
         }
-        }
+    }
 
     return;
 }
@@ -309,7 +317,7 @@ int main(int argc, char **argv){
     nome = all_revisions(a);
     printf("revisoes: %ld\n",nome);
 
-*/
+    */
     ////29128
     int z=0;
     int first = firstDigit(29128);
@@ -337,5 +345,6 @@ int main(int argc, char **argv){
     }
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
+
     return 1;
 }

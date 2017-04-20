@@ -6,17 +6,13 @@
 typedef void* Estrutura;
 
 
-
-//Declaração do tipo Matriz;
-
-typedef struct matrizVal *MatVal;
-
-
 //Declaração do tipo Matriz;
 typedef struct mat *Matriz;
 
 Matriz initMatriz();
 
+//Estrutura getMatrizContributores(Matriz m, int i);
+//Avl getMatrizArtigos(Matriz m, int i);
 Estrutura getMatrizEstrutura(Matriz m,int linha, int coluna);
 
 
