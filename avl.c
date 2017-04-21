@@ -179,7 +179,7 @@ static NODO rotateRight(NODO n){
 //Função auxiliar que faz a rotação da Avl à esquerda.
 static NODO rotateLeft(NODO n){
     NODO aux;
-    if(!n || !n->right);
+    if(!n || !n->right)
         return 0;
     aux=n->right;
     n->right=aux->left;
