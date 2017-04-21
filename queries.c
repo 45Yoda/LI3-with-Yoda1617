@@ -34,8 +34,8 @@ long all_Articles(Registo reg){
 
 }
 
-//interrogação nº2 que retorna o numero total de artigos unicos 
-long unique_articles( Avl a){
+//interrogação nº2 que retorna o numero total de artigos unicos
+long unique_articles(Registo reg){
     return totalRegElemsArtigos(reg);
 }
 
@@ -69,7 +69,7 @@ long all_revisions(Registo reg) {
 
 }
 
-//interrogação nº4 que retorna o top 10 contribuidores 
+//interrogação nº4 que retorna o top 10 contribuidores
 long* top_10_contributors(Registo reg){}
 
 
