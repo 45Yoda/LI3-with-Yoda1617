@@ -87,25 +87,10 @@ void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char*
         }
     }
 
-    if(!ip){
-        insereRegContribuidor(reg, idAutor, username);
+    if(!ip)  insereRegContribuidor(reg, idAutor, username);
 
-        if(idAutor==24198){
-            con = getRegContEstrutura(reg,idAutor);
-            if(!con) c = getCont(con);
-            printf("%ld\n",idAutor);
-            incrCont(con);
-            printf("contribui %d\n",getCont(con));
-        }
-
-
-        /*
-        if(!avlSearch(c,idAutor)){
-            reg = insereRegContribuidor(reg, idAutor, stCont);
-        }
-        */
         parseText(doc,aux,idArt,title,timestamp,idRev,idAutor,username,reg);
-    }
+    
     return;
 }
 
@@ -198,27 +183,8 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
     return;
 }
 
-long contaArt(Registo reg,Avl a, NODO n) {
-    long t=0;
-    if (n!=NULL){
-        void* artigo;
-        long id = getId(n);
-        artigo = getRegArtEstrutura(reg,id);
-        t=getN(artigo)+contaArt(reg,a,getNodoEsq(n))+contaArt(reg,a,getNodoDir(n));
-    }
-    return t;
-}
 
-long all_Articles(Registo reg){
-    long i,t=0;
-    for(i=0;i<10;i++){
-        Avl a = getRegArtigos(reg,i);
-        NODO n = getNodo(a);
-        t+= contaArt(reg,a,n);
-    }
-    return t;
 
-}
 
 int main(int argc, char **argv){
     int i;
@@ -239,8 +205,8 @@ int main(int argc, char **argv){
     }
     printf("acaba parser\n");
 
-    long nome = all_Articles(reg);
-    printf("Total: %ld\n",nome);
+    //long nome = all_Articles(reg);
+    //printf("Total: %ld\n",nome);
     //nome = totalRegElemsArtigos(reg);
     //printf("artigos unicos: %ld\n",nome);
     //«nome = all_revisions(a);

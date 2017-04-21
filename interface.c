@@ -19,7 +19,7 @@ Avl load(Avl a, int nsnaps, char* snaps_paths[]) {
 //-----------------------------------------
 //esta funcemina!!!
 
-
+/*
 long contaArt(Registo reg,Avl a, NODO n) {
     long t=0;
     if (n!=NULL){
@@ -49,7 +49,7 @@ long unique_articles( Avl a){
     return totalRegElemsArtigos(reg);
 }
 
-
+*/
 //-------------------
 //funciona
 long contaRev(Avl a, NODO n) {
