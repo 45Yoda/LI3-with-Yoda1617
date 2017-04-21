@@ -15,12 +15,11 @@
 
 void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAutor, char* username, Registo reg, long wcount, long bcount) {
     void* art;
-    void* con;
+    //void* con;
     int c=0;
     art = getRegArtEstrutura(reg,idArt);
-    con = getRegContEstrutura(reg, idAutor);
+    //con = getRegContEstrutura(reg, idAutor);
 
-    //TODO fazer funçoes dentro do artigo.c que façam isto;
     setTitulo(art,title);
     //printf("%s\n",getTitulo(art));
     int i = getN(art);
@@ -34,8 +33,8 @@ void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAut
     //printf("%d\n",getN(art));
     incrN(art); //funcemina
 
-    setUsername(con,username);
-    incrCont(con);
+    //setUsername(con,username);
+    //incrCont(con);
 
 
 
@@ -62,28 +61,49 @@ long wcount(String str){
 void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char* timestamp,long idRev, Registo reg){
     void* con;
     long idAutor;
+    xmlChar* ip;
     xmlChar* username;
     char *user;
     xmlNodePtr aux;
     int artigos = 0;
+
     aux = cur->parent;
+    int c=0;
 
     for(cur = cur->xmlChildrenNode; cur; cur = cur->next){
 
-        if(!xmlStrcmp(cur->name,(const xmlChar *)"username")) {
+        if(!xmlStrcmp(cur->name,(const xmlChar *) "ip")){
+            ip = xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
+        }
+
+        if(!xmlStrcmp(cur->name,(const xmlChar *) "username")) {
             username = xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
         }
 
         if(!xmlStrcmp(cur->name,(const xmlChar *) "id")) {
             idAutor = atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
-            void* c = getRegContribuidores(reg,idAutor);
-            if(!avlSearch(c,idAutor)){
-                Contribuidor stCont = initContribuidor();
-                reg = insereRegContribuidor(reg,idAutor,stCont);
-            }
+            //Contribuidor stCont = initContribuidor(username);
+            //void* c = getRegContribuidores(reg,idAutor);
         }
     }
+    if(!ip){
+    insereRegContribuidor(reg, idAutor, username);
+    if(idAutor==24198){
+        con = getRegContEstrutura(reg,idAutor);
+        if(!con) c = getCont(con);
+        printf("%ld\n",idAutor);
+        incrCont(con);
+        printf("contribui %d\n",getCont(con));
+        }
+
+
+/*
+    if(!avlSearch(c,idAutor)){
+        reg = insereRegContribuidor(reg, idAutor, stCont);
+    }
+*/
     parseText(doc,aux,idArt,title,timestamp,idRev,idAutor,username,reg);
+    }
     return;
 }
 
@@ -93,7 +113,7 @@ void parseRevision(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,Registo 
     long idRev;
 
     for(cur=cur->xmlChildrenNode;cur;cur=cur->next){
-        if(!xmlStrcmp(cur->name,(const xmlChar *) "id")){
+        if((!xmlStrcmp(cur->name,(const xmlChar *) "id"))){
             idRev= atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
         }
         if((!xmlStrcmp(cur->name,(const xmlChar *) "timestamp"))) {
@@ -156,15 +176,9 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
                     idArt = atol ((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
                     void* a = getRegArtigos(reg,idArt);
 
-                    if(i==1){
+                    if(i == 1 || !avlSearch(a,idArt)){
                         Artigo stArt = init_Artigo(argc);
                         reg=insereRegArtigo(reg,idArt,stArt);
-                    }
-                    else{
-                        if(!avlSearch(a,idArt)){
-                            Artigo stArt = init_Artigo(argc);
-                            reg=insereRegArtigo(reg,idArt,stArt);
-                        }
                     }
                 }
                 if((!xmlStrcmp(cur->name,(const xmlChar *) "revision"))){
@@ -213,22 +227,21 @@ int main(int argc, char **argv){
     ////29128
     int z=0;
     void* art = getRegArtEstrutura(reg,29128);
+    void* cont = getRegContEstrutura(reg,24198);
+    char* u = malloc(sizeof(char*));
+    //if(!cont){printf("fuiteaocu\n");} else{
+    getUsername(cont,u);
+    printf("%s\n",u);
     char* t = getTitulo(art);
     printf("%s\n",t);
     int nn = getN(art);
     printf("%d\n", nn);
     char**  tim=malloc(nn*sizeof(char*));
-    //char** aut=malloc(nn*sizeof(char*));
-    //long* autid=malloc(nn*sizeof(long*));
     long* revid=malloc(nn*sizeof(long*));
     getTimeStamp (art,tim);
-//    getAutores(art,aut);
-//    getAutId(art,autid);
     getRevId(art,revid);
     for(z=0;z<nn;z++){
         printf("%s\n",tim[z]);
-//        printf("%s\n",aut[z]);
-//        printf("%lu\n",autid[z]);
         printf("%lu\n",revid[z]);
         printf("------------------------\n");
     }

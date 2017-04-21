@@ -37,18 +37,35 @@ Avl getRegContribuidores(Registo r, long id) {
 	return r->contribuidores[i];
 }
 
-/*Possivelmente conseguimos tornar isto generico fazendo um if com a
-ainda n sei bem como.
-*/
 Registo insereRegArtigo(Registo reg, long id,void* estrutura){
 	int i = firstDigit(id);
 	reg->artigos[i] = insertAvl(reg->artigos[i],id,estrutura);
 	return reg;
 }
 
-Registo insereRegContribuidor(Registo reg,long id,void* estrutura){
+/*
+ * Insere um contribuidor no registo.
+ * Se o contribuidor ainda não existir no registo, insere-o, caso contrário
+ * Substitui a informacao.
+ */
+Registo insereRegContribuidor(Registo reg,long id,char* user){
 	int i = firstDigit(id);
-	reg->contribuidores[i] = insertAvl(reg->contribuidores[i],id,estrutura);
+	Avl c = reg->contribuidores[i];
+	Contribuidor con =getAvlEstrutura(reg->contribuidores[i],id);
+	if(!con){
+		con = initContribuidor(user);
+		setUsername(con,user);
+		incrCont(con);
+		reg->contribuidores[i]=insertAvl(reg->contribuidores[i],id,con);
+	}
+	else{
+		incrCont(con);
+		reg->contribuidores[i]=atualizaAvl(reg->contribuidores[i],id,con);
+
+	}
+
+	// Se NULL -> inseria
+	// Senao -> substituia
 	return reg;
 }
 

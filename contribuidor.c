@@ -8,15 +8,15 @@ struct contribuidor{
     int cont;
 };
 
-Contribuidor initContribuidor(){
+Contribuidor initContribuidor(char * username){
     Contribuidor new = (Contribuidor) malloc(sizeof(struct contribuidor));
-    new->username = NULL;
+    new->username = strdup(username);
     new->cont = 0;
     return new;
 }
 
-char* getUsername(Contribuidor c){
-    return c->username;
+void getUsername(Contribuidor c,char* new){
+    strcpy(new,c->username);
 }
 
 void setUsername(Contribuidor c,char* user){

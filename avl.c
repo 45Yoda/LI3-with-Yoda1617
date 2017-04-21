@@ -215,10 +215,10 @@ static Boolean nodeSearch(NODO node,Valor v){
 
 static NODO nodeInsert(NODO node,Valor ident,Estrutura estrutura){
     int balance;
-    if(node !=NULL){
+    if(node != NULL){
             if(ident < node->id)
                 node->left = nodeInsert(node->left,ident,estrutura);
-            else if(ident> node->id)
+            else if(ident > node->id)
                 node->right = nodeInsert(node->right,ident,estrutura);
 
 

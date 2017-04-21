@@ -3,6 +3,8 @@
 
 #include "global.h"
 #include "avl.h"
+#include "contribuidor.h"
+#include "artigo.h"
 
 typedef void* Estrutura;
 
@@ -20,7 +22,7 @@ Avl getRegContribuidores(Registo r, long id);
 
 Registo insereRegArtigo(Registo reg, long id,void* estrutura);
 
-Registo insereRegContribuidor(Registo reg,long id,void* estrutura);
+Registo insereRegContribuidor(Registo reg,long id,char* user);
 
 Registo atualizaRegArtigos(Registo reg, long id,void* estrutura);
 

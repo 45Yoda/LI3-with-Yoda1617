@@ -5,7 +5,7 @@ typedef struct contribuidor *Contribuidor;
 
 Contribuidor initContribuidor ();
 
-char* getUsername(Contribuidor c);
+void getUsername(Contribuidor c,char* new);
 
 void setUsername(Contribuidor c,char* user);
 
