@@ -20,43 +20,33 @@ Avl load(Avl a, int nsnaps, char* snaps_paths[]) {
 //esta funcemina!!!
 
 
-long contaArt(Avl a, NODO n) {
+long contaArt(Registo reg,Avl a, NODO n) {
     long t=0;
     if (n!=NULL){
         void* artigo;
         long id = getId(n);
-        artigo = getAvlEstrutura(a,id);
-        t=getN(artigo)+contaArt(a,getNodoEsq(n))+contaArt(a,getNodoDir(n));
+        artigo = getRegArtEstrutura(reg,id);
+        t=getN(artigo)+contaArt(reg,a,getNodoEsq(n))+contaArt(reg,a,getNodoDir(n));
     }
     return t;
 }
 
-long all_articles( Avl a ){
-    long tot=0;
-    if (a!=NULL){
-        NODO n=getNodo(a);
-        tot=contaArt(a,n);
+long all_Articles(Registo reg){
+    long i,t=0;
+    for(i=0;i<10;i++){
+        Avl a = getRegArtigos(reg,i);
+        NODO n = getNodo(a);
+        t+= contaArt(reg,a,n);
     }
-    return tot;
+    return t;
+
 }
 
 //-----------------------------------------------
 //esta tambem nao // come nos 19 artigos
-long unicosArt(Avl a, NODO n) {
-     long t=0;
-    if (n!=NULL){
-        t=1+unicosArt(a,getNodoEsq(n))+unicosArt(a,getNodoDir(n));
-    }
-    return t;
-}
 
 long unique_articles( Avl a){
-    long tot=0;
-    if (a!=NULL){
-        NODO n=getNodo(a);
-        tot=unicosArt(a,n);
-    }
-    return tot;
+    return totalRegElemsArtigos(reg);
 }
 
 

@@ -196,6 +196,28 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
     return;
 }
 
+long contaArt(Registo reg,Avl a, NODO n) {
+    long t=0;
+    if (n!=NULL){
+        void* artigo;
+        long id = getId(n);
+        artigo = getRegArtEstrutura(reg,id);
+        t=getN(artigo)+contaArt(reg,a,getNodoEsq(n))+contaArt(reg,a,getNodoDir(n));
+    }
+    return t;
+}
+
+long all_Articles(Registo reg){
+    long i,t=0;
+    for(i=0;i<10;i++){
+        Avl a = getRegArtigos(reg,i);
+        NODO n = getNodo(a);
+        t+= contaArt(reg,a,n);
+    }
+    return t;
+
+}
+
 int main(int argc, char **argv){
     int i;
     char *docname;
@@ -214,17 +236,16 @@ int main(int argc, char **argv){
         printf("faz %d\n",i);
     }
     printf("acaba parser\n");
-    /*
-    printf("caralho\n");
-    long nome = all_articles(a);
-    printf("Total: %ld\n",nome);
-    nome = unique_articles(a);
-    printf("artigos unicos: %ld\n",nome);
-    nome = all_revisions(a);
-    printf("revisoes: %ld\n",nome);
 
-    */
+    long nome = all_Articles(reg);
+    printf("Total: %ld\n",nome);
+    nome = totalRegElemsArtigos(reg);
+    printf("artigos unicos: %ld\n",nome);
+    //nome = all_revisions(a);
+    //printf("revisoes: %ld\n",nome);
+
     ////29128
+    /*
     int z=0;
     void* art = getRegArtEstrutura(reg,29128);
     void* cont = getRegContEstrutura(reg,24198);
@@ -244,7 +265,7 @@ int main(int argc, char **argv){
         printf("%s\n",tim[z]);
         printf("%lu\n",revid[z]);
         printf("------------------------\n");
-    }
+    }*/
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
 
