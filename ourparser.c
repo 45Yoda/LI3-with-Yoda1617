@@ -16,30 +16,42 @@
 
 void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAutor, char* username, Registo reg, long wcount, long bcount) {
     void* art;
-    int c=0;
     art = getRegArtEstrutura(reg,idArt);
 
     setTitulo(art,title);
     int i = getN(art);
     setTimeStamp(art,timestamp,i);
     setRevId(art,idRev,i);
-    incrN(art); 
+    incrN(art);
     if (getWords(art)<wcount) setWords(art,wcount);
     if (getBytes(art)<bcount) setBytes(art,bcount);
 }
 
-/*void countWB(xmlChar* s, long* b, long* w){
+
+void countWB(xmlChar* s,int* b,int* w)
+{   int n = 0;
+    int l=0;
+    l=strlen(s);
+    for(s=strtok(s, " \n\t"); s; s=strtok(NULL, " \n\t"))
+        n++;
+    *b=l;
+    *w=n;
+}
+
+/*
+void countWB(xmlChar* s, long* b, long* w){
     int i;
+    char* q = s;
     long c=0;
     long l=0;
     for(i=0;s[i]!='\0';i++){
         if(s[i]!=' ' && (s[i+1]==' ' || s[i+1]=='\n' || s[i+1]=='\t')) c++;
-        l++;
+
     }
+    l=strlen(q);
     *w=c;
     *b=l;
 }
-*/
 
 void countWB(xmlChar* s, long* b, long* w){
     char delim[3]=" \n\t";
@@ -56,13 +68,13 @@ void countWB(xmlChar* s, long* b, long* w){
     l--;
     *w=c;
     *b=l;
-}
+}*/
 
 
 
 void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timestamp,long idRev,long idAutor,char* username,Registo reg){
-    long wcount=0;
-    long bcount=0;
+    int wcount=0;
+    int bcount=0;
     xmlChar* text;
 
     for(cur=cur->xmlChildrenNode;cur;cur=cur->next){
@@ -74,33 +86,20 @@ void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timest
     }
     parseFinal(idArt,title,timestamp,idRev,idAutor,username,reg,wcount,bcount);
 }
-/*
-long wcount(String str){
-
-}
-*/
 
 
 void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char* timestamp,long idRev, Registo reg){
-    void* con;
     long idAutor;
-    xmlChar* ip=NULL;
     xmlChar* username;
-    char *user;
     xmlNodePtr aux;
-    int artigos = 0;
 
     aux = cur->parent;
-    int c=0;
+
 
     for(cur = cur->xmlChildrenNode; cur; cur = cur->next){
 
-        if(!xmlStrcmp(cur->name,(const xmlChar *) "ip")){
-            ip = xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
-        }
-
         if(!xmlStrcmp(cur->name,(const xmlChar *) "username")) {
-            username = xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
+            username = (char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
         }
 
         if(!xmlStrcmp(cur->name,(const xmlChar *) "id")) {
@@ -108,7 +107,7 @@ void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char*
         }
     }
 
-    if(!ip)  insereRegContribuidor(reg, idAutor, username);
+    if(username)  insereRegContribuidor(reg, idAutor, username);
 
     parseText(doc,aux,idArt,title,timestamp,idRev,idAutor,username,reg);
 
@@ -141,8 +140,7 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
     long idArt;
     clock_t tpf;
 
-    xmlChar *id;
-    xmlChar *title;
+    char* title;
     xmlDocPtr doc;
     xmlNodePtr cur;
     xmlNodePtr aux;
@@ -177,7 +175,7 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
             for(cur=cur->xmlChildrenNode; cur; cur= cur->next){
 
                 if((!xmlStrcmp(cur->name,(const xmlChar *) "title"))){
-                    title = xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
+                    title = (char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
                 }
 
                 if((!xmlStrcmp(cur->name,(const xmlChar *) "id"))){
@@ -224,8 +222,8 @@ int main(int argc, char **argv){
     }
     printf("acaba parser\n");
 
-    long nome = all_Articles(reg);
-    printf("Total: %ld\n",nome);
+    //long nome = all_Articles(reg);
+    //printf("Total: %ld\n",nome);
     //nome = totalRegElemsArtigos(reg);
     //printf("artigos unicos: %ld\n",nome);
     //«nome = all_revisions(a);

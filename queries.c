@@ -69,7 +69,7 @@ foreach(a,contaContribuicoes,&x);
 */
 
 //interrogação nº4 que retorna o top 10 contribuidores
-long* top_10_contributors(Registo reg){}
+//long* top_10_contributors(Registo reg){}
 
 
 //interrogação nº5 que retorna o username de um contribuidor com determinado id
