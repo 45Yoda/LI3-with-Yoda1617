@@ -11,28 +11,20 @@
 #include "./headers/registo.h"
 #include "./headers/contribuidor.h"
 
-long contaArt(Registo reg,Avl a, NODO n) {
-    long t=0;
-    if (n!=NULL){
-        void* artigo;
-        long id = getId(n);
-        artigo = getRegArtEstrutura(reg,id);
-        t=getN(artigo)+contaArt(reg,a,getNodoEsq(n))+contaArt(reg,a,getNodoDir(n));
-    }
-    return t;
+//querie 1: feita
+void contaArtigos(long id,Artigo art,int* soma){
+    *soma +=getN(art);
 }
 
-//interrogação nº1 que devolve o numero total de artigos nos backups
 long all_Articles(Registo reg){
     long i,t=0;
     for(i=0;i<10;i++){
         Avl a = getRegArtigos(reg,i);
-        NODO n = getNodo(a);
-        t+= contaArt(reg,a,n);
+        foreachAvl(a,(Funcao2) contaArtigos,&t);
     }
     return t;
-
 }
+
 
 //interrogação nº2 que retorna o numero total de artigos unicos
 long unique_articles(Registo reg){

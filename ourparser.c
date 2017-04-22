@@ -13,6 +13,7 @@
 
 
 
+
 void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAutor, char* username, Registo reg, long wcount, long bcount) {
     void* art;
     int c=0;
@@ -204,8 +205,6 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
 }
 
 
-
-
 int main(int argc, char **argv){
     int i;
     char *docname;
@@ -225,8 +224,8 @@ int main(int argc, char **argv){
     }
     printf("acaba parser\n");
 
-    //long nome = all_Articles(reg);
-    //printf("Total: %ld\n",nome);
+    long nome = all_Articles(reg);
+    printf("Total: %ld\n",nome);
     //nome = totalRegElemsArtigos(reg);
     //printf("artigos unicos: %ld\n",nome);
     //«nome = all_revisions(a);

@@ -221,10 +221,12 @@ void foreachAvl(Avl a,Funcao2 func,void* dados){
 }
 
 static NODO foreachNode(NODO n,Funcao2 func,void* dados){
+    if (n) {
     func(n->id,n->info,dados);
     foreachNode(n->left,func,dados);
     foreachNode(n->right,func,dados);
     return n;
+    }
 }
 
 
@@ -264,9 +266,7 @@ static NODO nodeInsert(NODO node,Valor ident,Estrutura estrutura){
 
         //Right Left Case
         if(balance < -1 && (ident > node->right->id) <0){
-printf("direito esquerdo\n" );
             node->right = rotateRight(node->right);
-            printf("fez qualquer merda\n" );
             return rotateLeft(node);
         }
     }else node = newNode(node,ident,estrutura);
