@@ -63,7 +63,7 @@ foreach(a,contaContribuicoes,&x);
 */
 
 //interrogação nº4 que retorna o top 10 contribuidores
-
+/*
 //top10 contribuidores
 void initTop(long* top) {
     int i;
@@ -105,7 +105,7 @@ long* top_10_contributors(Registo reg) {
         }
     return topContId;
 }
-
+*/
 //interrogação nº5 que retorna o username de um contribuidor com determinado id
 //feita:
 char* contributor_name(long contributor_id, Registo reg){

@@ -224,9 +224,10 @@ int main(int argc, char **argv){
     printf("acaba parser\n");
 
 
-    long* conts=top_10_contributors(reg);
+    /*long* conts=top_10_contributors(reg);
     for(i=0;i<10;i++)
         printf("%ld\n",conts[i]);
+    */
     /*
     long nome = all_Articles(reg);
     printf("Total: %ld\n",nome);
