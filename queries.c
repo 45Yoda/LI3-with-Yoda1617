@@ -11,7 +11,7 @@
 #include "./headers/registo.h"
 #include "./headers/contribuidor.h"
 
-//interrogação nº1 total artigos 
+//interrogação nº1 total artigos
 //feita
 void contaArtigos(long id,Artigo art,long* soma){
     *soma +=getN(art);
@@ -39,7 +39,7 @@ void contaRev(Avl a,Artigo art,long* soma) {
     int i,c=1;
     long *revid=malloc(getN(art)*sizeof(long*));
     getRevId(art,revid);
-    for (i=0;i<getN(art)-1;i++) 
+    for (i=0;i<getN(art)-1;i++)
         if (revid[i]!=revid[i+1]) c++;
     *soma += c;
     free(revid);
@@ -71,6 +71,7 @@ void initTop(long* top,int n) {
         top[i]=0;
 }
 
+
 void insereCont(long id, long cont,long* top){
     int i,stop=0;
     long aux;
@@ -88,8 +89,8 @@ void insereCont(long id, long cont,long* top){
 
 void checkCont (long id,Contribuidor con,long* topContId){
     long cont = getCont(con);
-    void* con2 = getAvlEstrutura(firsDigit(topContId[9]),topContId[9]);   
-    if (cont> getCont(con2) || cont==top[9] && id>topContId[9]) 
+    void* con2 = getAvlEstrutura(firsDigit(topContId[9]),topContId[9]);
+    if (cont> getCont(con2) || cont==top[9] && id>topContId[9])
         insereCont(id,cont,topContId);
 }
 

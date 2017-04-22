@@ -252,7 +252,7 @@ static NODO nodeInsert(NODO node,Valor ident,Estrutura estrutura){
             return rotateRight(node);
 }
         //Right Right Case
-        if(balance< -1 && (ident<node->right->id)) {
+        if(balance< -1 && (ident>node->right->id)) {
             //printf("direita direita\n" );
             return rotateLeft(node);
 }
@@ -265,7 +265,7 @@ static NODO nodeInsert(NODO node,Valor ident,Estrutura estrutura){
         }
 
         //Right Left Case
-        if(balance < -1 && (ident > node->right->id) <0){
+        if(balance < -1 && (ident < node->right->id)){
             node->right = rotateRight(node->right);
             return rotateLeft(node);
         }
