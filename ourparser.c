@@ -203,6 +203,7 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
 }
 
 
+
 int main(int argc, char **argv){
     int i;
     char *docname;
@@ -222,12 +223,18 @@ int main(int argc, char **argv){
     }
     printf("acaba parser\n");
 
-    //long nome = all_Articles(reg);
-    //printf("Total: %ld\n",nome);
-    //nome = totalRegElemsArtigos(reg);
-    //printf("artigos unicos: %ld\n",nome);
-    //«nome = all_revisions(a);
-    //printf("revisoes: %ld\n",nome);
+
+    long* conts=top_10_contributors(reg);
+    for(i=0;i<10;i++)
+        printf("%ld\n",conts[i]);
+    /*
+    long nome = all_Articles(reg);
+    printf("Total: %ld\n",nome);
+    nome = totalRegElemsArtigos(reg);
+    printf("artigos unicos: %ld\n",nome);
+    nome = all_revisions(reg);
+    printf("revisoes: %ld\n",nome);
+    */
 
     ////29128
     /*
