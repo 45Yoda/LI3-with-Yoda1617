@@ -15,32 +15,16 @@
 
 void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAutor, char* username, Registo reg, long wcount, long bcount) {
     void* art;
-    //void* con;
     int c=0;
     art = getRegArtEstrutura(reg,idArt);
-    //con = getRegContEstrutura(reg, idAutor);
 
     setTitulo(art,title);
-    //printf("%s\n",getTitulo(art));
     int i = getN(art);
-
     setTimeStamp(art,timestamp,i);
-    //setAutores(art,username,i);
-    //setAutId(art,idAutor,i);
     setRevId(art,idRev,i);
-    //a->tree->info->bytes=bcount;
-    //a->tree->info->words=wcount;
-    //printf("%d\n",getN(art));
-    incrN(art); //funcemina
-
-    //setUsername(con,username);
-    //incrCont(con);
-
-
-
-    //printf("%d\n", getN(art));
-    //printf("acaba\n");
-    //printf("----------------------------------------------\n" );
+    incrN(art); 
+    if (getWords(art)<wcount) setWords(art,wcount);
+    if (getBytes(art)<bcount) setBytes(art,bcount);
 }
 
 /*void countWB(xmlChar* s, long* b, long* w){
@@ -83,7 +67,7 @@ void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timest
     for(cur=cur->xmlChildrenNode;cur;cur=cur->next){
         if(cur->properties && (!xmlStrcmp(cur->properties->name,(const xmlChar*) "space"))){
             text=xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
-            //countWB(text,&bcount,&wcount);
+            countWB(text,&bcount,&wcount);
 
         }
     }
@@ -120,8 +104,6 @@ void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char*
 
         if(!xmlStrcmp(cur->name,(const xmlChar *) "id")) {
             idAutor = atol((char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1));
-            //Contribuidor stCont = initContribuidor(username);
-            //void* c = getRegContribuidores(reg,idAutor);
         }
     }
 
@@ -181,7 +163,7 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
     cur = xmlDocGetRootElement(doc);
 
     if(cur==NULL){
-        perror("Empty document\n"); //usar perror funciona?
+        perror("Empty document\n");
         xmlFreeDoc(doc);
         return;
     }
