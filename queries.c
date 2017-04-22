@@ -11,8 +11,9 @@
 #include "./headers/registo.h"
 #include "./headers/contribuidor.h"
 
-//querie 1: feita
-void contaArtigos(long id,Artigo art,int* soma){
+//interrogação nº1 total artigos 
+//feita
+void contaArtigos(long id,Artigo art,long* soma){
     *soma +=getN(art);
 }
 
@@ -26,40 +27,33 @@ long all_Articles(Registo reg){
 }
 
 
-//interrogação nº2 que retorna o numero total de artigos unicos
+//interrogação nº2 artigos unicos
+// feita
 long unique_articles(Registo reg){
     return totalRegElemsArtigos(reg);
 }
 
-long contaRev(Registo reg, Avl a, NODO n) {
-    long t=0;
+//interrogação nº3 total de revisoes
+//feita
+void contaRev(Avl a,Artigo art,long* soma) {
     int i,c=1;
-    if (n!=NULL){
-        void* artigo;
-        long id = getId(n);
-        artigo = getRegArtEstrutura(reg,id);
-        long *revid=malloc(getN(artigo)*sizeof(long*));
-        getRevId(artigo,revid);
-        for (i=0;i<getN(artigo)-1;i++) {
-            if (revid[i]!=revid[i+1]) c++;
-        }
-        t= c+contaRev(reg,a,getNodoEsq(n))+contaRev(reg,a,getNodoDir(n));
-        free(revid);
-    }
-    return t;
+    long *revid=malloc(getN(art)*sizeof(long*));
+    getRevId(art,revid);
+    for (i=0;i<getN(art)-1;i++) 
+        if (revid[i]!=revid[i+1]) c++;
+    *soma += c;
+    free(revid);
 }
 
-//interrogação nº3 que retorna o numero total de revisões
 long all_revisions(Registo reg) {
     long i,t=0;
     for(i=0;i<10;i++){
         Avl a = getRegArtigos(reg,i);
-        NODO n = getNodo(a);
-        t+= contaRev(reg,a,n);
+        foreachAvl(a,(Funcao2) contaRev,&t);
     }
     return t;
-
 }
+
 
 //exemplo de interrogaçao
 /*
@@ -69,10 +63,49 @@ foreach(a,contaContribuicoes,&x);
 */
 
 //interrogação nº4 que retorna o top 10 contribuidores
-long* top_10_contributors(Registo reg){}
+//top10 contribuidores
+void initTop(long* top) {
+    int i;
+    for(i=0;i<10;i++)
+        top[i]=0;
+}
 
+void insereCont(long id, long cont,long* top){
+    int i,stop=0;
+    long aux;
+    top[9]=id;
+    for (i=8;i>=0 && stop==0;i--) {
+        void* con2 = getRegContEstrutura(reg,topContId[i]);
+        if (cont>getCont(con2)) {
+            aux=top[i+1];
+            top[i+1]=top[i];
+            top[i]=aux;
+    }else stop=1;
+    }
+}
+
+
+void checkCont (long id,Contribuidor con,long* topContId){
+    long cont = getCont(con);
+    void* con2 = getAvlEstrutura(firsDigit(topContId[9]),topContId[9]);   
+    if (cont> getCont(con2) || cont==top[9] && id>topContId[9]) 
+        insereCont(id,cont,topContId);
+}
+
+
+long* top_10_contributors(Registo reg) {
+    long* topContId= malloc(sizeof(long*));
+    int i;
+    initTop(top);
+    for(i=0;i<10;i++){
+        Avl a = getRegContribuidores(reg,i);
+        foreachAvl(a,(Funcao2) checkCont,topContId);
+        }
+    return topContId;
+}
 
 //interrogação nº5 que retorna o username de um contribuidor com determinado id
+//feita:
 char* contributor_name(long contributor_id, Registo reg){
     void* cont = getRegContEstrutura(reg,contributor_id);
     char* user = malloc(sizeof(char*));
@@ -81,12 +114,14 @@ char* contributor_name(long contributor_id, Registo reg){
 }
 
 //interrogação nº7 que retorna o titulo de um artigo com determinado id
+//feita
 char* article_title(long id,Registo reg) {
     void* artigo = getRegArtEstrutura(reg,id);
     return getTitulo(artigo);
 }
 
 //interrogação nº10 que retorna o timestamp de uma certa revisão de um artigo
+//feita
 char* article_timestamp(long article_id,long revision_id,Registo reg) {
     void* artigo = getRegArtEstrutura(reg,article_id);
     long *revid=malloc(getN(artigo)*sizeof(long*));
