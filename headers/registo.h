@@ -42,6 +42,4 @@ int totalIndElemsCont(Registo reg,int indice);
 
 Registo cloneReg(Registo reg, Registo new);
 
-int firstDigit(long value);
-
 #endif

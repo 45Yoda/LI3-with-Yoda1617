@@ -204,6 +204,37 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
     return;
 }
 
+void insereArt(char* title,char** titulos){
+    int i;
+    printf("%s\n",title);
+    for(i=1;titulos[i]!=NULL;i++);
+    titulos[i]=malloc(sizeof(char*));
+    titulos[i]=title;
+    //printf("%s\n",*titulos[i]);
+    titulos[i+1]=NULL;
+
+}
+
+void isPrefix (long id,Artigo art,char** titulos) {
+    char* title = getTitulo(art);
+    char* prefix=titulos[0];
+    if ((strncmp(prefix,title,strlen(prefix)))==0) {
+        insereArt(title,titulos);
+    }
+}
+
+char** titles_with_prefix(char* prefix,Registo reg) {
+    char** titulos = malloc(sizeof(char**));
+    titulos[0]=strdup(prefix);
+    titulos[1]=NULL;
+    printf("%s\n",titulos[0]);
+    int i;
+    for(i=0;i<10;i++) {
+        Avl a = getRegArtigos(reg,i);
+        foreachAvl(a,(Funcao2) isPrefix,titulos);
+    }
+    return titulos;
+}
 
 
 int main(int argc, char **argv){
@@ -225,6 +256,10 @@ int main(int argc, char **argv){
     }
     printf("acaba parser\n");
 
+    char** tt=titles_with_prefix("SuperBow",reg);
+    for(i=0;tt[i]!=NULL;i++)
+        printf("%s\n",tt[i]);
+/*
     long* conts=top_10_contributors(reg);
     for(i=0;i<10;i++)
         printf("%ld\n",conts[i]);

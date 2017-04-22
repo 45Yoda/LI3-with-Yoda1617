@@ -63,8 +63,9 @@ foreach(a,contaContribuicoes,&x);
 */
 
 //interrogação nº4 que retorna o top 10 contribuidores
-//top10 contribuidores
-void initTop(long* top) {
+//top10 
+/*
+void initTop(long* top,int n) {
     int i;
     for(i=0;i<10;i++)
         top[i]=0;
@@ -96,14 +97,14 @@ void checkCont (long id,Contribuidor con,long* topContId){
 long* top_10_contributors(Registo reg) {
     long* topContId= malloc(sizeof(long*));
     int i;
-    initTop(top);
+    initTop(top,10);
     for(i=0;i<10;i++){
         Avl a = getRegContribuidores(reg,i);
         foreachAvl(a,(Funcao2) checkCont,topContId);
         }
     return topContId;
 }
-
+*/
 //interrogação nº5 que retorna o username de um contribuidor com determinado id
 //feita:
 char* contributor_name(long contributor_id, Registo reg){
