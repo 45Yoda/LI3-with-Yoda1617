@@ -69,6 +69,13 @@ long all_revisions(Registo reg) {
 
 }
 
+//exemplo de interrogaçao
+/*
+int x=0;
+foreach(a,contaContribuicoes,&x);
+
+*/
+
 //interrogação nº4 que retorna o top 10 contribuidores
 long* top_10_contributors(Registo reg){}
 

@@ -37,6 +37,10 @@ Avl getRegContribuidores(Registo r, long id) {
 	return r->contribuidores[i];
 }
 
+/*void contaContribuicoes(long id,Contribuidor c,int* soma){
+	*soma +=getCont(c);
+}*/
+
 Registo insereRegArtigo(Registo reg, long id,void* estrutura){
 	int i = firstDigit(id);
 	reg->artigos[i] = insertAvl(reg->artigos[i],id,estrutura);

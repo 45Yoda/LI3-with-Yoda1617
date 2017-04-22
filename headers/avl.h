@@ -16,6 +16,8 @@ typedef long Valor;
 
 typedef void(*Funcao)(void*);
 
+typedef void(*Funcao2)(long,void*,void*);
+
 //Inicia a estrutura Avl.
 Avl initAvl();
 
@@ -36,6 +38,9 @@ int totalElems(Avl a);
 
 //Função que liberta a memória ocupada por uma dada Avl.
 void freeAvl(Avl a, Funcao f);
+
+
+void foreachAvl(Avl a,Funcao2 func,void* dados);
 
 //Devolve uma estrutura associada a um nodo de uma Avl.
 Estrutura getAvlEstrutura(Avl node,Valor val);

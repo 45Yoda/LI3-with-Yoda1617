@@ -27,6 +27,7 @@ static NODO rotateLeft(NODO);
 static NODO atualizaNode (NODO node, long value, Estrutura estrutura);
 static NODO nodeInsert(NODO node,Valor ident,Estrutura estrutura);
 static NODO cloneTree (NODO node, NODO new);
+static NODO foreachNode(NODO n,Funcao2 func,void* dados);
 static Estrutura getNodeEstrutura(NODO node, Valor value);
 static void freeTree(NODO node, Funcao f);
 
@@ -50,6 +51,7 @@ Avl insertAvl(Avl a, Valor val,Estrutura estrutura){
     a->size++;
     return a;
 }
+
 
 //Devolve um Bool que se refere a ter ou não encontrado um valor
 Boolean avlSearch(Avl a, Valor v){
@@ -212,6 +214,19 @@ static Boolean nodeSearch(NODO node,Valor v){
         else nodeSearch(node->right,v);
     }
 }
+
+void foreachAvl(Avl a,Funcao2 func,void* dados){
+    if(a)
+    a->tree=foreachNode(a->tree,func,dados);
+}
+
+static NODO foreachNode(NODO n,Funcao2 func,void* dados){
+    func(n->id,n->info,dados);
+    foreachNode(n->left,func,dados);
+    foreachNode(n->right,func,dados);
+    return n;
+}
+
 
 static NODO nodeInsert(NODO node,Valor ident,Estrutura estrutura){
     int balance;
