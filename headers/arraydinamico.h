@@ -16,5 +16,6 @@ void freeArray(Array a);
 
 int getPosArray(Array a);
 
+char** cloneArray(Array a);
 
 #endif

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "./headers/arraydinamico.h"
 
@@ -22,7 +23,12 @@ Array insertArray(Array a,char* str){
         a->size *=2;
         a->titles = realloc(a->titles,a->size * sizeof(char*));
     }
-    a->titles[a->used++]= strdup(str);
+    printf("%s\n",str);
+    a->titles[a->used]=malloc(strlen(str));
+    strcpy(a->titles[a->used],str);
+    a->used++;
+    if (a->titles[a->used]!=NULL) printf("%s\n",a->titles[a->used]);
+    else printf("Fodeu again\n");
     return a;
 }
 
@@ -48,6 +54,16 @@ int getPosArray(Array a){
 }
 
 char* getNameArray(Array a,int pos){
-    char* new = strdup(a->titles[pos]);
+    char* novo = malloc((strlen(a->titles[pos])+1)*sizeof(char));
+    strcpy(novo,a->titles[pos]);
+    return novo;
+}
+
+char** cloneArray(Array a){
+    int i=0;
+    char** new = malloc(sizeof(char **));
+    for(i=0;i<a->used;i++){
+        new[i]=strdup(a->titles[i]);
+    }
     return new;
 }

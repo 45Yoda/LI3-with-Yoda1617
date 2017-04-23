@@ -10,7 +10,7 @@
 #include "./headers/artigo.h"
 #include "./headers/registo.h"
 #include "./headers/contribuidor.h"
-
+#include "./headers/arraydinamico.h"
 
 
 
@@ -202,7 +202,6 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
     return;
 }
 
-
 int main(int argc, char **argv){
     int i;
     char *docname;
@@ -222,15 +221,16 @@ int main(int argc, char **argv){
     }
     printf("acaba parser\n");
 
-/*
-    char** tt=titles_with_prefix("S",reg);
+
+    char** tt=titles_with_prefix("SuperBow",reg);
     for(i=0;tt[i]!=NULL;i++)
         printf("%s\n",tt[i]);
-*/
-    long* conts=top_10_contributors(reg);
-    for(i=0;i<10;i++)
-        printf("%ld\n",conts[i]);
 
+    /*
+    long* conts=top_N_articles_with_more_words(20,reg);
+    for(i=0;i<20;i++)
+        printf("%ld\n",conts[i]);
+*/
     //void* con = getRegContEstrutura(reg,194203);
     //printf("%d\n",getCont(con));    
     /*
