@@ -63,8 +63,7 @@ foreach(a,contaContribuicoes,&x);
 */
 
 //interrogação nº4 que retorna o top 10 contribuidores
-//top10 
-/*
+//Feita: 
 void initTop(long* top,int n) {
     int i;
     for(i=0;i<10;i++)
@@ -75,37 +74,45 @@ void initTop(long* top,int n) {
 void insereCont(long id, long cont,long* top){
     int i,stop=0;
     long aux;
-    top[9]=id;
-    for (i=8;i>=0 && stop==0;i--) {
-        void* con2 = getRegContEstrutura(reg,topContId[i]);
-        if (cont>getCont(con2)) {
+    top[9]=cont;
+    top[19]=id;
+    for (i=8;i>=0 && (top[i]<top[i+1] || (top[i]==top[i+1] && top[i+11]<top[10]));i--) {
             aux=top[i+1];
             top[i+1]=top[i];
             top[i]=aux;
-    }else stop=1;
+            aux=top[i+11];
+            top[i+11]=top[i+10];
+            top[i+10]=aux;
     }
 }
 
 
 void checkCont (long id,Contribuidor con,long* topContId){
     long cont = getCont(con);
-    void* con2 = getAvlEstrutura(firsDigit(topContId[9]),topContId[9]);
-    if (cont> getCont(con2) || cont==top[9] && id>topContId[9])
+    if (cont> topContId[9] || cont==topContId[9] && id>topContId[9])
         insereCont(id,cont,topContId);
 }
 
+long* removeCont (long* top) {
+    int i;
+    long* t;
+    for (i=0;i<10;i++)
+        t[i]=top[i+10];
+    return t;
+}
 
 long* top_10_contributors(Registo reg) {
     long* topContId= malloc(sizeof(long*));
     int i;
-    initTop(top,10);
+    initTop(topContId,20);
     for(i=0;i<10;i++){
         Avl a = getRegContribuidores(reg,i);
         foreachAvl(a,(Funcao2) checkCont,topContId);
         }
-    return topContId;
+    long* t= removeCont(topContId);
+    free(topContId);
+    return t;
 }
-*/
 //interrogação nº5 que retorna o username de um contribuidor com determinado id
 //feita:
 char* contributor_name(long contributor_id, Registo reg){
@@ -120,6 +127,42 @@ char* contributor_name(long contributor_id, Registo reg){
 char* article_title(long id,Registo reg) {
     void* artigo = getRegArtEstrutura(reg,id);
     return getTitulo(artigo);
+}
+
+
+//interrogaçao nº9
+void insereArt(char* title,char** titulos){
+    int i;
+    printf("%s\n",title);
+    for(i=1;titulos[i]!=NULL;i++);
+    titulos[i]=malloc(sizeof(char*));
+    titulos[i]=title;
+    //printf("%s\n",*titulos[i]);
+    titulos[i+1]=NULL;
+
+}
+
+void isPrefix (long id,Artigo art,char** titulos) {
+    char* title = getTitulo(art);
+    char* prefix=titulos[0];
+    if ((strncmp(prefix,title,strlen(prefix)))==0) {
+        insereArt(title,titulos);
+    }
+}
+
+char** titles_with_prefix(char* prefix,Registo reg) {
+    char** titulos = malloc(sizeof(char**));
+    titulos[0]=strdup(prefix);
+    titulos[1]=NULL;
+    printf("%s\n",titulos[0]);
+    int i;
+    for(i=0;i<10;i++) {
+        Avl a = getRegArtigos(reg,i);
+        foreachAvl(a,(Funcao2) isPrefix,titulos);
+    }
+    char** t=titulos;
+    free(titulos);
+    return t;
 }
 
 //interrogação nº10 que retorna o timestamp de uma certa revisão de um artigo
