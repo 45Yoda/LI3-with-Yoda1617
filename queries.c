@@ -10,6 +10,25 @@
 #include "./headers/artigo.h"
 #include "./headers/registo.h"
 #include "./headers/contribuidor.h"
+#include "./headers/arraydinamico.h"
+
+
+
+Registo init(){
+    Registo r = initReg();
+    return r;
+}
+
+Registo load(Registo reg,int nsnaps, char* snaps_paths[]){
+    reg=parser(reg,nsnaps,snaps_paths);
+    return reg;
+}
+
+int main(int argc,char **argv){
+    Registo r=init();
+    r=load(r,argc,argv);
+    return 0;
+}
 
 //interrogação nº1 total artigos
 //feita
@@ -56,7 +75,7 @@ long all_revisions(Registo reg) {
 
 
 //interrogação nº4 que retorna o top 10 contribuidores
-//Feita: 
+//Feita:
 void initLongArray(long* top,int n) {
     int i;
     for(i=0;i<n;i++)
@@ -65,7 +84,7 @@ void initLongArray(long* top,int n) {
 
 
 void insereCont(long id, long cont,long* top){
-    int i,stop=0;
+    int i;
     long aux;
     top[9]=cont;
     top[19]=id;
@@ -82,7 +101,7 @@ void insereCont(long id, long cont,long* top){
 
 void checkCont (long id,Contribuidor con,long* topContId){
     long cont = getCont(con);
-    if (cont> topContId[9] || cont==topContId[9] && id>topContId[19])
+    if (cont> topContId[9] || (cont==topContId[9] && id>topContId[19]))
         insereCont(id,cont,topContId);
 }
 
@@ -119,7 +138,7 @@ char* contributor_name(long contributor_id, Registo reg){
 //interrogaçao nº6
 //Feita:
 void insereBytes(long id, long bytes,long* top){
-    int i,stop=0;
+    int i;
     long aux;
     top[19]=bytes;
     top[39]=id;
@@ -136,7 +155,7 @@ void insereBytes(long id, long bytes,long* top){
 
 void checkBytes (long id,Artigo art,long* topArt){
     long bytes = getBytes(art);
-    if (bytes> topArt[19] || bytes==topArt[9] && id>topArt[19])
+    if (bytes> topArt[19] || (bytes==topArt[9] && id>topArt[19]))
         insereBytes(id,bytes,topArt);
 }
 
@@ -171,7 +190,7 @@ char* article_title(long id,Registo reg) {
 // Feita:
 
 void insereWords(long id, long words,long* top){
-    int i,stop=0;
+    int i;
     long aux;
     int n=top[0];
     top[n]=words;
@@ -190,7 +209,7 @@ void insereWords(long id, long words,long* top){
 void checkWords (long id,Artigo art,long* topWords){
     long words = getWords(art);
     int n = topWords[0];
-    if (words> topWords[n] || words==topWords[n] && id>topWords[n+n])
+    if (words> topWords[n] || (words==topWords[n] && id>topWords[n+n]))
         insereWords(id,words,topWords);
 }
 
@@ -220,7 +239,7 @@ long* top_N_articles_with_more_words(int n,Registo reg){
 
 //interrogaçao nº9
 //insertArray nao funciona
-void isPrefix (long id,Artigo art,Array a) {
+/*void isPrefix (long id,Artigo art,Array a) {
     char* title = getTitulo(art);
     char* prefix;
     *prefix=getNameArray(a,0);
@@ -241,7 +260,7 @@ char** titles_with_prefix(char* prefix,Registo reg) {
     char** t=cloneArray(a);
     freeArray(a);
     return t;
-}
+}*/
 
 //interrogação nº10 que retorna o timestamp de uma certa revisão de um artigo
 //feita

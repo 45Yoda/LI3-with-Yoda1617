@@ -28,7 +28,7 @@ void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAut
 }
 
 
-void countWB(xmlChar* s,int* b,int* w)
+void countWB(char* s,long* b,long* w)
 {   int n = 0;
     int l=0;
     l=strlen(s);
@@ -73,13 +73,13 @@ void countWB(xmlChar* s, long* b, long* w){
 
 
 void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timestamp,long idRev,long idAutor,char* username,Registo reg){
-    int wcount=0;
-    int bcount=0;
-    xmlChar* text;
+    long wcount=0;
+    long bcount=0;
+    char* text;
 
     for(cur=cur->xmlChildrenNode;cur;cur=cur->next){
         if(cur->properties && (!xmlStrcmp(cur->properties->name,(const xmlChar*) "space"))){
-            text=xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
+            text=(char*) xmlNodeListGetString(doc,cur->xmlChildrenNode,1);
             countWB(text,&bcount,&wcount);
 
         }
@@ -90,7 +90,7 @@ void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timest
 
 void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char* timestamp,long idRev, Registo reg){
     long idAutor;
-    xmlChar* username;
+    char* username;
     xmlNodePtr aux;
 
     aux = cur->parent;
@@ -169,7 +169,7 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
 
     cur = cur->xmlChildrenNode;
     cur = cur->next;
-    for(cur;cur!=NULL;cur=cur->next){
+    for(;cur!=NULL;cur=cur->next){
         aux=cur;
         if(!xmlStrcmp(cur->name,(const xmlChar *) "page")){
             for(cur=cur->xmlChildrenNode; cur; cur= cur->next){
@@ -194,7 +194,7 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
             }
         }
 
-        cur=aux->next;
+        cur=aux;
         //printf("%s = %ld\n",title,idArt);
 
     }
@@ -202,17 +202,17 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
     return;
 }
 
-int main(int argc, char **argv){
+Registo parser(Registo reg,int argc, char **argv){
     int i;
     char *docname;
     clock_t tpf;
 
     if(argc <= 1){
         perror("Uso incorrecto\n");
-        return 0;
+        return NULL;
     }
 
-    Registo reg = initReg();
+    //Registo reg = initReg();
     tpf =clock();
     for(i=1;argc>1;argc--,i++){
         docname=argv[i];
@@ -222,9 +222,9 @@ int main(int argc, char **argv){
     printf("acaba parser\n");
 
 
-    char** tt=titles_with_prefix("SuperBow",reg);
-    for(i=0;tt[i]!=NULL;i++)
-        printf("%s\n",tt[i]);
+    //char** tt=titles_with_prefix("SuperBow",reg);
+    //for(i=0;tt[i]!=NULL;i++)
+    //    printf("%s\n",tt[i]);
 
     /*
     long* conts=top_N_articles_with_more_words(20,reg);
@@ -232,7 +232,7 @@ int main(int argc, char **argv){
         printf("%ld\n",conts[i]);
 */
     //void* con = getRegContEstrutura(reg,194203);
-    //printf("%d\n",getCont(con));    
+    //printf("%d\n",getCont(con));
     /*
     long nome = all_Articles(reg);
     printf("Total: %ld\n",nome);
@@ -267,5 +267,5 @@ int main(int argc, char **argv){
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
 
-    return 1;
+    return reg;
 }
