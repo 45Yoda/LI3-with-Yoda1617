@@ -14,6 +14,7 @@
 
 
 
+
 void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAutor, char* username, Registo reg, long wcount, long bcount) {
     void* art;
     art = getRegArtEstrutura(reg,idArt);
@@ -183,7 +184,7 @@ Registo parser(Registo reg,int argc, char **argv){
         printf("faz %d\n",i);
     }
     printf("acaba parser\n");
-
+ 
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
 

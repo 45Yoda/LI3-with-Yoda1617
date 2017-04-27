@@ -11,7 +11,7 @@
 #include "./headers/registo.h"
 #include "./headers/contribuidor.h"
 #include "./headers/arraydinamico.h"
-
+#include "./headers/queries.h"
 
 
 Registo init(){
@@ -260,8 +260,9 @@ int main(int argc,char **argv){
     Registo r=init();
     r=load(r,argc,argv);
     int i;
-    long* conts=top_N_articles_with_more_words(20,r);
-    for(i=0;i<20;i++)
-        printf("%ld\n",conts[i]);
+    long* ttt = top_N_articles_with_more_words(20,r);
+
+    for(i=0;i<20;i++) 
+        printf("%ld\n",ttt[i]);
     return 0;
 }
