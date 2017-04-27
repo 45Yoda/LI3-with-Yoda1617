@@ -11,7 +11,7 @@
 #include "./headers/registo.h"
 #include "./headers/contribuidor.h"
 #include "./headers/arraydinamico.h"
-#include "./headers/queries.h"
+
 
 
 Registo init(){
@@ -103,7 +103,7 @@ void checkCont (long id,Contribuidor con,long* topContId){
 
 long* removeCont (long* top) {
     int i;
-    long* t;
+    long* t= malloc(10*sizeof(long));
     for (i=0;i<10;i++)
         t[i]=top[i+10];
     return t;
@@ -157,7 +157,7 @@ void checkBytes (long id,Artigo art,long* topArt){
 
 long* removeBytes (long* top) {
     int i;
-    long* t;
+    long* t = malloc(20*sizeof(long));
     for (i=0;i<20;i++)
         t[i]=top[i+20];
     return t;
@@ -211,7 +211,7 @@ void checkWords (long id,Artigo art,long* topWords){
 
 long* removeWords (long* top,int n) {
     int i;
-    long* t;
+    long* t=malloc(n*sizeof(long));
     for(i=0;i<n*2;i++)
         top[i]=top[i+1];
     for (i=0;i<n;i++)
@@ -234,6 +234,27 @@ long* top_N_articles_with_more_words(int n,Registo reg){
 }
 
 //interrogaçao nº9
+void isPrefix (long id,Artigo art,Array a) {
+    char* title = getTitulo(art);
+    char* prefix = getNameArray(a,0);
+    if ((strncmp(prefix,title,strlen(prefix)))==0) {
+        a=insertArray(a,title);
+    }
+}
+
+char** titles_with_prefix(char* prefix, Registo reg) {
+    Array a = initArray(2);
+    a = insertArray(a, prefix);
+    int i;
+    for(i=0;i<10;i++) {
+        Avl arv = getRegArtigos(reg, i);
+        foreachAvl(arv,(Funcao2) isPrefix,a);
+        free(arv);
+    }
+    char** t = cloneArray(a);
+    freeArray(a);
+    return t;
+}
 
 
 //interrogação nº10 que retorna o timestamp de uma certa revisão de um artigo
@@ -259,10 +280,12 @@ char* article_timestamp(long article_id,long revision_id,Registo reg) {
 int main(int argc,char **argv){
     Registo r=init();
     r=load(r,argc,argv);
-    int i;
-    long* ttt = top_N_articles_with_more_words(20,r);
+    /*int i;
+    char** t;
+    t = titles_with_prefix("Super",r);
+    for(i=0;t[i]!='\0';i++){
+        printf("i===%s\n",t[i]);
+    }*/
 
-    for(i=0;i<20;i++) 
-        printf("%ld\n",ttt[i]);
     return 0;
 }

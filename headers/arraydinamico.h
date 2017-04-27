@@ -6,7 +6,7 @@
 
 typedef struct array *Array;
 
-Array initArray(size_t initialSize);
+Array initArray(int initialSize);
 
 Array insertArray(Array a,char* str);
 
@@ -15,6 +15,8 @@ Boolean existeArray(Array a,char* val);
 void freeArray(Array a);
 
 int getPosArray(Array a);
+
+char* getNameArray(Array a,int pos);
 
 char** cloneArray(Array a);
 

@@ -211,23 +211,23 @@ static Boolean nodeSearch(NODO node,Valor v){
     if(node==NULL) return false;
     else{
         if(v == node->id) return true;
-        else if(v < node->id) nodeSearch(node->left,v);
-        else nodeSearch(node->right,v);
+        else if(v < node->id) return nodeSearch(node->left,v);
+        else return nodeSearch(node->right,v);
     }
 }
 
 void foreachAvl(Avl a,Funcao2 func,void* dados){
     if(a)
-    a->tree=foreachNode(a->tree,func,dados);
+        a->tree=foreachNode(a->tree,func,dados);
 }
 
 static NODO foreachNode(NODO n,Funcao2 func,void* dados){
     if (n) {
-    func(n->id,n->info,dados);
-    foreachNode(n->left,func,dados);
-    foreachNode(n->right,func,dados);
-    return n;
+        func(n->id,n->info,dados);
+        foreachNode(n->left,func,dados);
+        foreachNode(n->right,func,dados);
     }
+    return n;
 }
 
 
@@ -302,9 +302,10 @@ static Estrutura getNodeEstrutura(NODO node, Valor value){
     if(node == NULL) return NULL;
     else{
         if(value == node->id) return node->info;
-        else if (value < node->id) getNodeEstrutura(node->left,value);
-        else getNodeEstrutura(node->right,value);
+        else if (value < node->id) return getNodeEstrutura(node->left,value);
+        else return getNodeEstrutura(node->right,value);
     }
+    
 }
 
 static void freeTree(NODO node, Funcao f){
