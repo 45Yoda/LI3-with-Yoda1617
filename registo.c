@@ -37,21 +37,12 @@ Avl getRegContribuidores(Registo r, long id) {
 	return r->contribuidores[i];
 }
 
-/*void contaContribuicoes(long id,Contribuidor c,int* soma){
-	*soma +=getCont(c);
-}*/
-
 Registo insereRegArtigo(Registo reg, long id,void* estrutura){
 	int i = firstDigit(id);
 	reg->artigos[i] = insertAvl(reg->artigos[i],id,estrutura);
 	return reg;
 }
 
-/*
- * Insere um contribuidor no registo.
- * Se o contribuidor ainda não existir no registo, insere-o, caso contrário
- * Substitui a informacao.
- */
 Registo insereRegContribuidor(Registo reg,long id,char* user){
 	int i = firstDigit(id);
 	Contribuidor con =getAvlEstrutura(reg->contribuidores[i],id);
@@ -64,11 +55,7 @@ Registo insereRegContribuidor(Registo reg,long id,char* user){
 	else{
 		incrCont(con);
 		reg->contribuidores[i]=atualizaAvl(reg->contribuidores[i],id,con);
-
 	}
-
-	// Se NULL -> inseria
-	// Senao -> substituia
 	return reg;
 }
 
@@ -144,9 +131,6 @@ void freeReg(Registo reg, Funcao f){
 	free(reg);
 }
 
-Registo getReg () {
-
-}
 int firstDigit(long value) {
 	if (value >= 1000000000)
         value = value / 1000000000;

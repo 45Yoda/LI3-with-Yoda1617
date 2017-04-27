@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "./headers/artigo.h"
+
 // Estrutura de um nodo da AVL
 struct nodeAvl{
     long id;                      //inteiro com um valor
@@ -248,18 +249,15 @@ static NODO nodeInsert(NODO node,Valor ident,Estrutura estrutura){
         // Left Left Case
 
         if(balance>1 && (ident < node->left->id)) {
-            //printf("esquerda esquerda\n");
             return rotateRight(node);
 }
         //Right Right Case
         if(balance< -1 && (ident>node->right->id)) {
-            //printf("direita direita\n" );
             return rotateLeft(node);
 }
 
         //Left Right Case
         if(balance > 1 && (ident > node->left->id)){
-            //printf("esquerdo direito\n" );
             node->left = rotateLeft(node->left);
             return rotateRight(node);
         }

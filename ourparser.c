@@ -38,40 +38,6 @@ void countWB(char* s,long* b,long* w)
     *w=n;
 }
 
-/*
-void countWB(xmlChar* s, long* b, long* w){
-    int i;
-    char* q = s;
-    long c=0;
-    long l=0;
-    for(i=0;s[i]!='\0';i++){
-        if(s[i]!=' ' && (s[i+1]==' ' || s[i+1]=='\n' || s[i+1]=='\t')) c++;
-
-    }
-    l=strlen(q);
-    *w=c;
-    *b=l;
-}
-
-void countWB(xmlChar* s, long* b, long* w){
-    char delim[3]=" \n\t";
-    char* token;
-    int c=0;
-    int l=0;
-    token = strtok(s,delim);
-    while(token != NULL){
-        l+=strlen(token);
-        l++;
-        c++;
-        token=strtok(NULL,delim);
-    }
-    l--;
-    *w=c;
-    *b=l;
-}*/
-
-
-
 void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timestamp,long idRev,long idAutor,char* username,Registo reg){
     long wcount=0;
     long bcount=0;
@@ -195,8 +161,6 @@ void parseDoc(int i,char *docname,int argc, Registo reg){
         }
 
         cur=aux;
-        //printf("%s = %ld\n",title,idArt);
-
     }
     xmlFreeDoc(doc);
     return;
@@ -212,7 +176,6 @@ Registo parser(Registo reg,int argc, char **argv){
         return NULL;
     }
 
-    //Registo reg = initReg();
     tpf =clock();
     for(i=1;argc>1;argc--,i++){
         docname=argv[i];
@@ -221,49 +184,6 @@ Registo parser(Registo reg,int argc, char **argv){
     }
     printf("acaba parser\n");
 
-
-    //char** tt=titles_with_prefix("SuperBow",reg);
-    //for(i=0;tt[i]!=NULL;i++)
-    //    printf("%s\n",tt[i]);
-
-    /*
-    long* conts=top_N_articles_with_more_words(20,reg);
-    for(i=0;i<20;i++)
-        printf("%ld\n",conts[i]);
-*/
-    //void* con = getRegContEstrutura(reg,194203);
-    //printf("%d\n",getCont(con));
-    /*
-    long nome = all_Articles(reg);
-    printf("Total: %ld\n",nome);
-    nome = totalRegElemsArtigos(reg);
-    printf("artigos unicos: %ld\n",nome);
-    nome = all_revisions(reg);
-    printf("revisoes: %ld\n",nome);
-    */
-
-    ////29128
-    /*
-    int z=0;
-    void* art = getRegArtEstrutura(reg,29128);
-    void* cont = getRegContEstrutura(reg,24198);
-    char* u = malloc(sizeof(char*));
-    //if(!cont){printf("fuiteaocu\n");} else{
-    getUsername(cont,u);
-    printf("%s\n",u);
-    char* t = getTitulo(art);
-    printf("%s\n",t);
-    int nn = getN(art);
-    printf("%d\n", nn);
-    char**  tim=malloc(nn*sizeof(char*));
-    long* revid=malloc(nn*sizeof(long*));
-    getTimeStamp (art,tim);
-    getRevId(art,revid);
-    for(z=0;z<nn;z++){
-        printf("%s\n",tim[z]);
-        printf("%lu\n",revid[z]);
-        printf("------------------------\n");
-    }*/
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
 

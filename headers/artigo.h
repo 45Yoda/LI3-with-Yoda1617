@@ -11,8 +11,8 @@ int getN(Artigo a);
 void incrN(Artigo a);
 void getTimeStamp(Artigo a, char* t[]);
 void setTimeStamp(Artigo a, char* timestamp,int pos);
-void getRevId(Artigo a,long c[]); //novo
-void setRevId(Artigo a,long id, int pos);//novo
+void getRevId(Artigo a,long c[]); 
+void setRevId(Artigo a,long id, int pos);
 long getBytes(Artigo a);
 void setBytes(Artigo a, long bytes);
 long getWords(Artigo a);

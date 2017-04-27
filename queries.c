@@ -24,11 +24,7 @@ Registo load(Registo reg,int nsnaps, char* snaps_paths[]){
     return reg;
 }
 
-int main(int argc,char **argv){
-    Registo r=init();
-    r=load(r,argc,argv);
-    return 0;
-}
+
 
 //interrogação nº1 total artigos
 //feita
@@ -238,29 +234,7 @@ long* top_N_articles_with_more_words(int n,Registo reg){
 }
 
 //interrogaçao nº9
-//insertArray nao funciona
-/*void isPrefix (long id,Artigo art,Array a) {
-    char* title = getTitulo(art);
-    char* prefix;
-    *prefix=getNameArray(a,0);
-    if ((strncmp(prefix,title,strlen(prefix)))==0) {
-        a=insertArray(a,title);
-    }
-}
 
-char** titles_with_prefix(char* prefix,Registo reg) {
-    Array a = initArray(2);
-    a=insertArray(a,prefix);
-    int i;
-    for(i=0;i<10;i++) {
-        Avl a = getRegArtigos(reg,i);
-        foreachAvl(a,(Funcao2) isPrefix,a);
-    }
-    a = insertArray(a,NULL);
-    char** t=cloneArray(a);
-    freeArray(a);
-    return t;
-}*/
 
 //interrogação nº10 que retorna o timestamp de uma certa revisão de um artigo
 //feita
@@ -280,4 +254,14 @@ char* article_timestamp(long article_id,long revision_id,Registo reg) {
     }
     free(revid);
     return timeSt;
+}
+
+int main(int argc,char **argv){
+    Registo r=init();
+    r=load(r,argc,argv);
+    int i;
+    long* conts=top_N_articles_with_more_words(20,r);
+    for(i=0;i<20;i++)
+        printf("%ld\n",conts[i]);
+    return 0;
 }

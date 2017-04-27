@@ -8,14 +8,10 @@
 
 typedef void* Estrutura;
 
-
-//Declaração do tipo Matriz;
 typedef struct reg *Registo;
 
 Registo initReg();
 
-//Estrutura getMatrizContributores(Matriz m, int i);
-//Avl getMatrizArtigos(Matriz m, int i);
 Avl getRegArtigos(Registo r, long id);
 
 Avl getRegContribuidores(Registo r, long id);
