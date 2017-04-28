@@ -41,7 +41,7 @@ int menuPrincipal(Registo reg,int nsnaps,char** snaps_path,int estado){
             case 'Q':
             case 'q': return sair; break;
 
-            case '1': if(totalRegElemsArtigos(reg)){
+            case '1': if(reg!=NULL && totalRegElemsArtigos(reg)){
                         estado = menuArtigos(reg);
                       }
                       else{
@@ -52,7 +52,7 @@ int menuPrincipal(Registo reg,int nsnaps,char** snaps_path,int estado){
                       }
                       break;
 
-            case '2': if(totalRegElemsCont(reg)) estado = menuContribuidores(reg);
+            case '2': if(reg!=NULL && totalRegElemsCont(reg)) estado = menuContribuidores(reg);
                       else{
                           system("clear");
                           printf("\n Ainda não foram lidos dados\n");
@@ -87,8 +87,8 @@ static int menuArtigos(Registo reg){
         printf("   4. Top 20 Maiores Artigos\n");
         printf("   5. Titulo do Artigo\n");
         printf("   6. Top N Artigos com mais palavras\n");
-        printf("   7. Titulos com um prefixo\n");
-        printf("   8. Timestamp de um Artigo\n");
+        printf("   7. Titulos com um Prefixo\n");
+        printf("   8. Timestamp de uma dada Revisão de um Artigo\n");
         printf("-------------------------------------------\n");
         printf("\t\tB - Menu Principal\t\t Q - Sair\n");
         printf("_______________________________________________\n");
@@ -117,6 +117,26 @@ static int menuArtigos(Registo reg){
                       return MenuPrincipal;
                       break;
 
+            case '4': estado = querie_6(reg);
+                      return MenuPrincipal;
+                      break;
+
+            case '5': estado = querie_7(reg);
+                      return MenuPrincipal;
+                      break;
+
+            case '6': estado = querie_8(reg);
+                      return MenuPrincipal;
+                      break;
+
+            case '7': estado = querie_9(reg);
+                      return MenuPrincipal;
+                      break;
+
+            case '8': estado = querie_10(reg);
+                      return MenuPrincipal;
+                      break;
+
             default: break;
 
         }
@@ -125,25 +145,26 @@ static int menuArtigos(Registo reg){
 }
 
 static int menuContribuidores(Registo reg){
+
     int estado = 1;
     char option[20];
 
     while(estado){
 
         system("clear");
-        printf("-------------------------------------------\n");
-        printf("\t\tMenu Artigos \n");
+        printf("_______________________________________________\n");
+		printf("\t\tMenu Contribuidores \n");
         printf("-------------------------------------------\n");
         printf("Escolha o uma opção:\n");
-        printf("   1. Total de Artigos\n");
-        printf("   2. Artigos únicos\n");
+        printf("   1. Top 10 Contribuidores\n");
+        printf("   2. Username do Contribuidor\n");
         printf("-------------------------------------------\n");
         printf("\t\tB - Menu Principal\t\t Q - Sair\n");
-        printf("-------------------------------------------\n");
+        printf("_______________________________________________\n");
 
         printf("\nOpção > ");
 
-        option[0] = scanf("%s",option);
+        scanf("%s",option);
 
         switch(option[0]){
 
@@ -153,8 +174,15 @@ static int menuContribuidores(Registo reg){
             case 'B':
             case 'b': return MenuPrincipal; break;
 
-            case '1': return MenuPrincipal;
+            case '1': estado = querie_4(reg);
+                      return MenuPrincipal;
                       break;
+
+            case '2': estado = querie_5(reg);
+                      return MenuPrincipal;
+                      break;
+
+            default: break;
 
         }
     }
