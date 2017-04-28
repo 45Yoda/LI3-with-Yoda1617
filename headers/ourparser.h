@@ -9,9 +9,4 @@
 
 Registo parser(Registo reg,int argc, char **argv);
 
-void parseFinal(long idArt,char* title,char* timestamp,long idRev,long idAutor,char* username,Registo reg,long wcount,long bcount);
-
-
-
-
 #endif
