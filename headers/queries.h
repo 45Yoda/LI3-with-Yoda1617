@@ -22,7 +22,7 @@ char* article_title(long id,Registo reg);
 
 long* top_N_articles_with_more_words(int n,Registo reg);
 
-char** titles_with_prefix(char* prefix,Registo reg);
+char** titles_with_prefix(char* prefix,Registo reg, int* length);
 
 char* article_timestamp(long article_id,long revision_id,Registo reg);
 

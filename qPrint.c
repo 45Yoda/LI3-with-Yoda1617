@@ -217,27 +217,29 @@ int querie_9(Registo reg){
 
     char opcao[20];
     int estado = 1;
-    int i =0;
-    char** t = malloc(sizeof(char*));
-    char * pref = malloc(sizeof(char*));
+    int n, i =0;
+    char** t;
+    char* pref;
+    char buffer[MAXSIZE];
+    pref = buffer;
 
     system("clear");
     printf("Insira o prefixo > ");
     scanf("%s",pref);
 
-    t = titles_with_prefix(pref,reg);
+    t = titles_with_prefix(pref, reg, &n);
+
     system("clear");
     printf( "_____________________________________________\n" );
     printf( "\tTitulos com prefixo \"%s\"\n",pref);
-    //for(i=1;i<10;i++){
-    //    printf("%s\n",t[i]);
-    //}
+    for(i=1;i<n;i++){
+        printf("%s\n",t[i]);
+    }
     printf( "_____________________________________________\n" );
 
-    for(i=0;i<10;i++){
+    for(i=0;i<n;i++){
         free(t[i]);
     }
-    free(pref);
     free(t);
     printf( "\n(prima qualquer tecla para continuar)");
 

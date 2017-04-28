@@ -19,7 +19,7 @@ Array initArray(int initialSize){
 }
 
 Array insertArray(Array a,char* str){
-    if(a->used == (a->size *0.80)){
+    if(a->used >= (a->size *0.80)){
         a->size *=2;
         a->titles = realloc(a->titles,a->size * sizeof(char*));
     }
@@ -43,7 +43,7 @@ Boolean existeArray(Array a,char* val){
 void freeArray(Array a){
     int i;
 
-    for(i=0;i<a->used;i++){
+    for(i=0; i<a->used;i++){
         free(a->titles[i]);
     }
 
@@ -67,7 +67,7 @@ char* getNameArray(Array a,int pos){
 
 char** cloneArray(Array a){
     int i=0;
-    char** new = malloc(sizeof(char **));
+    char** new = malloc(a->used * sizeof(char **));
 
     for(i=0;i<a->used;i++){
         new[i] = strdup(a->titles[i]);

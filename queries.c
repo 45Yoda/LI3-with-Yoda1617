@@ -242,7 +242,7 @@ void isPrefix (long id,Artigo art,Array a) {
     }
 }
 
-char** titles_with_prefix(char* prefix, Registo reg) {
+char** titles_with_prefix(char* prefix, Registo reg, int* length) {
     Array a = initArray(2);
     a = insertArray(a, prefix);
     int i;
@@ -252,6 +252,7 @@ char** titles_with_prefix(char* prefix, Registo reg) {
         free(arv);
     }
     char** t = cloneArray(a);
+    *length = getPosArray(a);
     freeArray(a);
     return t;
 }
