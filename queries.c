@@ -277,15 +277,17 @@ char* article_timestamp(long article_id,long revision_id,Registo reg) {
     return timeSt;
 }
 
+/*
 int main(int argc,char **argv){
     Registo r=init();
     r=load(r,argc,argv);
-    /*int i;
+    int i;
     char** t;
     t = titles_with_prefix("Super",r);
     for(i=0;t[i]!='\0';i++){
         printf("i===%s\n",t[i]);
-    }*/
+    }
 
     return 0;
 }
+*/

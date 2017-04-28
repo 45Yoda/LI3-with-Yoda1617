@@ -2,8 +2,15 @@
 #define _queries_h_
 
 
+Registo init();
 
-void initLongArray(long* top,int n);
+Registo load(Registo reg,int nsnaps, char* snaps_paths[]);
+
+long all_Articles(Registo reg);
+
+long unique_articles(Registo reg);
+
+long all_revisions(Registo reg);
 
 long* top_20_largest_articles(Registo reg);
 
