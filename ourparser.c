@@ -187,6 +187,7 @@ Registo parser(Registo reg,int argc, char **argv){
  
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
+    sleep(2);
 
     return reg;
 }

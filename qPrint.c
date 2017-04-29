@@ -117,6 +117,7 @@ int querie_5(Registo reg){
     printf("Indique o ID do contribuidor > ");
     scanf("%ld",&valor);
     user = contributor_name(valor,reg);
+    if (user) {
     system("clear");
     printf( "_____________________________________________\n" );
     printf( "\t\tID: %ld \n",valor);
@@ -124,7 +125,8 @@ int querie_5(Registo reg){
     printf( "_____________________________________________\n" );
 
     free(user);
-
+}
+    else printf("ID de contribuidor inválido.\n");
     printf( "\n(prima qualquer tecla para continuar)");
 
     scanf("%s",opcao);
@@ -169,12 +171,14 @@ int querie_7(Registo reg){
     printf("Indique o ID do Artigo > ");
     scanf("%ld",&valor);
     art = article_title(valor,reg);
+    if (art!=NULL) {
     system("clear");
     printf( "_____________________________________________\n" );
     printf( "\t\tID: %ld \n",valor);
     printf( "\t\tTitulo: %s \n",art);
     printf( "_____________________________________________\n" );
-
+}
+    else printf("O ID de esse artigo não é valido.\n");
     printf( "\n(prima qualquer tecla para continuar)");
 
     scanf("%s",opcao);
@@ -264,13 +268,15 @@ int querie_10(Registo reg){
     printf("Indique o ID da revisão > ");
     scanf("%ld",&valorR);
     times = article_timestamp(valorA,valorR,reg);
+    if (times) {   
     system("clear");
     printf( "_____________________________________________\n" );
     printf( "\tID do Artigo: %ld \n",valorA);
     printf( "\tID de Revisão: %ld \n",valorR);
     printf( "\tTimestamp: %s \n",times);
     printf( "_____________________________________________\n" );
-
+}
+else printf("ID's inválidos.\n");
     printf( "\n(prima qualquer tecla para continuar)");
 
     free(times);

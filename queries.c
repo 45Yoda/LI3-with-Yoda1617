@@ -125,9 +125,12 @@ long* top_10_contributors(Registo reg) {
 //feita:
 char* contributor_name(long contributor_id, Registo reg){
     void* cont = getRegContEstrutura(reg,contributor_id);
+    if (cont) {
     char* user = malloc(sizeof(char*));
     getUsername(cont, user);
     return user;
+}
+    else return NULL;
 }
 
 
@@ -179,7 +182,9 @@ long* top_20_largest_articles(Registo reg){
 //feita
 char* article_title(long id,Registo reg) {
     void* artigo = getRegArtEstrutura(reg,id);
-    return getTitulo(artigo);
+    if (artigo!=NULL)
+        return getTitulo(artigo);
+    else return NULL;
 }
 
 //interrogação nº 8
@@ -265,6 +270,7 @@ char* article_timestamp(long article_id,long revision_id,Registo reg) {
     long *revid=malloc(getN(artigo)*sizeof(long*));
     char* timeSt = NULL;
     int i;
+    if (artigo) {
     getRevId(artigo,revid);
     for (i=0;i<getN(artigo);i++) {
         if (revid[i]==revision_id) {
@@ -275,6 +281,7 @@ char* article_timestamp(long article_id,long revision_id,Registo reg) {
             }
     }
     free(revid);
+}
     return timeSt;
 }
 
