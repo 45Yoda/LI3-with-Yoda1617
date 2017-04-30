@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "interface.h"
+#include "./headers/global.h"
 #include "./headers/registo.h"
 #include "./headers/interpretador.h"
 #include "./headers/ourparser.h"
@@ -25,6 +26,8 @@ static void insereWords(long id, long words,long* top);
 static void checkWords (long id,Artigo art,long* topWords);
 static long* removeWords (long* top,int n);
 static void isPrefix (long id,Artigo art,Array a);
+static void bubSort(char ** t, int used);
+
 
 TAD_istruct init(){
     TAD_istruct qs = malloc(sizeof(struct TCD_istruct));
@@ -267,18 +270,37 @@ static void isPrefix (long id,Artigo art,Array a) {
 }
 
 char** titles_with_prefix(char* prefix, TAD_istruct qs) {
+    int n = 0;
+
     Array a = initArray(2);
     a = insertArray(a, prefix);
     int i;
     for(i=0;i<10;i++) {
         Avl arv = getRegArtigos(qs->reg, i);
         foreachAvl(arv,(Funcao2) isPrefix,a);
-        free(arv);
     }
+    n = getPosArray(a);
     char** t = cloneArray(a);
+
+    bubSort(t,n);
 
     freeArray(a);
     return t;
+
+}
+
+static void bubSort(char ** t, int used){
+	int i, j;
+	char* temp = (char*) malloc(MAXSIZE* sizeof(char));
+	for (i = 1; i < used; i++) {
+      for (j = 1; j < used; j++) {
+         if (strcmp(t[j-1], t[j]) > 0) {
+            strcpy(temp, t[j-1]);
+            strcpy(t[j-1], t[j]);
+            strcpy(t[j],temp);
+         }
+      }
+   }
 }
 
 //interrogação nº10 que retorna o timestamp de uma certa revisão de um artigo
