@@ -180,13 +180,14 @@ int querie_7(TAD_istruct reg){
     printf( "\t\tID: %ld \n",valor);
     printf( "\t\tTitulo: %s \n",art);
     printf( "_____________________________________________\n" );
+    free(art);
 }
     else printf("O ID de esse artigo não é valido.\n");
     printf( "\n(prima qualquer tecla para continuar)");
 
     scanf("%s",opcao);
 
-	free(art);
+
     return estado;
 }
 
@@ -236,7 +237,7 @@ int querie_9(TAD_istruct reg){
 
     t = titles_with_prefix(pref, reg);
 
-
+    if (t) {
     system("clear");
     printf( "_____________________________________________\n" );
     printf( "\tTitulos com prefixo \"%s\"\n",pref);
@@ -249,6 +250,10 @@ int querie_9(TAD_istruct reg){
         free(t[i]);
     }
     free(t);
+    }
+
+    else printf("Não existe nenhum titulo com esse prefixo. \n");
+
     printf( "\n(prima qualquer tecla para continuar)");
 
     scanf("%s",opcao);

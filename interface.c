@@ -55,9 +55,12 @@ long unique_articles(TAD_istruct qs){
 void contaRev(Avl a,Artigo art,long* soma) {
     int i,c=1;
     long *revid=malloc(getN(art)*sizeof(long*));
+    int n=getN(art);
+    if (n>1) {
     getRevId(art,revid);
-    for (i=0;i<getN(art)-1;i++)
+    for (i=0;i<n-1;i++)
         if (revid[i]!=revid[i+1]) c++;
+}
     *soma += c;
     free(revid);
 }

@@ -67,11 +67,12 @@ char* getNameArray(Array a,int pos){
 
 char** cloneArray(Array a){
     int i=0;
-    char** new = malloc(a->used * sizeof(char **));
+    char** new = malloc((a->used+1) * sizeof(char *));
 
     for(i=0;i<a->used;i++){
         new[i] = strdup(a->titles[i]);
     }
+    new[i] = NULL;
 
     return new;
 }
