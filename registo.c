@@ -134,7 +134,7 @@ void freeReg(Registo reg){
 	free(reg);
 }
 
-int firstDigit(long value) {
+static int firstDigit(long value) {
 	if (value >= 1000000000)
         value = value / 1000000000;
     if (value >= 100000000)

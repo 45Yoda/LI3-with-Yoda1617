@@ -252,7 +252,7 @@ int querie_9(TAD_istruct reg){
     free(t);
     }
 
-    else printf("Não existe nenhum titulo com esse prefixo. \n");
+    else printf("Não existe nenhum titulo com esse prefixo.\n");
 
     printf( "\n(prima qualquer tecla para continuar)");
 

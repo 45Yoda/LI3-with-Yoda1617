@@ -12,6 +12,20 @@ struct TCD_istruct{
     Registo reg;
 };
 
+static void contaArtigos(long id,Artigo art,long* soma);
+static void contaRev(Avl a,Artigo art,long* soma);
+static void initLongArray(long* top,int n);
+static void insereCont(long id, long cont,long* top);
+static void checkCont (long id,Contribuidor con,long* topContId);
+static long* removeCont (long* top);
+static void insereBytes(long id, long bytes,long* top);
+static void checkBytes (long id,Artigo art,long* topArt);
+static long* removeBytes (long* top);
+static void insereWords(long id, long words,long* top);
+static void checkWords (long id,Artigo art,long* topWords);
+static long* removeWords (long* top,int n);
+static void isPrefix (long id,Artigo art,Array a);
+
 TAD_istruct init(){
     TAD_istruct qs = malloc(sizeof(struct TCD_istruct));
     qs->reg = initReg();
@@ -31,7 +45,7 @@ TAD_istruct load(TAD_istruct qs,int nsnaps,char * snaps_paths[]){
 
 //interrogação nº1 total artigos
 //feita
-void contaArtigos(long id,Artigo art,long* soma){
+static void contaArtigos(long id,Artigo art,long* soma){
     *soma +=getN(art);
 }
 
@@ -52,7 +66,7 @@ long unique_articles(TAD_istruct qs){
 
 //interrogação nº3 total de revisoes
 //feita
-void contaRev(Avl a,Artigo art,long* soma) {
+static void contaRev(Avl a,Artigo art,long* soma) {
     int i,c=1;
     long *revid=malloc(getN(art)*sizeof(long*));
     int n=getN(art);
@@ -76,14 +90,14 @@ long all_revisions(TAD_istruct qs) {
 
 //interrogação nº4 que retorna o top 10 contribuidores
 //Feita:
-void initLongArray(long* top,int n) {
+static void initLongArray(long* top,int n) {
     int i;
     for(i=0;i<n;i++)
         top[i]=0;
 }
 
 
-void insereCont(long id, long cont,long* top){
+static void insereCont(long id, long cont,long* top){
     int i;
     long aux;
     top[9]=cont;
@@ -99,13 +113,13 @@ void insereCont(long id, long cont,long* top){
 }
 
 
-void checkCont (long id,Contribuidor con,long* topContId){
+static void checkCont (long id,Contribuidor con,long* topContId){
     long cont = getCont(con);
     if (cont> topContId[9] || (cont==topContId[9] && id>topContId[19]))
         insereCont(id,cont,topContId);
 }
 
-long* removeCont (long* top) {
+static long* removeCont (long* top) {
     int i;
     long* t= malloc(10*sizeof(long));
     for (i=0;i<10;i++)
@@ -140,7 +154,7 @@ char* contributor_name(long contributor_id, TAD_istruct qs){
 
 //interrogaçao nº6
 //Feita:
-void insereBytes(long id, long bytes,long* top){
+static void insereBytes(long id, long bytes,long* top){
     int i;
     long aux;
     top[19]=bytes;
@@ -156,13 +170,13 @@ void insereBytes(long id, long bytes,long* top){
 }
 
 
-void checkBytes (long id,Artigo art,long* topArt){
+static void checkBytes (long id,Artigo art,long* topArt){
     long bytes = getBytes(art);
     if (bytes> topArt[19] || (bytes==topArt[9] && id>topArt[19]))
         insereBytes(id,bytes,topArt);
 }
 
-long* removeBytes (long* top) {
+static long* removeBytes (long* top) {
     int i;
     long* t = malloc(20*sizeof(long));
     for (i=0;i<20;i++)
@@ -195,7 +209,7 @@ char* article_title(long id,TAD_istruct qs) {
 //interrogação nº 8
 // Feita:
 
-void insereWords(long id, long words,long* top){
+static void insereWords(long id, long words,long* top){
     int i;
     long aux;
     int n=top[0];
@@ -212,14 +226,14 @@ void insereWords(long id, long words,long* top){
 }
 
 
-void checkWords (long id,Artigo art,long* topWords){
+static void checkWords (long id,Artigo art,long* topWords){
     long words = getWords(art);
     int n = topWords[0];
     if (words> topWords[n] || (words==topWords[n] && id>topWords[n+n]))
         insereWords(id,words,topWords);
 }
 
-long* removeWords (long* top,int n) {
+static long* removeWords (long* top,int n) {
     int i;
     long* t=malloc(n*sizeof(long));
     for(i=0;i<n*2;i++)
@@ -244,7 +258,7 @@ long* top_N_articles_with_more_words(int n,TAD_istruct qs){
 }
 
 //interrogaçao nº9
-void isPrefix (long id,Artigo art,Array a) {
+static void isPrefix (long id,Artigo art,Array a) {
     char* title = getTitulo(art);
     char* prefix = getNameArray(a,0);
     if ((strncmp(prefix,title,strlen(prefix)))==0) {
