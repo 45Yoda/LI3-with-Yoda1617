@@ -121,12 +121,12 @@ void* getRegContEstrutura(Registo reg, long id){
 	return getAvlEstrutura(reg->contribuidores[i],id);
 }
 
-void freeReg(Registo reg, Funcao f){
+void freeReg(Registo reg){
 	int i;
 
 	for(i=0;i<SIZE;i++){
-		freeAvl(reg->artigos[i],f);
-		freeAvl(reg->contribuidores[i],f);
+		freeAvl(reg->artigos[i],(Funcao) freeArt);
+		freeAvl(reg->contribuidores[i],(Funcao) freeCont);
 	}
 	free(reg);
 }

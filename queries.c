@@ -11,6 +11,7 @@
 #include "./headers/registo.h"
 #include "./headers/contribuidor.h"
 #include "./headers/arraydinamico.h"
+#include "./headers/interpretador.h"
 
 
 
@@ -20,7 +21,13 @@ Registo init(){
 }
 
 Registo load(Registo reg,int nsnaps, char* snaps_paths[]){
+    int estado = 1;
     reg=parser(reg,nsnaps,snaps_paths);
+
+    while(estado){
+        estado = menuPrincipal(reg,nsnaps,snaps_paths,estado);
+    }
+
     return reg;
 }
 

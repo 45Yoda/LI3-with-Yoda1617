@@ -13,4 +13,6 @@ int getCont(Contribuidor c);
 
 void incrCont(Contribuidor c);
 
+void freeCont(Contribuidor c);
+
 #endif

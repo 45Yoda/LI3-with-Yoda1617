@@ -30,3 +30,9 @@ int getCont(Contribuidor c){
 void incrCont(Contribuidor c){
     c->cont+=1;
 }
+
+
+void freeCont(Contribuidor c){
+    free(c->username);
+    free(c);
+}

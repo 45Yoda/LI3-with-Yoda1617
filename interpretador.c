@@ -7,7 +7,6 @@
 
 #define sair 0
 #define MenuPrincipal 1
-#define reload 2
 
 static int menuArtigos(Registo reg);
 static int menuContribuidores(Registo reg);
@@ -15,10 +14,6 @@ static int menuContribuidores(Registo reg);
 int menuPrincipal(Registo reg,int nsnaps,char** snaps_path,int estado){
 
     char option[20];
-
-    if(estado == reload){
-        reg = load(reg,nsnaps,snaps_path);
-    }
 
     while(estado){
         system("clear");

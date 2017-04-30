@@ -28,7 +28,7 @@ void* getRegArtEstrutura(Registo reg, long id);
 
 void* getRegContEstrutura(Registo reg, long id);
 
-void freeReg(Registo reg, Funcao f);
+void freeReg(Registo reg);
 
 long totalRegElemsArtigos(Registo reg);
 

@@ -15,7 +15,7 @@
 
 
 
-void parseFinal(long idArt, char* title, char* timestamp, long idRev, long idAutor, char* username, Registo reg, long wcount, long bcount) {
+void parseFinal(long idArt, char* title, char* timestamp, long idRev, Registo reg, long wcount, long bcount) {
     void* art;
     art = getRegArtEstrutura(reg,idArt);
 
@@ -39,7 +39,7 @@ void countWB(char* s,long* b,long* w)
     *w=n;
 }
 
-void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timestamp,long idRev,long idAutor,char* username,Registo reg){
+void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timestamp,long idRev,Registo reg){
     long wcount=0;
     long bcount=0;
     char* text;
@@ -51,7 +51,7 @@ void parseText(xmlDocPtr doc,xmlNodePtr cur, long idArt,char* title,char* timest
 
         }
     }
-    parseFinal(idArt,title,timestamp,idRev,idAutor,username,reg,wcount,bcount);
+    parseFinal(idArt,title,timestamp,idRev,reg,wcount,bcount);
 }
 
 
@@ -76,7 +76,7 @@ void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char*
 
     if(username)  insereRegContribuidor(reg, idAutor, username);
 
-    parseText(doc,aux,idArt,title,timestamp,idRev,idAutor,username,reg);
+    parseText(doc,aux,idArt,title,timestamp,idRev,reg);
 
     return;
 }
@@ -184,7 +184,7 @@ Registo parser(Registo reg,int argc, char **argv){
         printf("faz %d\n",i);
     }
     printf("acaba parser\n");
- 
+
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
     sleep(2);

@@ -4,20 +4,18 @@
 
 int main(int argc,char **argv){
 
-    int estado = 1;
+    //int estado = 1;
 
     Registo reg=init();
+
     reg=load(reg,argc,argv);
 
-    while(estado){
+    /*while(estado){
     estado = menuPrincipal(reg,argc,argv,estado);
-    }
-    /* Free das cenas
-    if(totalRegElemsArtigos(r)){
+}*/
 
-    }
-    */
 
+    //freeReg(reg);
 
     return 0;
 }
