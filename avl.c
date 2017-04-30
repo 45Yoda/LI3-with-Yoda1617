@@ -305,7 +305,7 @@ static Estrutura getNodeEstrutura(NODO node, Valor value){
         else if (value < node->id) return getNodeEstrutura(node->left,value);
         else return getNodeEstrutura(node->right,value);
     }
-    
+
 }
 
 static void freeTree(NODO node, Funcao f){

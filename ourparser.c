@@ -29,8 +29,8 @@ void parseFinal(long idArt, char* title, char* timestamp, long idRev, Registo re
 }
 
 
-void countWB(char* s,long* b,long* w)
-{   int n = 0;
+void countWB(char* s,long* b,long* w){
+    int n = 0;
     int l=0;
     l=strlen(s);
     for(s=strtok(s, " \n\t"); s; s=strtok(NULL, " \n\t"))
@@ -187,7 +187,6 @@ Registo parser(Registo reg,int argc, char **argv){
 
     tpf =clock() -tpf;
     printf("Demorou %f segundos a ler\n",((float)tpf)/CLOCKS_PER_SEC);
-    sleep(2);
 
     return reg;
 }

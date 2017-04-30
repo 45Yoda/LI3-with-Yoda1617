@@ -1,37 +1,34 @@
-#include <stdio.h>
-#include <string.h>
-#include <time.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <string.h>
 
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
-#include "./headers/ourparser.h"
-#include "./headers/artigo.h"
+#include "./headers/interface.h"
 #include "./headers/registo.h"
+#include "./headers/interpretador.h"
+#include "./headers/ourparser.h"
 #include "./headers/contribuidor.h"
 #include "./headers/arraydinamico.h"
-#include "./headers/interpretador.h"
 
+struct TCD_istruct{
+    Registo reg;
+};
 
-
-Registo init(){
-    Registo r = initReg();
-    return r;
+TAD_istruct init(){
+    TAD_istruct qs = malloc(sizeof(struct TCD_istruct));
+    qs->reg = initReg();
+    return qs;
 }
 
-Registo load(Registo reg,int nsnaps, char* snaps_paths[]){
+TAD_istruct load(TAD_istruct qs,int nsnaps,char * snaps_paths[]){
     int estado = 1;
-    reg=parser(reg,nsnaps,snaps_paths);
+    qs->reg = parser(qs->reg,nsnaps,snaps_paths);
 
     while(estado){
-        estado = menuPrincipal(reg,nsnaps,snaps_paths,estado);
+        system("clear");
+        estado = menuPrincipal(qs,nsnaps,snaps_paths,estado);
     }
 
-    return reg;
+    return qs;
 }
-
-
 
 //interrogação nº1 total artigos
 //feita
@@ -39,20 +36,19 @@ void contaArtigos(long id,Artigo art,long* soma){
     *soma +=getN(art);
 }
 
-long all_Articles(Registo reg){
+long all_articles(TAD_istruct qs){
     long i,t=0;
     for(i=0;i<10;i++){
-        Avl a = getRegArtigos(reg,i);
+        Avl a = getRegArtigos(qs->reg,i);
         foreachAvl(a,(Funcao2) contaArtigos,&t);
     }
     return t;
 }
 
-
 //interrogação nº2 artigos unicos
 // feita
-long unique_articles(Registo reg){
-    return totalRegElemsArtigos(reg);
+long unique_articles(TAD_istruct qs){
+    return totalRegElemsArtigos(qs->reg);
 }
 
 //interrogação nº3 total de revisoes
@@ -67,15 +63,14 @@ void contaRev(Avl a,Artigo art,long* soma) {
     free(revid);
 }
 
-long all_revisions(Registo reg) {
+long all_revisions(TAD_istruct qs) {
     long i,t=0;
     for(i=0;i<10;i++){
-        Avl a = getRegArtigos(reg,i);
+        Avl a = getRegArtigos(qs->reg,i);
         foreachAvl(a,(Funcao2) contaRev,&t);
     }
     return t;
 }
-
 
 //interrogação nº4 que retorna o top 10 contribuidores
 //Feita:
@@ -116,22 +111,23 @@ long* removeCont (long* top) {
     return t;
 }
 
-long* top_10_contributors(Registo reg) {
+long* top_10_contributors(TAD_istruct qs) {
     long* topContId= malloc(sizeof(long*));
     int i;
     initLongArray(topContId,20);
     for(i=0;i<10;i++){
-        Avl a = getRegContribuidores(reg,i);
+        Avl a = getRegContribuidores(qs->reg,i);
         foreachAvl(a,(Funcao2) checkCont,topContId);
         }
     long* t= removeCont(topContId);
     free(topContId);
     return t;
 }
+
 //interrogação nº5 que retorna o username de um contribuidor com determinado id
 //feita:
-char* contributor_name(long contributor_id, Registo reg){
-    void* cont = getRegContEstrutura(reg,contributor_id);
+char* contributor_name(long contributor_id, TAD_istruct qs){
+    void* cont = getRegContEstrutura(qs->reg,contributor_id);
     if (cont) {
     char* user = malloc(sizeof(char*));
     getUsername(cont, user);
@@ -139,7 +135,6 @@ char* contributor_name(long contributor_id, Registo reg){
 }
     else return NULL;
 }
-
 
 //interrogaçao nº6
 //Feita:
@@ -173,22 +168,23 @@ long* removeBytes (long* top) {
     return t;
 }
 
-long* top_20_largest_articles(Registo reg){
+long* top_20_largest_articles(TAD_istruct qs){
     long* topArt= malloc(sizeof(long*));
     int i;
     initLongArray(topArt,40);
     for(i=0;i<10;i++){
-        Avl a = getRegArtigos(reg,i);
+        Avl a = getRegArtigos(qs->reg,i);
         foreachAvl(a,(Funcao2) checkBytes,topArt);
         }
     long* t= removeBytes(topArt);
     free(topArt);
     return t;
 }
+
 //interrogação nº7 que retorna o titulo de um artigo com determinado id
 //feita
-char* article_title(long id,Registo reg) {
-    void* artigo = getRegArtEstrutura(reg,id);
+char* article_title(long id,TAD_istruct qs) {
+    void* artigo = getRegArtEstrutura(qs->reg,id);
     if (artigo!=NULL)
         return getTitulo(artigo);
     else return NULL;
@@ -231,13 +227,13 @@ long* removeWords (long* top,int n) {
     return t;
 }
 
-long* top_N_articles_with_more_words(int n,Registo reg){
+long* top_N_articles_with_more_words(int n,TAD_istruct qs){
     long* topWords= malloc(n*2*sizeof(long*));
     int i;
     initLongArray(topWords,n*2+1);
     topWords[0]=n;
     for(i=0;i<10;i++){
-        Avl a = getRegArtigos(reg,i);
+        Avl a = getRegArtigos(qs->reg,i);
         foreachAvl(a,(Funcao2) checkWords,topWords);
         }
     long* t= removeWords(topWords,n);
@@ -254,26 +250,25 @@ void isPrefix (long id,Artigo art,Array a) {
     }
 }
 
-char** titles_with_prefix(char* prefix, Registo reg, int* length) {
+char** titles_with_prefix(char* prefix, TAD_istruct qs) {
     Array a = initArray(2);
     a = insertArray(a, prefix);
     int i;
     for(i=0;i<10;i++) {
-        Avl arv = getRegArtigos(reg, i);
+        Avl arv = getRegArtigos(qs->reg, i);
         foreachAvl(arv,(Funcao2) isPrefix,a);
         free(arv);
     }
     char** t = cloneArray(a);
-    *length = getPosArray(a);
+
     freeArray(a);
     return t;
 }
 
-
 //interrogação nº10 que retorna o timestamp de uma certa revisão de um artigo
 //feita
-char* article_timestamp(long article_id,long revision_id,Registo reg) {
-    void* artigo = getRegArtEstrutura(reg,article_id);
+char* article_timestamp(long article_id,long revision_id,TAD_istruct qs) {
+    void* artigo = getRegArtEstrutura(qs->reg,article_id);
     long *revid=malloc(getN(artigo)*sizeof(long*));
     char* timeSt = NULL;
     int i;
@@ -292,17 +287,8 @@ char* article_timestamp(long article_id,long revision_id,Registo reg) {
     return timeSt;
 }
 
-/*
-int main(int argc,char **argv){
-    Registo r=init();
-    r=load(r,argc,argv);
-    int i;
-    char** t;
-    t = titles_with_prefix("Super",r);
-    for(i=0;t[i]!='\0';i++){
-        printf("i===%s\n",t[i]);
-    }
+TAD_istruct clean(TAD_istruct qs){
+    freeReg(qs->reg);
 
-    return 0;
+    return qs;
 }
-*/

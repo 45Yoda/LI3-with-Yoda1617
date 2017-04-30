@@ -1,21 +1,20 @@
-#include "./headers/interpretador.h"
-#include "./headers/registo.h"
+#include "./headers/interface.h"
 
 
 int main(int argc,char **argv){
 
     //int estado = 1;
 
-    Registo reg=init();
+    TAD_istruct reg=init();
 
-    reg=load(reg,argc,argv);
+    load(reg,argc,argv);
 
     /*while(estado){
     estado = menuPrincipal(reg,argc,argv,estado);
 }*/
 
 
-    //freeReg(reg);
+    //reg = clean(reg);
 
     return 0;
 }

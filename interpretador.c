@@ -1,4 +1,5 @@
 #include "./headers/interpretador.h"
+#include "./headers/interface.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,10 +9,10 @@
 #define sair 0
 #define MenuPrincipal 1
 
-static int menuArtigos(Registo reg);
-static int menuContribuidores(Registo reg);
+static int menuArtigos(TAD_istruct reg);
+static int menuContribuidores(TAD_istruct reg);
 
-int menuPrincipal(Registo reg,int nsnaps,char** snaps_path,int estado){
+int menuPrincipal(TAD_istruct reg,int nsnaps,char** snaps_path,int estado){
 
     char option[20];
 
@@ -36,7 +37,7 @@ int menuPrincipal(Registo reg,int nsnaps,char** snaps_path,int estado){
             case 'Q':
             case 'q': return sair; break;
 
-            case '1': if(reg!=NULL && totalRegElemsArtigos(reg)){
+            case '1': if(reg!=NULL){
                         estado = menuArtigos(reg);
                       }
                       else{
@@ -47,7 +48,7 @@ int menuPrincipal(Registo reg,int nsnaps,char** snaps_path,int estado){
                       }
                       break;
 
-            case '2': if(reg!=NULL && totalRegElemsCont(reg)) estado = menuContribuidores(reg);
+            case '2': if(reg!=NULL) estado = menuContribuidores(reg);
                       else{
                           system("clear");
                           printf("\n Ainda não foram lidos dados\n");
@@ -64,7 +65,7 @@ int menuPrincipal(Registo reg,int nsnaps,char** snaps_path,int estado){
 }
 
 
-static int menuArtigos(Registo reg){
+static int menuArtigos(TAD_istruct reg){
 
     int estado = 1;
     char option[20];
@@ -139,7 +140,7 @@ static int menuArtigos(Registo reg){
     return estado;
 }
 
-static int menuContribuidores(Registo reg){
+static int menuContribuidores(TAD_istruct reg){
 
     int estado = 1;
     char option[20];

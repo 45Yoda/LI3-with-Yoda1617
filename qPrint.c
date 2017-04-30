@@ -1,17 +1,20 @@
 #include "./headers/qPrint.h"
+#include "./headers/interface.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+
+
 //All Articles
-int querie_1(Registo reg){
+int querie_1(TAD_istruct reg){
 
     char opcao[20];
     int estado = 1;
     long valor;
 
-    valor = all_Articles(reg);
+    valor = all_articles(reg);
 
     while(estado){
         system("clear");
@@ -32,7 +35,7 @@ int querie_1(Registo reg){
 
 
 //Artigos Únicos
-int querie_2(Registo reg){
+int querie_2(TAD_istruct reg){
 
     char opcao[20];
     int estado = 1;
@@ -59,7 +62,7 @@ int querie_2(Registo reg){
 }
 
 //Total de Revisões
-int querie_3(Registo reg){
+int querie_3(TAD_istruct reg){
 
     char opcao[20];
     int estado = 1;
@@ -82,7 +85,7 @@ int querie_3(Registo reg){
 }
 
 //Top 10 contribuidores (mais contribuições)
-int querie_4(Registo reg){
+int querie_4(TAD_istruct reg){
 
     char opcao[20];
     int estado = 1;
@@ -106,7 +109,7 @@ int querie_4(Registo reg){
 }
 
 //Username do Contribuidor
-int querie_5(Registo reg){
+int querie_5(TAD_istruct reg){
 
     char opcao[20];
     int estado = 1;
@@ -136,7 +139,7 @@ int querie_5(Registo reg){
 }
 
 //Top 20 artigos
-int querie_6(Registo reg){
+int querie_6(TAD_istruct reg){
 
     char opcao[20];
     int estado = 1;
@@ -160,7 +163,7 @@ int querie_6(Registo reg){
 }
 
 //Titulo do artigo
-int querie_7(Registo reg){
+int querie_7(TAD_istruct reg){
 
     char opcao[20];
     int estado = 1;
@@ -188,7 +191,7 @@ int querie_7(Registo reg){
 }
 
 //Top N Artigos com mais palavras
-int querie_8(Registo reg){
+int querie_8(TAD_istruct reg){
 
     char opcao[20];
     int estado = 1;
@@ -217,31 +220,32 @@ int querie_8(Registo reg){
 }
 
 //Titulos com um Prefixo
-int querie_9(Registo reg){
+int querie_9(TAD_istruct reg){
 
     char opcao[20];
     int estado = 1;
-    int n, i =0;
+    int i =0;
     char** t;
-    char* pref;
-    char buffer[MAXSIZE];
-    pref = buffer;
+    char* pref = malloc(sizeof(char*));
+    //char buffer[MAXSIZE];
+//    pref = buffer;
 
     system("clear");
     printf("Insira o prefixo > ");
     scanf("%s",pref);
 
-    t = titles_with_prefix(pref, reg, &n);
+    t = titles_with_prefix(pref, reg);
+
 
     system("clear");
     printf( "_____________________________________________\n" );
     printf( "\tTitulos com prefixo \"%s\"\n",pref);
-    for(i=1;i<n;i++){
+    for(i=1;t[i]!=NULL;i++){
         printf("%s\n",t[i]);
     }
     printf( "_____________________________________________\n" );
 
-    for(i=0;i<n;i++){
+    for(i=0;t[i]!=NULL;i++){
         free(t[i]);
     }
     free(t);
@@ -254,8 +258,9 @@ int querie_9(Registo reg){
 }
 
 
+
 //Timestamp de uma dada Revisão de um Artigo
-int querie_10(Registo reg){
+int querie_10(TAD_istruct reg){
 
     char opcao[20];
     int estado = 1;
@@ -268,7 +273,7 @@ int querie_10(Registo reg){
     printf("Indique o ID da revisão > ");
     scanf("%ld",&valorR);
     times = article_timestamp(valorA,valorR,reg);
-    if (times) {   
+    if (times) {
     system("clear");
     printf( "_____________________________________________\n" );
     printf( "\tID do Artigo: %ld \n",valorA);

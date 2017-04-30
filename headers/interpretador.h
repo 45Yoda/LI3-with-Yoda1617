@@ -4,8 +4,8 @@
 #include "global.h"
 #include "registo.h"
 #include "qPrint.h"
-#include "queries.h"
 
-int menuPrincipal(Registo reg,int nsnaps,char** snaps_path,int estado);
+
+int menuPrincipal(TAD_istruct qs,int nsnaps,char** snaps_path,int estado);
 
 #endif
