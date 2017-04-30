@@ -4,6 +4,7 @@
 #include "global.h"
 #include "registo.h"
 #include "qPrint.h"
+#include "../interface.h"
 
 
 int menuPrincipal(TAD_istruct qs,int nsnaps,char** snaps_path,int estado);

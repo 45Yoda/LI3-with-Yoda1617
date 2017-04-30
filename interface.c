@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "./headers/interface.h"
+#include "interface.h"
 #include "./headers/registo.h"
 #include "./headers/interpretador.h"
 #include "./headers/ourparser.h"
@@ -19,11 +19,10 @@ TAD_istruct init(){
 }
 
 TAD_istruct load(TAD_istruct qs,int nsnaps,char * snaps_paths[]){
-    int estado = 1;
-    qs->reg = parser(qs->reg,nsnaps,snaps_paths);
+   int estado = 1;
+   qs->reg = parser(qs->reg,nsnaps,snaps_paths);
 
-    while(estado){
-        system("clear");
+   while(estado){
         estado = menuPrincipal(qs,nsnaps,snaps_paths,estado);
     }
 

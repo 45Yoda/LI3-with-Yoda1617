@@ -3,8 +3,7 @@
 
 #include "global.h"
 #include "registo.h"
-#include "interface.h"
-
+#include "../interface.h"
 
 
 int querie_1(TAD_istruct qs);

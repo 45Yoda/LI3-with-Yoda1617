@@ -33,6 +33,5 @@ void incrCont(Contribuidor c){
 
 
 void freeCont(Contribuidor c){
-    free(c->username);
     free(c);
 }

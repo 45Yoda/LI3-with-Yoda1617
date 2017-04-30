@@ -6,4 +6,4 @@ ourparser:
 	$(CC) $(CFLAGS) *.c -o program $(LIBS)
 
 clean:
-	rm *.o program
+	rm  program

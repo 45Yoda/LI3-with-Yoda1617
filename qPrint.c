@@ -1,5 +1,5 @@
 #include "./headers/qPrint.h"
-#include "./headers/interface.h"
+#include "interface.h"
 
 #include <stdio.h>
 #include <stdlib.h>

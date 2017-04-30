@@ -126,7 +126,10 @@ void freeReg(Registo reg){
 
 	for(i=0;i<SIZE;i++){
 		freeAvl(reg->artigos[i],(Funcao) freeArt);
-		freeAvl(reg->contribuidores[i],(Funcao) freeCont);
+
+		if(reg->contribuidores[i] != NULL){
+			freeAvl(reg->contribuidores[i],(Funcao) freeCont);
+		}
 	}
 	free(reg);
 }
