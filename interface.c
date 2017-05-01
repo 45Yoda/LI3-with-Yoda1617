@@ -118,7 +118,7 @@ static void insereCont(long id, long cont,long* top){
 
 static void checkCont (long id,Contribuidor con,long* topContId){
     long cont = getCont(con);
-    if (cont> topContId[9] || (cont==topContId[9] && id>topContId[19]))
+    if (cont> topContId[9] || (cont==topContId[9] && id<topContId[19]))
         insereCont(id,cont,topContId);
 }
 

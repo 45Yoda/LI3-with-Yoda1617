@@ -228,8 +228,8 @@ int querie_9(TAD_istruct reg){
     int i =0;
     char** t;
     char* pref = malloc(sizeof(char*));
-    //char buffer[MAXSIZE];
-//    pref = buffer;
+    char buffer[MAXSIZE];
+    pref = buffer;
 
     system("clear");
     printf("Insira o prefixo > ");
@@ -238,18 +238,18 @@ int querie_9(TAD_istruct reg){
     t = titles_with_prefix(pref, reg);
 
     if (t) {
-    system("clear");
-    printf( "_____________________________________________\n" );
-    printf( "\tTitulos com prefixo \"%s\"\n",pref);
-    for(i=1;t[i]!=NULL;i++){
-        printf("%s\n",t[i]);
-    }
-    printf( "_____________________________________________\n" );
+        system("clear");
+        printf( "_____________________________________________\n" );
+        printf( "\tTitulos com prefixo \"%s\"\n",pref);
+        for(i=1;t[i]!=NULL;i++){
+            printf("%s\n",t[i]);
+        }
+        printf( "_____________________________________________\n" );
 
-    for(i=0;t[i]!=NULL;i++){
-        free(t[i]);
-    }
-    free(t);
+        for(i=0;t[i]!=NULL;i++){
+            free(t[i]);
+        }
+        free(t);
     }
 
     else printf("Não existe nenhum titulo com esse prefixo.\n");
