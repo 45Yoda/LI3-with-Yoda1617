@@ -11,7 +11,7 @@
 #include "./headers/registo.h"
 #include "./headers/contribuidor.h"
 #include "./headers/arraydinamico.h"
-
+#include "./headers/global.h"
 
 
 
@@ -80,6 +80,7 @@ void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char*
         if (!avlSearch(c,idAutor)) {
             Contribuidor con = initContribuidor(username);
             reg=insereRegContribuidor(reg,idAutor,con);
+            free(username);
         }
         else {
             Contribuidor con =getAvlEstrutura(c,idAutor);

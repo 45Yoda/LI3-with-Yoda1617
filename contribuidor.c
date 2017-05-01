@@ -28,7 +28,7 @@ int getCont(Contribuidor c){
 }
 
 void incrCont(Contribuidor c){
-    c->cont+=1;
+    c->cont++;
 }
 
 
