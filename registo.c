@@ -43,19 +43,9 @@ Registo insereRegArtigo(Registo reg, long id,void* estrutura){
 	return reg;
 }
 
-Registo insereRegContribuidor(Registo reg,long id,char* user){
+Registo insereRegContribuidor(Registo reg,long id,void* estrutura){
 	int i = firstDigit(id);
-	Contribuidor con =getAvlEstrutura(reg->contribuidores[i],id);
-	if(!con){
-		con = initContribuidor(user);
-		setUsername(con,user);
-		incrCont(con);
-		reg->contribuidores[i]=insertAvl(reg->contribuidores[i],id,con);
-	}
-	else{
-		incrCont(con);
-		reg->contribuidores[i]=atualizaAvl(reg->contribuidores[i],id,con);
-	}
+	reg->contribuidores[i] = insertAvl(reg->contribuidores[i],id,estrutura);
 	return reg;
 }
 

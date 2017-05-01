@@ -11,7 +11,7 @@ struct contribuidor{
 Contribuidor initContribuidor(char * username){
     Contribuidor new = (Contribuidor) malloc(sizeof(struct contribuidor));
     new->username = strdup(username);
-    new->cont = 0;
+    new->cont = 1;
     return new;
 }
 

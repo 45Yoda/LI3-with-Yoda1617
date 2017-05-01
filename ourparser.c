@@ -74,7 +74,18 @@ void parseContributor(xmlDocPtr doc, xmlNodePtr cur,long idArt,char* title,char*
         }
     }
 
-    if(username)  insereRegContribuidor(reg, idAutor, username);
+    if(username)  {
+        void* c = getRegContribuidores(reg,idAutor);
+
+        if (!avlSearch(c,idAutor)) {
+            Contribuidor con = initContribuidor(username);
+            reg=insereRegContribuidor(reg,idAutor,con);
+        }
+        else {
+            Contribuidor con =getAvlEstrutura(c,idAutor);
+            incrCont(con);
+        }
+}
 
     parseText(doc,aux,idArt,title,timestamp,idRev,reg);
 
