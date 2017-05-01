@@ -218,7 +218,7 @@ static Boolean nodeSearch(NODO node,Valor v){
 
 void foreachAvl(Avl a,Funcao2 func,void* dados){
     if(a)
-        a->tree=foreachNode(a->tree,func,dados);
+        foreachNode(a->tree,func,dados);
 }
 
 static NODO foreachNode(NODO n,Funcao2 func,void* dados){
