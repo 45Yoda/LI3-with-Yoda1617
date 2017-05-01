@@ -18,7 +18,7 @@ Avl getRegContribuidores(Registo r, long id);
 
 Registo insereRegArtigo(Registo reg, long id,void* estrutura);
 
-Registo insereRegContribuidor(Registo reg,long id,char* user);
+Registo insereRegContribuidor(Registo reg,long id,void* estrutura);
 
 Registo atualizaRegArtigos(Registo reg, long id,void* estrutura);
 
