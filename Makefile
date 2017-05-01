@@ -7,3 +7,12 @@ program:
 
 clean:
 	rm  program
+
+cleanAll: clean
+	-@rm -rf doc
+	-@rm -rf html
+	-@rm -rf latex
+	
+.PHONY: doc
+doc:$(OBJS)
+		doxygen doxygen.conf
