@@ -3,21 +3,29 @@ package engine;
 import li3.Interface;
 
 import java.util.ArrayList;
+import java.io.FileNotFoundException;
 
 public class QueryEngineImpl implements Interface {
 
+    private Registo reg;
 
     public void init() {
-
+        this.reg = new Registo();
     }
 
     public void load(int nsnaps, ArrayList<String> snaps_paths) {
+        CatArtigos cArt = reg.getCatArt();
+        CatContrib cCont = reg.getCatCont();
+        try{
+            Parser.parseDoc(nsnaps, snaps_paths, cArt, cCont);
+        }
+        catch(FileNotFoundException e){
+            System.err.println("FileNotFoundException: " + e.getMessage());
+        }
 
     }
 
     public long all_articles() {
-
-        return 0;
     }
 
     public long unique_articles() {
