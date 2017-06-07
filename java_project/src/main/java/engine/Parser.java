@@ -157,6 +157,7 @@ public static void insereDados(String[] dados,CatArtigos artigos, CatContrib con
         arti.setWords(Long.parseLong(dados[6]));
         arti.setBytes(Long.parseLong(dados[7]));
         //TODO arti.insereRevisao(revi);
+
         artigos.insereArtigo(arti);
     }
 

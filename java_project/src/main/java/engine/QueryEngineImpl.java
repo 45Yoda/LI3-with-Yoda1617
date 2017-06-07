@@ -8,16 +8,18 @@ import java.io.FileNotFoundException;
 public class QueryEngineImpl implements Interface {
 
     private Registo reg;
+    private CatArtigos cat;
 
     public void init() {
         this.reg = new Registo();
+        this.cat= new CatArtigos();
     }
 
     public void load(int nsnaps, ArrayList<String> snaps_paths) {
         CatArtigos cArt = reg.getCatArt();
         CatContrib cCont = reg.getCatCont();
         try{
-            Parser.parseDoc(nsnaps, snaps_paths, cArt, cCont);
+            Parser.parseDoc(nsnaps, snaps_paths, cat, cCont);
         }
         catch(FileNotFoundException e){
             System.err.println("FileNotFoundException: " + e.getMessage());
@@ -26,17 +28,21 @@ public class QueryEngineImpl implements Interface {
     }
 
     public long all_articles() {
-        return 0;
+        return 5;
     }
 
     public long unique_articles() {
-
-        return 0;
+        System.out.println(cat.getCatalogo().get((long)12));
+        int i =cat.getCatalogo().size();
+        System.out.println(i);
+        return i;    
     }
 
     public long all_revisions() {
+        int i = reg.getCatArt().getCatalogo().values().stream().mapToInt(a->a.getRevs().size()).sum();
+        System.out.println(i);
 
-        return 0;
+        return i;
     }
 
     public ArrayList<Long> top_10_contributors() {

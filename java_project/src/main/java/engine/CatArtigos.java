@@ -32,12 +32,7 @@ public class CatArtigos implements Serializable{
      //gets
 
      public Map<Long,Artigo> getCatalogo(){
-         artigos = new TreeMap<Long,Artigo>();
-
-         for(Map.Entry<Long,Artigo> entry: this.artigos.entrySet())
-            artigos.put(entry.getKey(),entry.getValue().clone());
-
-        return artigos;
+        return this.artigos;
     }
 
     //sets
@@ -45,7 +40,7 @@ public class CatArtigos implements Serializable{
     public void setCatalogo(TreeMap<Long,Artigo> artigos){
         this.artigos = new TreeMap<Long,Artigo>();
         for(Map.Entry<Long,Artigo> entry: artigos.entrySet())
-            this.artigos.put(entry.getKey(),entry.getValue().clone());
+            this.artigos.put(entry.getKey(),entry.getValue());
     }
 
     //Método clone
@@ -71,11 +66,12 @@ public class CatArtigos implements Serializable{
 
     //Função que insere um artigo no catálogo
     public void insereArtigo(Artigo art){
-        this.artigos.put(art.getId(),art.clone());
+        this.artigos.put(art.getId(),art);
     }
 
     //Necessário ???? REVIEW
     public void removeArtigo(Artigo art){
+
         this.artigos.remove(art.getId());
     }
 

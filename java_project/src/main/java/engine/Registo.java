@@ -34,11 +34,11 @@ public class Registo{
 
      //gets
      public CatArtigos getCatArt(){
-         return this.cArt.clone();
+         return this.cArt;
      }
 
      public CatContrib getCatCont(){
-         return this.cCont.clone();
+         return this.cCont;
      }
 
      //sets

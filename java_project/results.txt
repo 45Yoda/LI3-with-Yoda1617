@@ -1,5 +1,5 @@
-all_articles() -> 0
-unique_articles() -> 0
+all_articles() -> 5
+unique_articles() -> 19867
 all_revisions() -> 0
 top_10_contributors() -> 
 contributor_name(28903366) ->  
