@@ -1,7 +1,8 @@
 package engine;
+import java.util.TreeMap;
 
 
-public class Artigo{
+public class Artigo extends Revisao{
 
     private String titulo; //titulo do artigo
     private long id;
@@ -56,8 +57,8 @@ public class Artigo{
 
     public TreeMap<Revisao> getRevs(){
         TreeMap<Integer,Revisao> aux = new TreeMap<Integer,Revisao> ();
-        for(Revisao r: this.revisions)
-            aux.add(r);
+        for(Map.Entry <Integer,Revisao> r: this.revisions.entrySet())
+            aux.put(r.getKey(),r.getValue());
 
         return aux;
     }
@@ -80,12 +81,11 @@ public class Artigo{
     }
 
     public void setRev(Revisao revi){
-        for(Revisao r: revi)
-            this.revisions.add(revi);
+        this.revisions.put(revi.getId,revi);
     }
 
     public void setWords(double word){
-        this.words = word
+        this.words = word;
     }
 
     public void setBytes(double byt){
@@ -95,7 +95,7 @@ public class Artigo{
 
     //Método clone
     public Artigo clone(){
-        return new Artigo();
+        return new Artigo(this);
     }
 
     //Método equals
@@ -116,6 +116,7 @@ public class Artigo{
         sb.append("Titulo do Artigo: ").append(titulo).append("\n");
         sb.append("Id do Artigo: ").append(id).append("\n");
         //TODO ADicionar o to String da Revisao ?
+        sb.append("Revisões:").append(revisions.toString());
         sb.append("Número de palavras: ").append(words).append("\n");
         sb.append("Número de bytes: ").append(bytes).append("\n");
 

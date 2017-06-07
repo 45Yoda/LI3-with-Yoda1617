@@ -17,15 +17,17 @@ public class Revisao{
      * Construtor por parametros
      */
 
-    public Revisao(long iden){
+    public Revisao(long iden,String time){
         this.id = iden;
+        this.timestamp = time;
     }
 
     /**
      * Construtor por cópia
      */
     public Revisao(Revisao c){
-        id = c.getId();
+        this.id = c.getId();
+        this.timestamp=c.getTimestamp();
     }
 
     //gets
@@ -33,14 +35,22 @@ public class Revisao{
         return this.id;
     }
 
+    public String getTimestamp() {
+        return this.timestamp;
+    }
+    
     //sets
     public void setId(long iden){
         this.id = iden;
     }
 
+    public void setTimestamp(String time) {
+        this.timestamp = time;
+    }
+
     //Método clone
     public Revisao clone(){
-        return new Revisao();
+        return new Revisao(this);
     }
 
     //Método equals
@@ -49,14 +59,15 @@ public class Revisao{
         if(o == null || o.getClass() != this.getClass()) return false;
 
         Revisao rev = (Revisao) o;
-        return rev.getId() == id;
+        return rev.getId() == id &&
+               rev.getTimestamp() == timestamp;
     }
 
     //Método toString
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Id da revisão: ").append(id).append("\n");
-
+        sb.append("Timestamp da revisão: ").append(timestamp).append("\n");
         return sb.toString();
     }
 
