@@ -138,7 +138,7 @@ public static void insereDados(String[] dados,CatArtigos artigos, CatContrib con
             //TODO conta duplicado?
         }
         else{
-            Revisao rev = new Revisao (Long.parseLong(data[2]),data[4])
+            Revisao rev = new Revisao (Long.parseLong(data[2]),data[4]);
             art.insereRevisao(rev);
             if(art.getWords()<Long.parseLong(dados[6])){
                 art.setWords(Long.parseLong(dados[6]));
@@ -162,8 +162,9 @@ public static void insereDados(String[] dados,CatArtigos artigos, CatContrib con
     }
 
     //Usar try e catch??? REVIEW
-    if(!data[3].isEmpty()){ //Caso dos ips
-        Contribuidor cont = new Contribuidor(data[5],1,Long.parseLong(data[3]));
+    if(!dados[3].isEmpty()){ //Caso dos ips
+        Contribuidor cont = new Contribuidor(dados[5],1,Long.parseLong(dados[3]));
         contribuidores.insereContribuidor(cont);
     }
+}
 }
