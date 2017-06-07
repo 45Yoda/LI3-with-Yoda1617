@@ -5,7 +5,7 @@ public class Artigo{
 
     private String titulo; //titulo do artigo
     private long id;
-    private ArrayList<Revisao> revisions;
+    private TreeMap<Integer,Revisao> revisions;
     private double words;
     private double bytes;
 
@@ -15,7 +15,7 @@ public class Artigo{
     public Artigo(){
         this.titulo = " ";
         this.id = 0;
-        this.revisions = new ArrayList<Revisao>();
+        this.revisions = new TreeMap<Integer,Revisao>();
         this.words = 0;
         this.bytes = 0;
     }
@@ -24,11 +24,11 @@ public class Artigo{
      * Construtor por parametros
      */
 
-    public Artigo(String titu, long iden,ArrayList<Revisao> revi,double word, double byt){
+    public Artigo(String titu, long iden,Revisao revi,double word, double byt){
         this.titulo = titu;
         this.id = iden;
-        this.revisions = new ArrayList<Revisao>();
-        setRevisao(revi);
+        this.revisions = new TreeMap<Integer,Revisao>();
+        this.revisions.put(revi.getId(),revi);
         this.words = word;
         this.bytes = byt;
     }
@@ -54,8 +54,8 @@ public class Artigo{
         return this.id;
     }
 
-    public List<Revisao> getRevs(){
-        List<Revisao> aux = new ArrayList<Revisao> ();
+    public TreeMap<Revisao> getRevs(){
+        TreeMap<Integer,Revisao> aux = new TreeMap<Integer,Revisao> ();
         for(Revisao r: this.revisions)
             aux.add(r);
 

@@ -3,12 +3,14 @@ package engine;
 public class Revisao{
 
     private long id;
+    private String timestamp;
 
     /**
      * Construtor vazio
      */
     public Revisao(){
         id = 0;
+        timestamp="";
     }
 
     /**
