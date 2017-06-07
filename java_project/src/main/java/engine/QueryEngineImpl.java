@@ -26,6 +26,7 @@ public class QueryEngineImpl implements Interface {
     }
 
     public long all_articles() {
+        return 0;
     }
 
     public long unique_articles() {

@@ -2,23 +2,23 @@ package engine;
 
 import java.util.TreeMap;
 import java.util.Map;
-import java.util.Serializable;
+import java.io.Serializable;
 
 public class CatArtigos implements Serializable{
 
-    private Map<Integer,Artigo> artigos;
+    private Map<Long,Artigo> artigos;
 
     /**
      * Construtor vazio
      */
     public CatArtigos(){
-        artigos = new TreeMap<Integer,Artigo>();
+        artigos = new TreeMap<Long,Artigo>();
     }
 
     /**
      * Construtor por parâmetros
      */
-    public CatArtigos(TreeMap<Integer,Artigo> catalogo){
+    public CatArtigos(TreeMap<Long,Artigo> catalogo){
         this.artigos = catalogo;
     }
 
@@ -31,10 +31,10 @@ public class CatArtigos implements Serializable{
 
      //gets
 
-     public Map<Integer,Artigo> getCatalogo(){
-         artigos = new TreeMap<Integer,Artigo>();
+     public Map<Long,Artigo> getCatalogo(){
+         artigos = new TreeMap<Long,Artigo>();
 
-         for(Map.Entry<Integer,Artigo> entry: this.artigos.entrySet())
+         for(Map.Entry<Long,Artigo> entry: this.artigos.entrySet())
             artigos.put(entry.getKey(),entry.getValue().clone());
 
         return artigos;
@@ -42,9 +42,9 @@ public class CatArtigos implements Serializable{
 
     //sets
 
-    public void setCatalogo(TreeMap<Integer,Artigo> artigos){
-        this.artigos = new TreeMap<Integer,Artigo>();
-        for(Map.Entry<Integer,Artigo> entry: artigos.entrySet())
+    public void setCatalogo(TreeMap<Long,Artigo> artigos){
+        this.artigos = new TreeMap<Long,Artigo>();
+        for(Map.Entry<Long,Artigo> entry: artigos.entrySet())
             this.artigos.put(entry.getKey(),entry.getValue().clone());
     }
 
@@ -80,11 +80,15 @@ public class CatArtigos implements Serializable{
     }
 
     //Função que descobre se existe um Artigo especifico
-    public boolean existeArtigo(Artigo art){
-        this.artigo.get(art.getId()).containsValue(art);
+    public boolean existeArtigo(Long idArt){
+        return this.artigos.containsKey(idArt);
     }
 
     public void clean(){
         this.artigos.clear();
+    }
+
+    public Artigo getArtigo(Long idArt){
+        return this.artigos.get(idArt);
     }
 }

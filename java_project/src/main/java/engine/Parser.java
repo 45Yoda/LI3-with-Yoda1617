@@ -18,9 +18,9 @@ public class Parser {
         String[] dados = new String[10];
         int i = 0;
         int n = 0;
-        int cbytes = 0;
-        int bytes = 0;
-        int words = 0;
+        long cbytes = 0;
+        long bytes = 0;
+        long words = 0;
 
 
         try{
@@ -78,12 +78,10 @@ public class Parser {
                                     break;
 
                                 case "revision":
-                                    dados[6]=text; // Número de palavras
-                                    dados[7]=text; // Número de bytes
+                                    dados[6]="" + words; // Número de palavras
+                                    dados[7]="" + bytes; // Número de bytes
                                     insereDados(dados,artigos,contribuidores);
                                     break;
-
-                                case XMLStreamReader.END_ELEMENT:
 
                             }
                             break;
@@ -133,13 +131,14 @@ public static void insereDados(String[] dados,CatArtigos artigos, CatContrib con
     if (artigos.existeArtigo(Long.parseLong(dados[1]))){
         Artigo art = artigos.getArtigo(Long.parseLong(dados[1]));
         //TODO
-        Revisao revisao = art.getRevisao(Long.parseLong(data[2]));
+        Revisao revisao = art.getRevisao(Long.parseLong(dados[2]));
         if(art.existeRevisao(Long.parseLong(dados[2]))){
             //TODO conta duplicado?
+            //TODO flag na Revisao para revisoes duplicadas
         }
         else{
-            Revisao rev = new Revisao (Long.parseLong(data[2]),data[4]);
-            art.insereRevisao(rev);
+            Revisao rev = new Revisao (Long.parseLong(dados[2]),dados[4]);
+            art.addRevisao(rev);
             if(art.getWords()<Long.parseLong(dados[6])){
                 art.setWords(Long.parseLong(dados[6]));
             }

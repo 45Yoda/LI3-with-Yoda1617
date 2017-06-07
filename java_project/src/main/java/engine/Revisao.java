@@ -38,7 +38,7 @@ public class Revisao{
     public String getTimestamp() {
         return this.timestamp;
     }
-    
+
     //sets
     public void setId(long iden){
         this.id = iden;

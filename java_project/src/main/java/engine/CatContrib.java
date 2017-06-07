@@ -2,25 +2,25 @@ package engine;
 
 import java.util.TreeMap;
 import java.util.Map;
-import java.util.Serializable;
+import java.io.Serializable;
 
 
 
 public class CatContrib implements Serializable{
 
-    private Map<Integer,Contribuidor> contribuidor;
+    private Map<Long,Contribuidor> contribuidor;
 
     /**
      * Construtor vazio
      */
     public CatContrib(){
-        contribuidor = new TreeMap<Integer,Contribuidor>();
+        contribuidor = new TreeMap<Long,Contribuidor>();
     }
 
     /**
      * Construtor por parâmetros
      */
-    public CatContrib(TreeMap<Integer,Contribuidor> catalogo){
+    public CatContrib(TreeMap<Long,Contribuidor> catalogo){
         this.contribuidor = catalogo;
     }
 
@@ -32,19 +32,19 @@ public class CatContrib implements Serializable{
     }
 
     //gets
-    public Map<Integer,Contribuidor> getCatalogo(){
-        contribuidor = new TreeMap<Integer,Contribuidor>();
+    public Map<Long,Contribuidor> getCatalogo(){
+        contribuidor = new TreeMap<Long,Contribuidor>();
 
-        for(Map.Entry<Integer,Contribuidor> entry: this.contribuidor.entrySet())
+        for(Map.Entry<Long,Contribuidor> entry: this.contribuidor.entrySet())
             contribuidor.put(entry.getKey(),entry.getValue().clone());
 
         return contribuidor;
     }
 
     //sets
-    public void setCatalogo(TreeMap<Integer,Contribuidor> contribuidor) {
-        contribuidor = new TreeMap<Integer,Contribuidor>();
-        for(Map.Entry<Integer,Contribuidor> entry: contribuidor.entrySet())
+    public void setCatalogo(TreeMap<Long,Contribuidor> contribuidor) {
+        contribuidor = new TreeMap<Long,Contribuidor>();
+        for(Map.Entry<Long,Contribuidor> entry: contribuidor.entrySet())
             this.contribuidor.put(entry.getKey(),entry.getValue().clone());
     }
 
@@ -79,7 +79,7 @@ public class CatContrib implements Serializable{
 
     //Função que descobre se existe um Contribuidor especifico
     public boolean existeContribuidor(Contribuidor cont){
-            return this.contribuidor.get(cont.getId()).containsValue(cont);
+            return this.contribuidor.containsValue(cont);
     }
 
     public void clean(){

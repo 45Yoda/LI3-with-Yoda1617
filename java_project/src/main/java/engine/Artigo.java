@@ -1,14 +1,16 @@
 package engine;
+
+import java.util.Map;
 import java.util.TreeMap;
 
 
-public class Artigo extends Revisao{
+public class Artigo{
 
     private String titulo; //titulo do artigo
     private long id;
-    private TreeMap<Integer,Revisao> revisions;
-    private double words;
-    private double bytes;
+    private TreeMap<Long,Revisao> revisions;
+    private long words;
+    private long bytes;
 
     /**
      * Construtor vazio
@@ -16,7 +18,7 @@ public class Artigo extends Revisao{
     public Artigo(){
         this.titulo = " ";
         this.id = 0;
-        this.revisions = new TreeMap<Integer,Revisao>();
+        this.revisions = new TreeMap<Long,Revisao>();
         this.words = 0;
         this.bytes = 0;
     }
@@ -25,10 +27,10 @@ public class Artigo extends Revisao{
      * Construtor por parametros
      */
 
-    public Artigo(String titu, long iden,Revisao revi,double word, double byt){
+    public Artigo(String titu, long iden,Revisao revi,long word, long byt){
         this.titulo = titu;
         this.id = iden;
-        this.revisions = new TreeMap<Integer,Revisao>();
+        this.revisions = new TreeMap<Long,Revisao>();
         this.revisions.put(revi.getId(),revi);
         this.words = word;
         this.bytes = byt;
@@ -55,19 +57,19 @@ public class Artigo extends Revisao{
         return this.id;
     }
 
-    public TreeMap<Revisao> getRevs(){
-        TreeMap<Integer,Revisao> aux = new TreeMap<Integer,Revisao> ();
-        for(Map.Entry <Integer,Revisao> r: this.revisions.entrySet())
+    public TreeMap<Long,Revisao> getRevs(){
+        TreeMap<Long,Revisao> aux = new TreeMap<Long,Revisao> ();
+        for(Map.Entry <Long,Revisao> r: this.revisions.entrySet())
             aux.put(r.getKey(),r.getValue());
 
         return aux;
     }
 
-    public double getWords(){
+    public long getWords(){
         return this.words;
     }
 
-    public double getBytes(){
+    public long getBytes(){
         return this.bytes;
     }
 
@@ -81,14 +83,14 @@ public class Artigo extends Revisao{
     }
 
     public void setRev(Revisao revi){
-        this.revisions.put(revi.getId,revi);
+        this.revisions.put(revi.getId(),revi);
     }
 
-    public void setWords(double word){
+    public void setWords(long word){
         this.words = word;
     }
 
-    public void setBytes(double byt){
+    public void setBytes(long byt){
         this.bytes = byt;
     }
 
@@ -105,7 +107,7 @@ public class Artigo extends Revisao{
         Artigo ar = (Artigo) o;
         return ar.getTitulo().equals(titulo) &&
                ar.getId() == id &&
-               ar.getRev().equals(rev) &&
+               ar.getRevs().equals(revisions) &&
                ar.getWords() == words &&
                ar.getBytes() == bytes;
     }
@@ -115,7 +117,7 @@ public class Artigo extends Revisao{
         StringBuilder sb = new StringBuilder();
         sb.append("Titulo do Artigo: ").append(titulo).append("\n");
         sb.append("Id do Artigo: ").append(id).append("\n");
-        //TODO ADicionar o to String da Revisao ?
+        //REVIEW
         sb.append("Revisões:").append(revisions.toString());
         sb.append("Número de palavras: ").append(words).append("\n");
         sb.append("Número de bytes: ").append(bytes).append("\n");
@@ -131,14 +133,16 @@ public class Artigo extends Revisao{
         return this.revisions.size();
     }
 
-    public void addRevision(Revision rev){
-        this.revisions.add(rev);
+    public void addRevisao(Revisao rev){
+        this.revisions.put(rev.getId(),rev);
     }
 
     public Revisao getRevisao(long idRev){
-        for(Revisao r: this.revisions){
-            if(r.getId() == idRev) return r;
-        }
+        return this.revisions.get(idRev);
     }
-    
+
+    public boolean existeRevisao(long idRev){
+        return this.revisions.containsKey(idRev);
+    }
+
 }

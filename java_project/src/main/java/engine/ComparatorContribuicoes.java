@@ -1,3 +1,5 @@
+package engine;
+
 import java.util.Comparator;
 import java.io.Serializable;
 
@@ -15,7 +17,7 @@ public class ComparatorContribuicoes implements Comparator<Contribuidor>, Serial
             if(cont1 > cont2) return -1;
             else
                 //è assim? REVIEW
-                if(id1 < id2) return -1
+                if(id1 < id2) return -1;
                 if(id1 > id2) return 1;
                 else return 0;
 
