@@ -39,15 +39,13 @@ public class QueryEngineImpl implements Interface {
 
     public long all_revisions() {
         return this.cCat.getCatalogo().values().stream().mapToInt(a->a.getRevs().size()).sum();
-        
+
     }
 
     public ArrayList<Long> top_10_contributors() {
-        List<Contribuidor> lista = new ArrayList<Contribuidor>();
-        lista = cCont.getCatalogo().values().stream().collect(Collectors.toList());
-        Collections.sort(lista, new ComparatorContribuicoes());
-        lista.subList(0,9).stream().mapToLong(c->(c.getId()));
-        return (ArrayList) lista;
+        ArrayList<Long> lista;
+        lista = cCont.getCatalogo().values().stream().sorted(new ComparatorContribuicoes()).limit(10).map(c->(c.getId())).collect(Collectors.toCollection(ArrayList :: new));
+        return lista;
     }
 
     public String contributor_name(long contributor_id) {

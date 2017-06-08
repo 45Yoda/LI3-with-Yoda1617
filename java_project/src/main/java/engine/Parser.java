@@ -68,6 +68,10 @@ public class Parser {
                                             break;
                                     }
 
+                                case "ip":
+                                    dados[3]="";
+                                    break;
+
                                 case "timestamp":
                                     dados[4]=text;; // Timestamp da revisão
                                     break;
@@ -128,12 +132,35 @@ private static int countW(String str){
 
 }*/
 
+/*
+if(existeArtigo)
+    art = get(art)
+        if( nao art.existeRevisao())
+            add revisions
+            e contribuidor
+            get contribuidor e incremento contribuicoes se ja existir
+        else (existe)
+            incrFlag();
+else   (nao existir)
+    arti=new Artigo
+    arti.addRevision
+    verifico se existe contribuidor senao mete um novo
+
+funcao verificar contribuidor
+*/
+
+
+
+
+
+
 public static void insereDados(String[] dados,CatArtigos artigos, CatContrib contribuidores){
     if (artigos.existeArtigo(Long.parseLong(dados[1]))){
         Artigo art = artigos.getCatalogo().get(Long.parseLong(dados[1]));
         if(art.existeRevisao(Long.parseLong(dados[2]))){
             art.incrFlag();
         }
+
         else{
             Revisao rev = new Revisao (Long.parseLong(dados[2]),dados[4]);
             art.addRevisao(rev);
@@ -161,7 +188,7 @@ public static void insereDados(String[] dados,CatArtigos artigos, CatContrib con
     }
 
     //Usar try e catch??? REVIEW
-    if(!dados[3].isEmpty()){ //Caso dos ips
+    if(!dados[3].isEmpty()){
         if (contribuidores.existeContribuidor(Long.parseLong (dados[3]))) {
             contribuidores.getCatalogo().get(Long.parseLong (dados[3])).incrCont();
         }
@@ -173,4 +200,3 @@ public static void insereDados(String[] dados,CatArtigos artigos, CatContrib con
 }
 
 }
-
