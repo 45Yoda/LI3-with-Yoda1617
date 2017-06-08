@@ -71,12 +71,6 @@ public class CatContrib implements Serializable{
         this.contribuidor.put(cont.getId(),cont.clone());
     }
 
-
-    //Necessário ???? REVIEW
-    public void removeContribuidor(Contribuidor cont){
-        this.contribuidor.remove(cont.getId());
-    }
-
     //Função que descobre se existe um Contribuidor especifico
     public boolean existeContribuidor(Contribuidor cont){
             return this.contribuidor.containsValue(cont);

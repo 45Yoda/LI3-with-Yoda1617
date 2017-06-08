@@ -69,12 +69,6 @@ public class CatArtigos implements Serializable{
         this.artigos.put(art.getId(),art);
     }
 
-    //Necessário ???? REVIEW
-    public void removeArtigo(Artigo art){
-
-        this.artigos.remove(art.getId());
-    }
-
     //Função que descobre se existe um Artigo especifico
     public boolean existeArtigo(Long idArt){
         return this.artigos.containsKey(idArt);

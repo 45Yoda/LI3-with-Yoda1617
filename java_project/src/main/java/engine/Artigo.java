@@ -11,6 +11,7 @@ public class Artigo{
     private TreeMap<Long,Revisao> revisions;
     private long words;
     private long bytes;
+    private int flag;
 
     /**
      * Construtor vazio
@@ -21,19 +22,21 @@ public class Artigo{
         this.revisions = new TreeMap<Long,Revisao>();
         this.words = 0;
         this.bytes = 0;
+        this.flag=0;
     }
 
     /**
      * Construtor por parametros
      */
 
-    public Artigo(String titu, long iden,Revisao revi,long word, long byt){
+    public Artigo(String titu, long iden,Revisao revi,long word, long byt, int n){
         this.titulo = titu;
         this.id = iden;
         this.revisions = new TreeMap<Long,Revisao>();
         this.revisions.put(revi.getId(),revi);
         this.words = word;
         this.bytes = byt;
+        this.flag=n;
     }
 
     /**
@@ -46,6 +49,7 @@ public class Artigo{
         this.revisions = c.getRevs();
         this.words = c.getWords();
         this.bytes = c.getBytes();
+        this.flag = c.getFlag();
     }
 
     //gets
@@ -73,6 +77,10 @@ public class Artigo{
         return this.bytes;
     }
 
+    public int getFlag() {
+        return this.flag;
+    }
+
     //sets
     public void setTitulo(String titu){
         this.titulo = titu;
@@ -94,6 +102,9 @@ public class Artigo{
         this.bytes = byt;
     }
 
+    public void setFlag(int n) {
+        this.flag=n;
+    }
 
     //Método clone
     public Artigo clone(){
@@ -109,7 +120,8 @@ public class Artigo{
                ar.getId() == id &&
                ar.getRevs().equals(revisions) &&
                ar.getWords() == words &&
-               ar.getBytes() == bytes;
+               ar.getBytes() == bytes &&
+               ar.getFlag() == flag;
     }
 
     //Método toString
@@ -118,9 +130,10 @@ public class Artigo{
         sb.append("Titulo do Artigo: ").append(titulo).append("\n");
         sb.append("Id do Artigo: ").append(id).append("\n");
         //REVIEW
-        sb.append("Revisões:").append(revisions.toString());
+        sb.append("Revisões:").append(revisions.toString()).append("\n");
         sb.append("Número de palavras: ").append(words).append("\n");
-        sb.append("Número de bytes: ").append(bytes).append("\n");
+        sb.append("Número de bytes: ").append(bytes).append("\n");        
+        sb.append("Número de vezes que artigo aparece: ").append(flag).append("\n");
 
         return sb.toString();
     }
@@ -145,4 +158,7 @@ public class Artigo{
         return this.revisions.containsKey(idRev);
     }
 
+    public void incrFlag() {
+        this.flag++;
+    }
 }
