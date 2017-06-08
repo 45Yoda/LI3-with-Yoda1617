@@ -52,8 +52,8 @@ public class QueryEngineImpl implements Interface {
 
         if (this.cCont.getCatalogo().containsKey(contributor_id))
             return this.cCont.getCatalogo().get(contributor_id).getUsername();
-       
-        else return "";
+       //review
+        else return "Esse contribuidor nao existe.";
     }
 
 
@@ -70,11 +70,13 @@ public class QueryEngineImpl implements Interface {
 
     public ArrayList<Long> top_N_articles_with_more_words(int n) {
 
-        return cCat.getCatalogo().values().stream().sorted(new ComparatorWords()).limit(n).map(c->(c.getId())).collect(Collectors.toCollection(ArrayList :: new));
+        return cCat.getCatalogo().values().stream().sorted(new ComparatorWords()).limit(n).map(c->(c.getBytes())).collect(Collectors.toCollection(ArrayList :: new));
     }
 
     public ArrayList<String> titles_with_prefix(String prefix) {
-        return (ArrayList) cCat.getCatalogo().values().stream().filter(f->(f.getTitulo()).contains(prefix)).map(a->a.getTitulo()).collect(Collectors.toList());
+        ArrayList<String> lista = cCat.getCatalogo().values().stream().filter(f->(f.getTitulo()).contains(prefix)).map(a->a.getTitulo()).collect(Collectors.toCollection(ArrayList :: new));
+        Collections.sort(lista);
+        return lista;
         }
 
     public String article_timestamp(long article_id, long revision_id) {
@@ -83,6 +85,7 @@ public class QueryEngineImpl implements Interface {
     }
 
     public void clean() {
-
+        cCat.clean();
+        cCont.clean();
     }
 }
