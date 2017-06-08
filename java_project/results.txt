@@ -1,4 +1,4 @@
-all_articles() -> 19867
-unique_articles() -> 19867
-all_revisions() -> 19867
+all_articles() -> 0
+unique_articles() -> 0
+all_revisions() -> 0
 top_10_contributors() -> 

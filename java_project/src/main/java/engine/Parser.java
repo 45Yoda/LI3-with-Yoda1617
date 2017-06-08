@@ -165,7 +165,7 @@ public static void insereDados(String[] dados, CatArtigos artigos, CatContrib co
     if(artigos.existeArtigo(Long.parseLong(dados[1]))){
         Artigo art = artigos.getCatalogo().get(Long.parseLong(dados[1]));
 
-        if(!art.existeRevisao(dados[2])){
+        if(!art.existeRevisao(Long.parseLong(dados[2]))){
             Revisao rev = new Revisao(Long.parseLong(dados[2]),dados[4]);
             art.addRevisao(rev);
             art.incrFlag();
@@ -195,7 +195,7 @@ public static void insereDados(String[] dados, CatArtigos artigos, CatContrib co
 
             artigos.insereArtigo(arti);
 
-            insereContrib(Long.parseLong(dados[3]),dados[5],contribuidores);
+            insereContrib(dados,contribuidores);
         }
 }
 
