@@ -191,7 +191,7 @@ public static void insereDados(String[] dados, CatArtigos artigos, CatContrib co
         }
         else{
             art.incrFlag();
-        } 
+        }
     }
     else{
             Artigo arti = new Artigo();
