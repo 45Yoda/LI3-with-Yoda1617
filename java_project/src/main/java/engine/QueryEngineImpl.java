@@ -50,12 +50,17 @@ public class QueryEngineImpl implements Interface {
 
     public String contributor_name(long contributor_id) {
 
-        return this.cCont.getCatalogo().get(contributor_id).getUsername();
+        if (this.cCont.getCatalogo().containsKey(contributor_id))
+            return this.cCont.getCatalogo().get(contributor_id).getUsername();
+       
+        else return "";
     }
 
-    public ArrayList<Long> top_20_largest_articles() {
 
-        return new ArrayList<Long>();
+    public ArrayList<Long> top_20_largest_articles() {
+        ArrayList<Long> lista;
+        lista = cCat.getCatalogo().values().stream().sorted(new ComparatorBytes()).limit(20).map(c->(c.getId())).collect(Collectors.toCollection(ArrayList :: new));
+        return lista;
     }
 
     public String article_title(long article_id) {
@@ -65,7 +70,7 @@ public class QueryEngineImpl implements Interface {
 
     public ArrayList<Long> top_N_articles_with_more_words(int n) {
 
-        return new ArrayList<Long>();
+        return cCat.getCatalogo().values().stream().sorted(new ComparatorWords()).limit(n).map(c->(c.getId())).collect(Collectors.toCollection(ArrayList :: new));
     }
 
     public ArrayList<String> titles_with_prefix(String prefix) {
