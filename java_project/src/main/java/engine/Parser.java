@@ -60,11 +60,11 @@ public class Parser {
                                             n=1;
                                             break;
                                         case 1:
-                                            dados[2]=text;; //ID de Revisão
+                                            dados[2]=text; //ID de Revisão
                                             n=2;
                                             break;
                                         case 2:
-                                            dados[3]=text;; //ID de Contribuidor
+                                            dados[3]=text; //ID de Contribuidor
                                             break;
                                     }
 
@@ -73,11 +73,11 @@ public class Parser {
                                     break;
 
                                 case "timestamp":
-                                    dados[4]=text;; // Timestamp da revisão
+                                    dados[4]=text; // Timestamp da revisão
                                     break;
 
                                 case "username":
-                                    dados[5]=text;; // Username do Contribuidor
+                                    dados[5]=text; // Username do Contribuidor
                                     //n=2;
                                     break;
 
