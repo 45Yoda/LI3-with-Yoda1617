@@ -90,6 +90,7 @@ public class Parser {
             }
         }
         catch(XMLStreamException e){System.out.println("Erro");}
+
     }
 
 
@@ -161,8 +162,15 @@ public static void insereDados(String[] dados,CatArtigos artigos, CatContrib con
 
     //Usar try e catch??? REVIEW
     if(!dados[3].isEmpty()){ //Caso dos ips
+        if (contribuidores.existeContribuidor(Long.parseLong (dados[3]))) {
+            contribuidores.getCatalogo().get(Long.parseLong (dados[3])).incrCont();
+        }
+        else {
         Contribuidor cont = new Contribuidor(dados[5],1,Long.parseLong(dados[3]));
         contribuidores.insereContribuidor(cont);
     }
+    }
 }
+
 }
+

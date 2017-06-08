@@ -75,4 +75,8 @@ public class Contribuidor{
 
         return sb.toString();
     }
+
+    public void incrCont() {
+        this.cont++;
+    }
 }

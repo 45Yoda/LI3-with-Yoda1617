@@ -2,8 +2,11 @@ package engine;
 
 import li3.Interface;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.io.FileNotFoundException;
+import java.util.stream.Collectors;
+import java.lang.String;
 
 public class QueryEngineImpl implements Interface {
 
@@ -45,7 +48,7 @@ public class QueryEngineImpl implements Interface {
 
     public String contributor_name(long contributor_id) {
 
-        return "" ;//this.cCont.getCatalogo().get(contributor_id).getUsername();
+        return this.cCont.getCatalogo().get(contributor_id).getUsername();
     }
 
     public ArrayList<Long> top_20_largest_articles() {
@@ -64,9 +67,8 @@ public class QueryEngineImpl implements Interface {
     }
 
     public ArrayList<String> titles_with_prefix(String prefix) {
-
-        return new ArrayList<String>();
-    }
+        return (ArrayList) cCat.getCatalogo().values().stream().filter(f->(f.getTitulo()).contains(prefix)).map(a->a.getTitulo()).collect(Collectors.toList());
+        }
 
     public String article_timestamp(long article_id, long revision_id) {
 
