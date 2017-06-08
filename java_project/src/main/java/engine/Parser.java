@@ -149,11 +149,59 @@ else   (nao existir)
 funcao verificar contribuidor
 */
 
+private static void insereContrib(String[] dados, CatContrib contribuidores){
+    if(!dados[3].isEmpty()){
+        if(contribuidores.existeContribuidor(Long.parseLong(dados[3]))){
+            contribuidores.getCatalogo().get(Long.parseLong(dados[3])).incrCont();
+        }
+        else{
+            Contribuidor cont = new Contribuidor(dados[5],1,Long.parseLong(dados[3]));
+            contribuidores.insereContribuidor(cont);
+        }
+    }
+}
+
+public static void insereDados(String[] dados, CatArtigos artigos, CatContrib contribuidores){
+    if(artigos.existeArtigo(Long.parseLong(dados[1]))){
+        Artigo art = artigos.getCatalogo().get(Long.parseLong(dados[1]));
+
+        if(!art.existeRevisao(dados[2])){
+            Revisao rev = new Revisao(Long.parseLong(dados[2]),dados[4]);
+            art.addRevisao(rev);
+            art.incrFlag();
+
+            insereContrib(dados,contribuidores);
+
+            if(art.getWords()<Long.parseLong(dados[6])){
+                art.setWords(Long.parseLong(dados[6]));
+            }
+            if(art.getBytes()<Long.parseLong(dados[7])){
+                art.setBytes(Long.parseLong(dados[7]));
+            }
+        }
+        else{
+            art.incrFlag();
+        }
+    }
+    else{
+            Artigo arti = new Artigo();
+            Revisao revi = new Revisao (Long.parseLong(dados[2]),dados[4]);
+            arti.setTitulo(dados[0]);
+            arti.setId(Long.parseLong(dados[1]));
+            arti.setWords(Long.parseLong(dados[6]));
+            arti.setBytes(Long.parseLong(dados[7]));
+            arti.addRevisao(revi);
+            arti.incrFlag();
+
+            artigos.insereArtigo(arti);
+
+            insereContrib(Long.parseLong(dados[3]),dados[5],contribuidores);
+        }
+}
 
 
 
-
-
+/*
 public static void insereDados(String[] dados,CatArtigos artigos, CatContrib contribuidores){
     if (artigos.existeArtigo(Long.parseLong(dados[1]))){
         Artigo art = artigos.getCatalogo().get(Long.parseLong(dados[1]));
@@ -197,6 +245,5 @@ public static void insereDados(String[] dados,CatArtigos artigos, CatContrib con
         contribuidores.insereContribuidor(cont);
     }
     }
-}
-
+    */
 }
