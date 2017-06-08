@@ -60,24 +60,26 @@ public class Parser {
                                             n=1;
                                             break;
                                         case 1:
-                                            dados[2]=text;; //ID de Revisão
+                                            dados[2]=text; //ID de Revisão
                                             n=2;
                                             break;
                                         case 2:
-                                            dados[3]=text;; //ID de Contribuidor
+                                            dados[3]=text;
+                                            //System.out.println("dados:"+ dados[3]); //ID de Contribuidor
                                             break;
                                     }
 
-                                case "ip":
+                               /* case "ip":
                                     dados[3]="";
+                                    System.out.println("IP");
                                     break;
-
+*/
                                 case "timestamp":
-                                    dados[4]=text;; // Timestamp da revisão
+                                    dados[4]=text; // Timestamp da revisão
                                     break;
 
                                 case "username":
-                                    dados[5]=text;; // Username do Contribuidor
+                                    dados[5]=text; // Username do Contribuidor
                                     //n=2;
                                     break;
 
@@ -85,6 +87,7 @@ public class Parser {
                                     dados[6]="" + words; // Número de palavras
                                     dados[7]="" + bytes; // Número de bytes
                                     insereDados(dados,artigos,contribuidores);
+                                    dados[5]="";
                                     break;
 
                             }
@@ -150,13 +153,19 @@ funcao verificar contribuidor
 */
 
 private static void insereContrib(String[] dados, CatContrib contribuidores){
-    if(!dados[3].isEmpty()){
+    //System.out.println("chega aqui");
+    //System.out.println(dados[3]);
+    if(!dados[5].isEmpty()){
         if(contribuidores.existeContribuidor(Long.parseLong(dados[3]))){
+            //System.out.println("entra if");
             contribuidores.getCatalogo().get(Long.parseLong(dados[3])).incrCont();
+            //System.out.println("ja existe"+contribuidores.getCatalogo().get(Long.parseLong(dados[3])).getUsername());
         }
         else{
+            //System.out.println("entra else");
             Contribuidor cont = new Contribuidor(dados[5],1,Long.parseLong(dados[3]));
             contribuidores.insereContribuidor(cont);
+            //System.out.println("nao esxiste:" + cont.getUsername());
         }
     }
 }
@@ -172,6 +181,7 @@ public static void insereDados(String[] dados, CatArtigos artigos, CatContrib co
 
             insereContrib(dados,contribuidores);
 
+
             if(art.getWords()<Long.parseLong(dados[6])){
                 art.setWords(Long.parseLong(dados[6]));
             }
@@ -181,7 +191,7 @@ public static void insereDados(String[] dados, CatArtigos artigos, CatContrib co
         }
         else{
             art.incrFlag();
-        }
+        } 
     }
     else{
             Artigo arti = new Artigo();
@@ -197,6 +207,7 @@ public static void insereDados(String[] dados, CatArtigos artigos, CatContrib co
 
             insereContrib(dados,contribuidores);
         }
+        //System.out.println(dados[3]);
 }
 
 
