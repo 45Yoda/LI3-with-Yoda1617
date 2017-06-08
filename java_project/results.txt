@@ -1,10 +1,3 @@
-all_articles() -> 59593
+all_articles() -> 19867
 unique_articles() -> 19867
-all_revisions() -> 40131
-top_10_contributors() -> 
-contributor_name(28903366) -> Bender the Bot
-top_20_largest_articles() -> 
-article_title(15910) -> List of compositions by Johann Sebastian Bach
-top_N_articles_with_more_words(30) -> 
-titles_with_prefix(Anax) -> Anaximander Anaxagoras Anaxarchus Anaximenes of Lampsacus Anaximenes of Miletus 
-article_timestamp(12,763082287) -> 2017-02-01T06:11:56Z
+all_revisions() -> 19867

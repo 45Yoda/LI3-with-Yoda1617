@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.util.stream.Collectors;
 import java.lang.String;
+import java.util.Collections;
 
 public class QueryEngineImpl implements Interface {
 
@@ -42,8 +43,11 @@ public class QueryEngineImpl implements Interface {
     }
 
     public ArrayList<Long> top_10_contributors() {
-
-        return new ArrayList<Long>();
+        List<Contribuidor> lista = new ArrayList<Contribuidor>();
+        lista = cCont.getCatalogo().values().stream().collect(Collectors.toList());
+        Collections.sort(lista, new ComparatorContribuicoes());
+        lista.subList(0,9).stream().mapToLong(c->(c.getId()));
+        return (ArrayList) lista;
     }
 
     public String contributor_name(long contributor_id) {
