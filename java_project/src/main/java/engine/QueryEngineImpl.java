@@ -2,24 +2,25 @@ package engine;
 
 import li3.Interface;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.io.FileNotFoundException;
+import java.util.stream.Collectors;
+import java.lang.String;
 
 public class QueryEngineImpl implements Interface {
 
-    private Registo reg;
-    private CatArtigos cat;
+    private CatArtigos cCat;
+    private CatContrib cCont;
 
     public void init() {
-        this.reg = new Registo();
-        this.cat= new CatArtigos();
+        this.cCat= new CatArtigos();
+        this.cCont = new CatContrib();
     }
 
     public void load(int nsnaps, ArrayList<String> snaps_paths) {
-        CatArtigos cArt = reg.getCatArt();
-        CatContrib cCont = reg.getCatCont();
         try{
-            Parser.parseDoc(nsnaps, snaps_paths, cat, cCont);
+            Parser.parseDoc(nsnaps, snaps_paths, this.cCat, this.cCont);
         }
         catch(FileNotFoundException e){
             System.err.println("FileNotFoundException: " + e.getMessage());
@@ -28,21 +29,16 @@ public class QueryEngineImpl implements Interface {
     }
 
     public long all_articles() {
-        return 5;
+        return this.cCat.getCatalogo().values().stream().mapToInt(a->a.getFlag()).sum();
     }
 
     public long unique_articles() {
-        System.out.println(cat.getCatalogo().get((long)12));
-        int i =cat.getCatalogo().size();
-        System.out.println(i);
-        return i;    
+        return this.cCat.getCatalogo().size();
     }
 
     public long all_revisions() {
-        int i = reg.getCatArt().getCatalogo().values().stream().mapToInt(a->a.getRevs().size()).sum();
-        System.out.println(i);
-
-        return i;
+        return this.cCat.getCatalogo().values().stream().mapToInt(a->a.getRevs().size()).sum();
+        
     }
 
     public ArrayList<Long> top_10_contributors() {
@@ -52,7 +48,7 @@ public class QueryEngineImpl implements Interface {
 
     public String contributor_name(long contributor_id) {
 
-        return " ";
+        return this.cCont.getCatalogo().get(contributor_id).getUsername();
     }
 
     public ArrayList<Long> top_20_largest_articles() {
@@ -62,7 +58,7 @@ public class QueryEngineImpl implements Interface {
 
     public String article_title(long article_id) {
 
-        return " ";
+        return this.cCat.getCatalogo().get(article_id).getTitulo();
     }
 
     public ArrayList<Long> top_N_articles_with_more_words(int n) {
@@ -71,13 +67,12 @@ public class QueryEngineImpl implements Interface {
     }
 
     public ArrayList<String> titles_with_prefix(String prefix) {
-
-        return new ArrayList<String>();
-    }
+        return (ArrayList) cCat.getCatalogo().values().stream().filter(f->(f.getTitulo()).contains(prefix)).map(a->a.getTitulo()).collect(Collectors.toList());
+        }
 
     public String article_timestamp(long article_id, long revision_id) {
 
-        return " ";
+        return this.cCat.getCatalogo().get(article_id).getRevs().get(revision_id).getTimestamp();
     }
 
     public void clean() {

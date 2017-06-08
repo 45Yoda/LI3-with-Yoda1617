@@ -90,6 +90,7 @@ public class Parser {
             }
         }
         catch(XMLStreamException e){System.out.println("Erro");}
+
     }
 
 
@@ -129,23 +130,20 @@ private static int countW(String str){
 
 public static void insereDados(String[] dados,CatArtigos artigos, CatContrib contribuidores){
     if (artigos.existeArtigo(Long.parseLong(dados[1]))){
-        Artigo art = artigos.getArtigo(Long.parseLong(dados[1]));
-        //TODO
-        Revisao revisao = art.getRevisao(Long.parseLong(dados[2]));
+        Artigo art = artigos.getCatalogo().get(Long.parseLong(dados[1]));
         if(art.existeRevisao(Long.parseLong(dados[2]))){
-            //TODO conta duplicado?
-            //TODO flag na Revisao para revisoes duplicadas
+            art.incrFlag();
         }
         else{
             Revisao rev = new Revisao (Long.parseLong(dados[2]),dados[4]);
             art.addRevisao(rev);
+            art.incrFlag();
             if(art.getWords()<Long.parseLong(dados[6])){
                 art.setWords(Long.parseLong(dados[6]));
             }
             if(art.getBytes()<Long.parseLong(dados[7])){
                 art.setBytes(Long.parseLong(dados[7]));
             }
-            artigos.insereArtigo(art);
         }
     }
 
@@ -156,15 +154,23 @@ public static void insereDados(String[] dados,CatArtigos artigos, CatContrib con
         arti.setId(Long.parseLong(dados[1]));
         arti.setWords(Long.parseLong(dados[6]));
         arti.setBytes(Long.parseLong(dados[7]));
-        //TODO arti.insereRevisao(revi);
+        arti.incrFlag();
+        arti.addRevisao(revi);
 
         artigos.insereArtigo(arti);
     }
 
     //Usar try e catch??? REVIEW
     if(!dados[3].isEmpty()){ //Caso dos ips
+        if (contribuidores.existeContribuidor(Long.parseLong (dados[3]))) {
+            contribuidores.getCatalogo().get(Long.parseLong (dados[3])).incrCont();
+        }
+        else {
         Contribuidor cont = new Contribuidor(dados[5],1,Long.parseLong(dados[3]));
         contribuidores.insereContribuidor(cont);
     }
+    }
 }
+
 }
+

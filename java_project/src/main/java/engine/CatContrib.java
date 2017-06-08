@@ -33,12 +33,12 @@ public class CatContrib implements Serializable{
 
     //gets
     public Map<Long,Contribuidor> getCatalogo(){
-        contribuidor = new TreeMap<Long,Contribuidor>();
+       /* contribuidor = new TreeMap<Long,Contribuidor>();
 
         for(Map.Entry<Long,Contribuidor> entry: this.contribuidor.entrySet())
             contribuidor.put(entry.getKey(),entry.getValue().clone());
-
-        return contribuidor;
+*/
+        return this.contribuidor;
     }
 
     //sets
@@ -68,18 +68,12 @@ public class CatContrib implements Serializable{
     //Função que insere um contribuidor no catálogo
 
     public void insereContribuidor(Contribuidor cont){
-        this.contribuidor.put(cont.getId(),cont.clone());
-    }
-
-
-    //Necessário ???? REVIEW
-    public void removeContribuidor(Contribuidor cont){
-        this.contribuidor.remove(cont.getId());
+        this.contribuidor.put(cont.getId(),cont);
     }
 
     //Função que descobre se existe um Contribuidor especifico
-    public boolean existeContribuidor(Contribuidor cont){
-            return this.contribuidor.containsValue(cont);
+    public boolean existeContribuidor(long id){
+            return this.contribuidor.containsKey(id);
     }
 
     public void clean(){
