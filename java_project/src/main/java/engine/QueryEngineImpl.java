@@ -44,17 +44,19 @@ public class QueryEngineImpl implements Interface {
 
     public ArrayList<Long> top_10_contributors() {
         ArrayList<Long> lista;
-        System.out.println(cCat.getCatalogo().get((long) 15910).getBytes());
         lista = cCont.getCatalogo().values().stream().sorted(new ComparatorContribuicoes()).limit(10).map(c->(c.getId())).collect(Collectors.toCollection(ArrayList :: new));
         return lista;
     }
 
     public String contributor_name(long contributor_id) {
 
-        if (this.cCont.getCatalogo().containsKey(contributor_id))
+        try {
             return this.cCont.getCatalogo().get(contributor_id).getUsername();
-       //review
-        else return "Esse contribuidor nao existe.";
+             }
+        catch(NullPointerException e){
+            System.err.println(e.getMessage());
+            return "Contribuidor nao existe";
+    }
     }
 
 
@@ -65,8 +67,15 @@ public class QueryEngineImpl implements Interface {
     }
 
     public String article_title(long article_id) {
+        try {
 
         return this.cCat.getCatalogo().get(article_id).getTitulo();
+        
+        }
+        catch(NullPointerException e){
+            System.err.println(e.getMessage());
+            return "Artigo nao existe";
+    }    
     }
 
     public ArrayList<Long> top_N_articles_with_more_words(int n) {
@@ -75,15 +84,27 @@ public class QueryEngineImpl implements Interface {
     }
 
     public ArrayList<String> titles_with_prefix(String prefix) {
+        try {
         ArrayList<String> lista = cCat.getCatalogo().values().stream().filter(f->(f.getTitulo()).contains(prefix)).map(a->a.getTitulo()).collect(Collectors.toCollection(ArrayList :: new));
         Collections.sort(lista);
         return lista;
         }
+        catch(NullPointerException e){
+            System.err.println(e.getMessage());
+            return null;
+    }
+}
 
     public String article_timestamp(long article_id, long revision_id) {
 
-        return this.cCat.getCatalogo().get(article_id).getRevs().get(revision_id).getTimestamp();
+        try {
+         return this.cCat.getCatalogo().get(article_id).getRevs().get(revision_id).getTimestamp();
+        }
+        catch(NullPointerException e){
+            System.err.println(e.getMessage());
+            return "Artigo ou revisao nao existe";
     }
+}
 
     public void clean() {
         cCat.clean();
