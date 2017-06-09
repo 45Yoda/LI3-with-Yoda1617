@@ -42,7 +42,7 @@ public class Parser {
                             cbytes = reader.getTextLength();
                             words += countW(text);
                             //Bytes esta bem? REVIEW
-                            bytes += cbytes;
+                            bytes = cbytes;
                             break;
 
                         case XMLStreamConstants.END_ELEMENT:
@@ -113,7 +113,7 @@ private static int countW(String str){
   }
 
 
-/*REVIEW
+/*
 private static int countW(String str){
     int count = 0;
     int i = 0;
@@ -121,7 +121,7 @@ private static int countW(String str){
     boolean word = false;
     int eol = str.length() -1 ;
 
-    for(i = 0; i < s.length(); i++){
+    for(i = 0; i < str.length(); i++){
         if(Character.isLetter(str.charAt(i)) && i != eol){
             word = true;
         }
@@ -132,8 +132,7 @@ private static int countW(String str){
     }
     return count;
 }
-
-}*/
+*/
 
 /*
 if(existeArtigo)
@@ -210,51 +209,4 @@ public static void insereDados(String[] dados, CatArtigos artigos, CatContrib co
         //System.out.println(dados[3]);
 }
 
-
-
-/*
-public static void insereDados(String[] dados,CatArtigos artigos, CatContrib contribuidores){
-    if (artigos.existeArtigo(Long.parseLong(dados[1]))){
-        Artigo art = artigos.getCatalogo().get(Long.parseLong(dados[1]));
-        if(art.existeRevisao(Long.parseLong(dados[2]))){
-            art.incrFlag();
-        }
-
-        else{
-            Revisao rev = new Revisao (Long.parseLong(dados[2]),dados[4]);
-            art.addRevisao(rev);
-            art.incrFlag();
-            if(art.getWords()<Long.parseLong(dados[6])){
-                art.setWords(Long.parseLong(dados[6]));
-            }
-            if(art.getBytes()<Long.parseLong(dados[7])){
-                art.setBytes(Long.parseLong(dados[7]));
-            }
-        }
-    }
-
-    else{
-        Revisao revi = new Revisao (Long.parseLong(dados[2]),dados[4]);
-        Artigo arti = new Artigo();
-        arti.setTitulo(dados[0]);
-        arti.setId(Long.parseLong(dados[1]));
-        arti.setWords(Long.parseLong(dados[6]));
-        arti.setBytes(Long.parseLong(dados[7]));
-        arti.incrFlag();
-        arti.addRevisao(revi);
-
-        artigos.insereArtigo(arti);
-    }
-
-    //Usar try e catch??? REVIEW
-    if(!dados[3].isEmpty()){
-        if (contribuidores.existeContribuidor(Long.parseLong (dados[3]))) {
-            contribuidores.getCatalogo().get(Long.parseLong (dados[3])).incrCont();
-        }
-        else {
-        Contribuidor cont = new Contribuidor(dados[5],1,Long.parseLong(dados[3]));
-        contribuidores.insereContribuidor(cont);
-    }
-    }
-    */
 }

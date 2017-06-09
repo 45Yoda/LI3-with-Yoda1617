@@ -129,10 +129,9 @@ public class Artigo{
         StringBuilder sb = new StringBuilder();
         sb.append("Titulo do Artigo: ").append(titulo).append("\n");
         sb.append("Id do Artigo: ").append(id).append("\n");
-        //REVIEW
         sb.append("Revisões:").append(revisions.toString()).append("\n");
         sb.append("Número de palavras: ").append(words).append("\n");
-        sb.append("Número de bytes: ").append(bytes).append("\n");        
+        sb.append("Número de bytes: ").append(bytes).append("\n");
         sb.append("Número de vezes que artigo aparece: ").append(flag).append("\n");
 
         return sb.toString();

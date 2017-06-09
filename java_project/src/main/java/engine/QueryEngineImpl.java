@@ -70,7 +70,7 @@ public class QueryEngineImpl implements Interface {
 
     public ArrayList<Long> top_N_articles_with_more_words(int n) {
 
-        return cCat.getCatalogo().values().stream().sorted(new ComparatorWords()).limit(n).map(c->(c.getBytes())).collect(Collectors.toCollection(ArrayList :: new));
+        return cCat.getCatalogo().values().stream().sorted(new ComparatorWords()).limit(n).map(c->(c.getId())).collect(Collectors.toCollection(ArrayList :: new));
     }
 
     public ArrayList<String> titles_with_prefix(String prefix) {
