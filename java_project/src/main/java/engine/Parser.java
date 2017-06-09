@@ -5,6 +5,7 @@ import java.lang.StringBuffer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -39,10 +40,16 @@ public class Parser {
 
                         case XMLStreamConstants.CHARACTERS:
                             text = reader.getText().trim();
-                            cbytes = reader.getTextLength();
+                             //UTF-8 pode representar qualquer caracter universal padrão do Unicode
+                             try{
+                                 cbytes = text.getBytes("UTF-8").length;
+                             }
+                             catch (UnsupportedEncodingException e){
+                                 System.err.println("Erro" + e.getMessage());
+                             }
+                            bytes += cbytes;
                             words += countW(text);
-                            //Bytes esta bem? REVIEW
-                            bytes = cbytes;
+
                             break;
 
                         case XMLStreamConstants.END_ELEMENT:
@@ -69,11 +76,6 @@ public class Parser {
                                             break;
                                     }
 
-                               /* case "ip":
-                                    dados[3]="";
-                                    System.out.println("IP");
-                                    break;
-*/
                                 case "timestamp":
                                     dados[4]=text; // Timestamp da revisão
                                     break;
@@ -85,7 +87,9 @@ public class Parser {
 
                                 case "revision":
                                     dados[6]="" + words; // Número de palavras
+                                    System.out.println("bytes"+bytes);
                                     dados[7]="" + bytes; // Número de bytes
+                                    System.out.println(dados[7]);
                                     insereDados(dados,artigos,contribuidores);
                                     words=0;
                                     bytes=0;
@@ -192,12 +196,6 @@ public static void insereDados(String[] dados, CatArtigos artigos, CatContrib co
         }
         else{
             art.incrFlag();
-            if(art.getWords()<Long.parseLong(dados[6])){
-                art.setWords(Long.parseLong(dados[6]));
-            }
-            if(art.getBytes()<Long.parseLong(dados[7])){
-                art.setBytes(Long.parseLong(dados[7]));
-            }
         }
     }
     else{
