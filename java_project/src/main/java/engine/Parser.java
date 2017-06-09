@@ -28,8 +28,11 @@ public class Parser {
         try{
             XMLInputFactory factory = XMLInputFactory.newInstance();
 
+            factory.setProperty("javax.xml.stream.isCoalescing", true);
+
             for(;i<nsnaps;i++){
                 XMLStreamReader reader = factory.createXMLStreamReader(new FileInputStream(new File(args.get(i))));
+
 
                 while(reader.hasNext()){
                     int event = reader.next();
@@ -47,15 +50,21 @@ public class Parser {
                              catch (UnsupportedEncodingException e){
                                  System.err.println("Erro" + e.getMessage());
                              }
-                             cwords = countW(text);
+                             //cwords = countW(text);
 
                             bytes += cbytes;
-                            words += cwords;
+                            //words += cwords;
 
                             break;
 
                         case XMLStreamConstants.END_ELEMENT:
                             switch(reader.getLocalName()){
+
+                            case "text":
+                                    words = countW(text);
+                                    dados[6] = "" + words;
+                                    words = 0;
+                                    break;
 
                                 case "title":
                                     dados[0]=text; //titulo do artigo
@@ -87,12 +96,12 @@ public class Parser {
                                     break;
 
                                 case "revision":
-                                    dados[6]="" + words; // Número de palavras
+                                    //dados[6]="" + words; // Número de palavras
 
                                     dados[7]="" + bytes; // Número de bytes
 
                                     insereDados(dados,artigos,contribuidores);
-
+                                    words=0;
                                     bytes=0;
                                     dados[5]="";
                                     break;
@@ -117,10 +126,10 @@ private static int countW(String str){
       }
 
       return words.length;
-  }
-*/
+  }*/
 
 
+/*
 public static int countW(String input) {
     if (input == null || input.isEmpty()) {
       return 0;
@@ -129,8 +138,8 @@ public static int countW(String input) {
     String[] words = input.split("\\s+");
     return words.length;
   }
+*/
 
-/*
 private static int countW(String str){
     int count = 0;
     int i = 0;
@@ -149,7 +158,7 @@ private static int countW(String str){
     }
     return count;
 }
-*/
+
 
 private static void insereContrib(String[] dados, CatContrib contribuidores){
     if(!dados[5].isEmpty()){
