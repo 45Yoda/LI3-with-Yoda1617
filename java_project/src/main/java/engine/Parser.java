@@ -87,6 +87,8 @@ public class Parser {
                                     dados[6]="" + words; // Número de palavras
                                     dados[7]="" + bytes; // Número de bytes
                                     insereDados(dados,artigos,contribuidores);
+                                    words=0;
+                                    bytes=0;
                                     dados[5]="";
                                     break;
 
@@ -190,6 +192,12 @@ public static void insereDados(String[] dados, CatArtigos artigos, CatContrib co
         }
         else{
             art.incrFlag();
+            if(art.getWords()<Long.parseLong(dados[6])){
+                art.setWords(Long.parseLong(dados[6]));
+            }
+            if(art.getBytes()<Long.parseLong(dados[7])){
+                art.setBytes(Long.parseLong(dados[7]));
+            }
         }
     }
     else{

@@ -44,6 +44,7 @@ public class QueryEngineImpl implements Interface {
 
     public ArrayList<Long> top_10_contributors() {
         ArrayList<Long> lista;
+        System.out.println(cCat.getCatalogo().get((long) 15910).getBytes());
         lista = cCont.getCatalogo().values().stream().sorted(new ComparatorContribuicoes()).limit(10).map(c->(c.getId())).collect(Collectors.toCollection(ArrayList :: new));
         return lista;
     }
