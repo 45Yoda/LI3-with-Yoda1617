@@ -87,9 +87,9 @@ public class Parser {
 
                                 case "revision":
                                     dados[6]="" + words; // Número de palavras
-                                    System.out.println("bytes"+bytes);
+
                                     dados[7]="" + bytes; // Número de bytes
-                                    System.out.println(dados[7]);
+
                                     insereDados(dados,artigos,contribuidores);
                                     words=0;
                                     bytes=0;
