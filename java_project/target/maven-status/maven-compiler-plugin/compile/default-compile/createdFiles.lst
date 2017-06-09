@@ -1,0 +1,13 @@
+engine/Artigo.class
+li3/Interface.class
+engine/ComparatorWords.class
+engine/CatContrib.class
+engine/ComparatorContribuicoes.class
+engine/QueryEngineImpl.class
+engine/CatArtigos.class
+engine/ComparatorBytes.class
+engine/Contribuidor.class
+common/MyLog.class
+engine/Revisao.class
+li3/Main.class
+engine/Parser.class
