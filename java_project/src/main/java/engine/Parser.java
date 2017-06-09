@@ -47,7 +47,7 @@ public class Parser {
                              catch (UnsupportedEncodingException e){
                                  System.err.println("Erro" + e.getMessage());
                              }
-                             cwords = countW(text)
+                             cwords = countW(text);
 
                             bytes += cbytes;
                             words += cwords;
@@ -92,7 +92,7 @@ public class Parser {
                                     dados[7]="" + bytes; // Número de bytes
 
                                     insereDados(dados,artigos,contribuidores);
-                                    words=0;
+
                                     bytes=0;
                                     dados[5]="";
                                     break;
@@ -108,7 +108,7 @@ public class Parser {
     }
 
 
-
+/*
 private static int countW(String str){
       String[] words = str.split("\\W+");
 
@@ -118,7 +118,17 @@ private static int countW(String str){
 
       return words.length;
   }
+*/
 
+
+public static int countW(String input) {
+    if (input == null || input.isEmpty()) {
+      return 0;
+    }
+
+    String[] words = input.split("\\s+");
+    return words.length;
+  }
 
 /*
 private static int countW(String str){
