@@ -20,6 +20,7 @@ public class Parser {
         int i = 0;
         int n = 0;
         long cbytes = 0;
+        long cwords = 0;
         long bytes = 0;
         long words = 0;
 
@@ -47,8 +48,10 @@ public class Parser {
                              catch (UnsupportedEncodingException e){
                                  System.err.println("Erro" + e.getMessage());
                              }
+                             cwords = countW(text)
+
                             bytes += cbytes;
-                            words += countW(text);
+                            words += cwords;
 
                             break;
 
