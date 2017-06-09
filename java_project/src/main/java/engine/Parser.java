@@ -40,7 +40,6 @@ public class Parser {
 
                         case XMLStreamConstants.CHARACTERS:
                             text = reader.getText().trim();
-                             //UTF-8 pode representar qualquer caracter universal padrão do Unicode
                              try{
                                  cbytes = text.getBytes("UTF-8").length;
                              }
@@ -71,8 +70,7 @@ public class Parser {
                                             n=2;
                                             break;
                                         case 2:
-                                            dados[3]=text;
-                                            //System.out.println("dados:"+ dados[3]); //ID de Contribuidor
+                                            dados[3]=text; // ID Contribuidor
                                             break;
                                     }
 
@@ -140,37 +138,14 @@ private static int countW(String str){
 }
 */
 
-/*
-if(existeArtigo)
-    art = get(art)
-        if( nao art.existeRevisao())
-            add revisions
-            e contribuidor
-            get contribuidor e incremento contribuicoes se ja existir
-        else (existe)
-            incrFlag();
-else   (nao existir)
-    arti=new Artigo
-    arti.addRevision
-    verifico se existe contribuidor senao mete um novo
-
-funcao verificar contribuidor
-*/
-
 private static void insereContrib(String[] dados, CatContrib contribuidores){
-    //System.out.println("chega aqui");
-    //System.out.println(dados[3]);
     if(!dados[5].isEmpty()){
         if(contribuidores.existeContribuidor(Long.parseLong(dados[3]))){
-            //System.out.println("entra if");
             contribuidores.getCatalogo().get(Long.parseLong(dados[3])).incrCont();
-            //System.out.println("ja existe"+contribuidores.getCatalogo().get(Long.parseLong(dados[3])).getUsername());
         }
         else{
-            //System.out.println("entra else");
             Contribuidor cont = new Contribuidor(dados[5],1,Long.parseLong(dados[3]));
             contribuidores.insereContribuidor(cont);
-            //System.out.println("nao esxiste:" + cont.getUsername());
         }
     }
 }
@@ -212,7 +187,5 @@ public static void insereDados(String[] dados, CatArtigos artigos, CatContrib co
 
             insereContrib(dados,contribuidores);
         }
-        //System.out.println(dados[3]);
 }
-
 }

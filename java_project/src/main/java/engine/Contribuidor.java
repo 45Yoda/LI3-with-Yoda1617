@@ -4,7 +4,7 @@ public class Contribuidor{
 
     private String username; //Username do Contribuidor
     private int cont; //Contribuições do Contribuidor
-    private long id;
+    private long id; // Id de contribuidor
 
     //Construtores
     public Contribuidor(){

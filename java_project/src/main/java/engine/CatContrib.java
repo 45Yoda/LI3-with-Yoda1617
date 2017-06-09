@@ -33,11 +33,6 @@ public class CatContrib implements Serializable{
 
     //gets
     public Map<Long,Contribuidor> getCatalogo(){
-       /* contribuidor = new TreeMap<Long,Contribuidor>();
-
-        for(Map.Entry<Long,Contribuidor> entry: this.contribuidor.entrySet())
-            contribuidor.put(entry.getKey(),entry.getValue().clone());
-*/
         return this.contribuidor;
     }
 
