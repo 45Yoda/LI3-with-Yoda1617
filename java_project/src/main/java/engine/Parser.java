@@ -129,17 +129,17 @@ private static int countW(String str){
   }*/
 
 
-/*
+
 public static int countW(String input) {
     if (input == null || input.isEmpty()) {
       return 0;
     }
 
-    String[] words = input.split("\\s+");
+    String[] words = input.split("\\s+|\n|\t");
     return words.length;
   }
-*/
 
+/*
 private static int countW(String str){
     int count = 0;
     int i = 0;
@@ -158,7 +158,7 @@ private static int countW(String str){
     }
     return count;
 }
-
+*/
 
 private static void insereContrib(String[] dados, CatContrib contribuidores){
     if(!dados[5].isEmpty()){
