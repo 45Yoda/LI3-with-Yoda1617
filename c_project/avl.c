@@ -8,8 +8,8 @@ struct nodeAvl{
     long id;                      //inteiro com um valor
     void *info;                   //apontador para a estrutura
     int height;                   //inteiro com altura da árvore;
-    struct nodeAvl *left;
-    struct nodeAvl *right;
+    struct nodeAvl *left;         //apontador para nodo da esquerda
+    struct nodeAvl *right;        //apontador para nodo da direita
 };
 
 struct avl{
